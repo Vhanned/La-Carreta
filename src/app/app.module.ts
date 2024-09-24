@@ -10,13 +10,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './Componentes/login/login.component';
 
-// Import your environment (make sure it's the right path)
 import { environment } from '../environments/environment';
+import { MenuprincipalComponent } from './Componentes/menuprincipal/menuprincipal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    MenuprincipalComponent,
+
   ],
   imports: [
     BrowserModule,
