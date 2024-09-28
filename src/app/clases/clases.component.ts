@@ -1,11 +1,209 @@
-export class Queso {
-  
-  constructor (){
+export class Producto {
+
+  constructor(){
 
   }
 
-  NombreQueso:string='';
+  Id_Producto: string=''; // ID único del producto
+  Clave:string='';
+  Nombre: string=''; // Nombre del producto
+  Elaboracion:string=''; //Proceso de elaboracion, a manera de instructivo
+  Tipo_Empaquetado: string=''; // Tipo de producto (por ejemplo, queso fresco, queso madurado)
+  Costo: number|undefined=undefined; // Costo de producción del producto por lote
+  Tamano_Lote: number|undefined=undefined;
+  Activo: boolean|undefined=undefined; // Indica si el producto está disponible para producción
+  Materias_Primas: MateriaPrima[]=[]; // Lista de materias primas necesarias para producir este producto
+  Cantidad_MateriasPrimas: Number[]=[]; //Que tanto se va a usar de cada materia prima
+  Litros:number|undefined=undefined; //litros necesarios para la elaboracion de cada lote
+  Tiempo_Elaboracion:string='';
+
+  setData(data: any) {
+    this.Id_Producto = data.Id_Producto || '';
+    this.Clave = data.Clave || '';
+    this.Nombre = data.Nombre || '';
+    this.Elaboracion = data.Elaboracion || '';
+    this.Tipo_Empaquetado = data.Tipo_Empaquetado || '';
+    this.Costo = data.Costo || undefined;
+    this.Tamano_Lote = data.Tamano_Lote || undefined;
+    this.Activo = data.Activo || undefined;
+    this.Materias_Primas = data.Materias_Primas || [];
+    this.Cantidad_MateriasPrimas = data.Cantidad_MateriasPrimas || [];
+    this.Litros = data.Litros || undefined;
+    this.Tiempo_Elaboracion = data.Tiempo_Elaboracion || '';
+  }
+
+}
+
+//Materias primas
+class MateriaPrima {
+
+  constructor(){
+
+  }
+
+  Id_Materia: string=''; // ID único de la materia prima
+  Nombre: string=''; // Nombre de la materia prima (ej. "Caseína", "Leche Fluida")
+  Unidad_Medida: string=''; // Unidad de medida (litros, kilogramos, etc.)
+  Marca:string='';
+  Punto_Reorden:number|undefined=undefined; //Cuando el inventario es menor que el punto de reorden, aparece una alerta
+
+  setData(data: any) {
+    this.Id_Materia = data.Id_Materia || '';
+    this.Nombre = data.Nombre || '';
+    this.Unidad_Medida = data.Unidad_Medida || '';
+    this.Marca = data.Marca || '';
+    this.Punto_Reorden = data.Punto_Reorden || undefined;
+  }
+
+}
+
+//Solicitudes de materias primas
+class Receta {
+
+  constructor(){
+
+  }
+
+  Id_Receta: string=''; // ID único de la solicitud
+  Id_Producto: string='';
+  Cantidad_Producto:number|undefined=undefined;
+  Materia_Prima: MateriaPrima[]=[]; // ID de la materia prima solicitada
+  Cantidad_Materia: number[]=[];
+  Fecha_Elaboracion: string=''; // Fecha cuando se genero la receta
+  Fecha_Elabroacion: number|undefined=undefined;
+  Fecha_Entrega_Materia:string=''; //
+  Fecha_Entrega_Materia_Number:number|undefined=undefined;
+  Fecha_Finalizacion:string=''; //Cuando se termino 
+  Solicitante:string='';
+  Estado: string=''; // Estado de la receta generada, materia prima entregada, en proceso, finalizado
+  Tinas: TinaProduccion[]=[];
+  Usuario_Elabroacion:string='';
+  Tiempo_elaboracion_total:string='';
+  Clave_Lote:string='';
+
+  setData(data: any) {
+    this.Id_Receta = data.Id_Receta || '';
+    this.Id_Producto = data.Id_Producto || '';
+    this.Cantidad_Producto = data.Cantidad_Producto || undefined;
+    this.Materia_Prima = data.Materia_Prima || [];
+    this.Cantidad_Materia = data.Cantidad_Materia || [];
+    this.Fecha_Elaboracion = data.Fecha_Elaboracion || '';
+    this.Fecha_Elabroacion = data.Fecha_Elabroacion || undefined;
+    this.Fecha_Entrega_Materia = data.Fecha_Entrega_Materia || '';
+    this.Fecha_Entrega_Materia_Number = data.Fecha_Entrega_Materia_Number || undefined;
+    this.Fecha_Finalizacion = data.Fecha_Finalizacion || '';
+    this.Solicitante = data.Solicitante || '';
+    this.Estado = data.Estado || '';
+    this.Tinas = data.Tinas || [];
+    this.Usuario_Elabroacion = data.Usuario_Elabroacion || '';
+    this.Tiempo_elaboracion_total = data.Tiempo_elaboracion_total || '';
+    this.Clave_Lote = data.Clave_Lote || '';
+  }
   
+}
+
+//Inventario de materias primas
+export class Inventario {
+
+  constructor(){
+
+  }
+
+  Id_Inventario: string=''; // ID único del inventario
+  Id_Materia: string=''; // ID de la materia prima
+  Nombre_Materia:string='';
+  Unidad_Medida:number|undefined=undefined;
+  Cantidad: number|undefined=undefined; // Cantidad disponible en el inventario
+  Fecha_Actualizacion: string=''; // Fecha de la última actualización del inventario
+  Fecha_Actualizacion_Number: number|undefined=undefined;
+  Punto_Reorden:number|undefined=undefined;
+
+  setData(data: any) {
+    this.Id_Inventario = data.Id_Inventario || '';
+    this.Id_Materia = data.Id_Materia || '';
+    this.Nombre_Materia = data.Nombre_Materia || '';
+    this.Unidad_Medida = data.Unidad_Medida || undefined;
+    this.Cantidad = data.Cantidad || undefined;
+    this.Fecha_Actualizacion = data.Fecha_Actualizacion || '';
+    this.Fecha_Actualizacion_Number = data.Fecha_Actualizacion_Number || undefined;
+    this.Punto_Reorden = data.Punto_Reorden || undefined;
+  }
+
+}
+
+//Tinas de producción
+class TinaProduccion {
+
+  constructor(){
+
+  }
+
+  Id_Tina: string=''; // ID único de la tina
+  Nombre_Tina:string='';
+  Capacidad: number|undefined=undefined; // Tipo de tina (ejemplo: "tina grande", "tina pequeña")
+
+  setData(data: any) {
+    this.Id_Tina = data.Id_Tina || '';
+    this.Nombre_Tina = data.Nombre_Tina || '';
+    this.Capacidad = data.Capacidad || undefined;
+  }
+
+}
+
+//Ventas
+export class Venta {
+
+  constructor(){
+  
+  }
+
+  Id_Venta: string=''; // ID único de la venta
+  Id_Cliente: string=''; // ID del cliente (en caso de ser necesario)
+  Id_Producto: string=''; // ID del producto vendido
+  Vantidad_Vendida: number|undefined=undefined; // Cantidad vendida del producto
+  Precio: number|undefined=undefined; // Precio de la venta
+  Satisfaccion_Cliente: number|undefined=undefined; // Nivel de satisfacción del cliente (escala del 1 al 5)
+  Comentarios: string=''; // Comentarios del cliente sobre la venta
+
+  setData(data: any) {
+    this.Id_Venta = data.Id_Venta || '';
+    this.Id_Cliente = data.Id_Cliente || '';
+    this.Id_Producto = data.Id_Producto || '';
+    this.Vantidad_Vendida = data.Vantidad_Vendida || undefined;
+    this.Precio = data.Precio || undefined;
+    this.Satisfaccion_Cliente = data.Satisfaccion_Cliente || undefined;
+    this.Comentarios = data.Comentarios || '';
+  }
+
+}
+
+export class InventarioProductos{
+
+  constructor(){
+
+  }
+
+  Id_producto:string='';
+  Nombre_Producto:string='';
+  Cantidad:number|undefined=undefined;
+  Fecha_LoteMasAntiguo:string='';
+  Fecha_UltimoLote:string='';
+  Fecha_LoteMasAntiguo_Number:number|undefined=undefined;
+  Fecha_UltimoLote_Number:number|undefined=undefined;
+  Id_RectetaMasAntigua:string='';
+  Id_RecetaMasReciente:string='';
+
+  setData(data: any) {
+    this.Id_producto = data.Id_producto || '';
+    this.Nombre_Producto = data.Nombre_Producto || '';
+    this.Cantidad = data.Cantidad || undefined;
+    this.Fecha_LoteMasAntiguo = data.Fecha_LoteMasAntiguo || '';
+    this.Fecha_UltimoLote = data.Fecha_UltimoLote || '';
+    this.Fecha_LoteMasAntiguo_Number = data.Fecha_LoteMasAntiguo_Number || undefined;
+    this.Fecha_UltimoLote_Number = data.Fecha_UltimoLote_Number || undefined;
+    this.Id_RectetaMasAntigua = data.Id_RectetaMasAntigua || '';
+    this.Id_RecetaMasReciente = data.Id_RecetaMasReciente || '';
+  }
 
 }
 
