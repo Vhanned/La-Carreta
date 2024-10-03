@@ -35,7 +35,7 @@ export class Producto {
 }
 
 //Materias primas
-class MateriaPrima {
+export class MateriaPrima {
 
   constructor(){
 
@@ -58,7 +58,7 @@ class MateriaPrima {
 }
 
 //Solicitudes de materias primas
-class Receta {
+export class Receta {
 
   constructor(){
 
@@ -132,7 +132,7 @@ export class Inventario {
 }
 
 //Tinas de producción
-class TinaProduccion {
+export class TinaProduccion {
 
   constructor(){
 
