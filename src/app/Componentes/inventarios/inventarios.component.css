@@ -1,0 +1,112 @@
+.body {
+    font-family: Arial, sans-serif;
+    background-color: #ff9e75; /* Fondo más vibrante, .color4 */
+    color: #330a04; /* Texto oscuro para un buen contraste */
+}
+
+.container {
+    width: 90%;
+    margin: 0 auto;
+    padding-top: 20px;
+    background-color: #ff6a4e; /* Fondo del contenedor más vibrante, .color3 */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para profundidad */
+}
+
+h2 {
+    margin-bottom: 10px;
+    color: #ffffff; /* Color del título más intenso, .color1 */
+    font-size: 30px; /* Tamaño de fuente más grande */
+    text-align: center; /* Centrar el título */
+    font-weight: bold; /* Hacer el título más resaltado */
+    text-transform: uppercase; /* Todo en mayúsculas */
+}
+
+.actions-bar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.actions-bar button {
+    background-color: #ff3627; /* Usando .color2 para los botones */
+    color: #fff; /* Texto blanco para mejor contraste */
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-add {
+    background-color: #ff6a4e; /* Usando .color3 para el botón "Agregar" */
+    color: #fff; /* Texto blanco */
+}
+
+.search-bar {
+    margin-bottom: 15px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ff3627; /* Borde más vivo en .color2 */
+    border-radius: 5px;
+    background-color: #ffd29c; /* Fondo ligeramente claro */
+    color: #330a04; /* Texto oscuro */
+}
+
+.inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: #ffd29c; /* Fondo de la tabla, .color5 */
+    color: #330a04; /* Texto oscuro */
+}
+
+.inventory-table thead {
+    background-color: #ff0100; /* Encabezado con .color1 */
+    color: #fff; /* Texto blanco */
+}
+
+.inventory-table th, .inventory-table td {
+    padding: 10px;
+    border: 1px solid #ff6a4e; /* Bordes más sutiles con .color3 */
+    text-align: center;
+}
+
+.inventory-table tr:nth-child(even) {
+    background-color: #ff9e75; /* Alternar filas con .color4 */
+}
+
+.inventory-table .btn-edit {
+    background-color: #ff3627; /* Usando .color2 para el botón Editar */
+    color: #fff; /* Contraste blanco para el texto */
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    margin: 0 auto;
+    display: block;
+    font-weight: bold;
+}
+
+.pagination {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.pagination button {
+    background-color: #ff0100; /* Usando .color1 para los botones de paginación */
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    margin: 0 2px;
+    cursor: pointer;
+}
+
+.pagination button:hover {
+    background-color: #ff3627; /* Hover con .color2 */
+}

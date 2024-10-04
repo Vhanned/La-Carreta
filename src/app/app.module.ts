@@ -12,12 +12,16 @@ import { LoginComponent } from './Componentes/login/login.component';
 
 import { environment } from '../environments/environment';
 import { MenuprincipalComponent } from './Componentes/menuprincipal/menuprincipal.component';
+import { NavBarComponent } from './Componentes/nav-bar/nav-bar.component';
+import { InventariosComponent } from './Componentes/inventarios/inventarios.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     MenuprincipalComponent,
+    NavBarComponent,
+    InventariosComponent,
 
   ],
   imports: [

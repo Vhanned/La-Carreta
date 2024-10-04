@@ -103,7 +103,7 @@ export class Receta {
 }
 
 //Inventario de materias primas
-export class Inventario {
+export class InventarioMateriasPrimas {
 
   constructor(){
 
