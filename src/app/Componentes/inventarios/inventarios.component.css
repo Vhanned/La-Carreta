@@ -1,26 +1,27 @@
-.body {
+body {
     font-family: Arial, sans-serif;
-    background-color: #ff9e75; /* Fondo más vibrante, .color4 */
-    color: #330a04; /* Texto oscuro para un buen contraste */
+    background-color: #595c5f; 
+    color: #b9bbbe; 
 }
 
 .container {
     width: 90%;
     margin: 0 auto;
     padding-top: 20px;
-    background-color: #ff6a4e; /* Fondo del contenedor más vibrante, .color3 */
+    background-color: #5a5e64; 
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para profundidad */
+    border-radius: 10px; 
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 
+    border-radius: 5px;
 }
 
 h2 {
     margin-bottom: 10px;
-    color: #ffffff; /* Color del título más intenso, .color1 */
-    font-size: 30px; /* Tamaño de fuente más grande */
-    text-align: center; /* Centrar el título */
-    font-weight: bold; /* Hacer el título más resaltado */
-    text-transform: uppercase; /* Todo en mayúsculas */
+    color: #61afef; 
+    font-size: 28px; 
+    text-align: center; 
+    font-weight: bold; 
+    text-transform: uppercase; 
 }
 
 .actions-bar {
@@ -30,8 +31,8 @@ h2 {
 }
 
 .actions-bar button {
-    background-color: #ff3627; /* Usando .color2 para los botones */
-    color: #fff; /* Texto blanco para mejor contraste */
+    background-color: #61afef; 
+    color: #ffffff; 
     padding: 8px 15px;
     border: none;
     border-radius: 5px;
@@ -41,8 +42,7 @@ h2 {
 }
 
 .btn-add {
-    background-color: #ff6a4e; /* Usando .color3 para el botón "Agregar" */
-    color: #fff; /* Texto blanco */
+    background-color: #5a6a83; 
 }
 
 .search-bar {
@@ -50,40 +50,42 @@ h2 {
 }
 
 .search-bar input {
-    width: 100%;
+    width: calc(100% - 20px); 
     padding: 10px;
-    border: 1px solid #ff3627; /* Borde más vivo en .color2 */
+    border: 1px solid #ccc; 
     border-radius: 5px;
-    background-color: #ffd29c; /* Fondo ligeramente claro */
-    color: #330a04; /* Texto oscuro */
+    background-color: #4e545c; 
+    color: #b9bbbe; 
 }
 
 .inventory-table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
-    background-color: #ffd29c; /* Fondo de la tabla, .color5 */
-    color: #330a04; /* Texto oscuro */
+    background-color: #ffffff; 
+    color: #333; 
+    border-radius: 20px; 
+    overflow: hidden;
 }
 
 .inventory-table thead {
-    background-color: #ff0100; /* Encabezado con .color1 */
-    color: #fff; /* Texto blanco */
+    background-color: #1e3a5f; 
+    color: #ffffff; 
 }
 
 .inventory-table th, .inventory-table td {
     padding: 10px;
-    border: 1px solid #ff6a4e; /* Bordes más sutiles con .color3 */
+    border: 1px solid #ddd; 
     text-align: center;
 }
 
 .inventory-table tr:nth-child(even) {
-    background-color: #ff9e75; /* Alternar filas con .color4 */
+    background-color: #f2f2f2; 
 }
 
 .inventory-table .btn-edit {
-    background-color: #ff3627; /* Usando .color2 para el botón Editar */
-    color: #fff; /* Contraste blanco para el texto */
+    background-color: #61afef; 
+    color: #ffffff; 
     border: none;
     padding: 5px 10px;
     border-radius: 3px;
@@ -99,7 +101,7 @@ h2 {
 }
 
 .pagination button {
-    background-color: #ff0100; /* Usando .color1 para los botones de paginación */
+    background-color: #1e3a5f; 
     color: white;
     border: none;
     padding: 8px 16px;
@@ -108,5 +110,5 @@ h2 {
 }
 
 .pagination button:hover {
-    background-color: #ff3627; /* Hover con .color2 */
+    background-color: #333;
 }
