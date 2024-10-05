@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Firestore, collection, collectionData, doc, setDoc, deleteDoc } from '@angular/fire/firestore';
 import { MateriaPrima } from 'src/app/clases/clases.component';
+import { query } from 'firebase/firestore';
 
 @Component({
   selector: 'inventarios',
@@ -8,55 +10,107 @@ import { MateriaPrima } from 'src/app/clases/clases.component';
 })
 export class InventariosComponent {
 
-  // Lista de materias primas
-  materias: MateriaPrima[] = [
-    new MateriaPrima(), // Instancias iniciales, podrías usar el método `setData()` si es necesario
-    new MateriaPrima()
-  ];
-
-  // Materia prima temporal para agregar una nueva
+  // Lista de materias primas obtenidas de Firestore
+  materias: MateriaPrima[] = [];
+  
+  // Materia prima temporal para agregar o editar
   nuevaMateria: MateriaPrima = new MateriaPrima();
+  materiaAEditar: MateriaPrima = new MateriaPrima();
+  
+  // Referencia a la colección en Firestore
+  MateriasBD = collection(this.firebase, "MateriasPrimas");
 
-  constructor() {
-      // Llenar datos de prueba para las materias
-      this.materias[0].setData({
-        Id_Materia: '001',
-        Nombre: 'Materia A',
-        Unidad_Medida: 'lts',
-        Marca: 'Marca X',
-        Punto_Reorden: 10
+  constructor(private firebase: Firestore) {
+    // Cargar las materias primas desde Firestore al iniciar el componente
+    let q = query(this.MateriasBD);
+    collectionData(q).subscribe((materiaPrimaSnap) => {
+      this.materias = new Array();
+      materiaPrimaSnap.forEach((item) => {
+        let materiaPrima = new MateriaPrima();
+        materiaPrima.setData(item);
+        console.log(item);
+        this.materias.push(materiaPrima);
       });
-      this.materias[1].setData({
-        Id_Materia: '002',
-        Nombre: 'Materia B',
-        Unidad_Medida: 'kgs',
-        Marca: 'Marca Y',
-        Punto_Reorden: 15
-      });
-    }
+    });
+  }
 
-    // Método para agregar la nueva materia a la lista
-    agregarMateria() {
-      const nueva = new MateriaPrima();
-      nueva.setData({
-        Id_Materia: '00' + (this.materias.length + 1), // Generar un ID automático
-        Nombre: this.nuevaMateria.Nombre,
-        Unidad_Medida: this.nuevaMateria.Unidad_Medida,
-        Marca: this.nuevaMateria.Marca,
-        Punto_Reorden: this.nuevaMateria.Punto_Reorden
+  // Método para agregar una nueva materia prima
+  agregarMateria() {
+    this.nuevaMateria.Id_Materia = this.GenerateRandomString(5); // Generar un ID único para la nueva materia
+    let nuevaMateriaDoc = doc(this.firebase, "MateriasPrimas", this.nuevaMateria.Id_Materia);
+
+    // Guardar la nueva materia en Firestore
+    setDoc(nuevaMateriaDoc, JSON.parse(JSON.stringify(this.nuevaMateria)))
+      .then(() => {
+        alert("Materia prima agregada exitosamente");
+        this.limpiarFormulario();
+      })
+      .catch((error) => {
+        console.error("Error al agregar materia prima: ", error);
       });
+
+      let btnCerrar = document.getElementById('btnCerrarModalElemento');
+      btnCerrar?.click();
       
-      this.materias.push(nueva); // Agregar a la lista
-      this.limpiarFormulario(); // Limpiar el formulario después de agregar
-    }
+  }
 
-    // Método para limpiar el formulario
-    limpiarFormulario() {
-      this.nuevaMateria = new MateriaPrima(); // Resetea la nueva materia
+  // Método para seleccionar una materia prima para edición
+  seleccionarMateriaParaEditar(materia: MateriaPrima) {
+    // Crear una nueva instancia de MateriaPrima y copiar sus propiedades manualmente
+    let materiaEditar = new MateriaPrima();
+    materiaEditar.Id_Materia = materia.Id_Materia;
+    materiaEditar.Nombre = materia.Nombre;
+    materiaEditar.Unidad_Medida = materia.Unidad_Medida;
+    materiaEditar.Marca = materia.Marca;
+    materiaEditar.Existencias = materia.Existencias;
+    materiaEditar.Punto_Reorden = materia.Punto_Reorden;
+  
+    this.materiaAEditar = materiaEditar; // Asignar la nueva instancia a la materiaAEditar
+  }
+
+  // Método para editar una materia prima existente
+  editarMateria() {
+    let materiaDoc = doc(this.firebase, "MateriasPrimas", this.materiaAEditar.Id_Materia);
+
+    // Actualizar los datos de la materia en Firestore
+    setDoc(materiaDoc, JSON.parse(JSON.stringify(this.materiaAEditar)))
+      .then(() => {
+        alert("Materia prima actualizada exitosamente");
+      })
+      .catch((error) => {
+        console.error("Error al actualizar materia prima: ", error);
+      });
+  }
+
+  // Método para eliminar una materia prima
+  eliminarMateria(materia: MateriaPrima) {
+    let materiaDoc = doc(this.firebase, "MateriasPrimas", materia.Id_Materia);
+
+    // Eliminar la materia de Firestore
+    deleteDoc(materiaDoc)
+      .then(() => {
+        alert("Materia prima eliminada exitosamente");
+      })
+      .catch((error) => {
+        console.error("Error al eliminar materia prima: ", error);
+      });
+  }
+
+  // Método para limpiar el formulario después de agregar o editar una materia
+  limpiarFormulario() {
+    this.nuevaMateria = new MateriaPrima(); // Resetea la nueva materia
+    this.materiaAEditar = new MateriaPrima(); // Resetea la materia a editar
+  }
+
+  // Generar un string aleatorio de longitud 'num' (usado para generar IDs únicos)
+  GenerateRandomString(num: number): string {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    const charactersLength = characters.length;
+    for (let i = 0; i < num; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
+    return result;
+  }
 
 }
-
-  
-
-
