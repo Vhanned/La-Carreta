@@ -1,6 +1,6 @@
 .body {
     font-family: Arial, sans-serif;
-    background-color: #595c5f; 
+    background-color: #181c16; 
     color: #b9bbbe; 
 }
 
@@ -8,16 +8,15 @@
     width: 90%;
     margin: 0 auto;
     padding-top: 20px;
-    background-color: #5a5e64; 
+    background-color: #edeae6; 
     padding: 20px;
     border-radius: 10px; 
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 
-    border-radius: 5px;
 }
 
 h2 {
     margin-bottom: 10px;
-    color: #61afef; 
+    color: #cf0015; /* Color del título */
     font-size: 28px; 
     text-align: center; 
     font-weight: bold; 
@@ -31,7 +30,7 @@ h2 {
 }
 
 .actions-bar button {
-    background-color: #61afef; 
+    background-color: #cf0015; 
     color: #ffffff; 
     padding: 8px 15px;
     border: none;
@@ -42,7 +41,7 @@ h2 {
 }
 
 .btn-add {
-    background-color: #5a6a83; 
+    background-color: #c5a173; 
 }
 
 .search-bar {
@@ -54,7 +53,7 @@ h2 {
     padding: 10px;
     border: 1px solid #ccc; 
     border-radius: 5px;
-    background-color: #4e545c; 
+    background-color: #4a4f57;
     color: #b9bbbe; 
 }
 
@@ -69,7 +68,7 @@ h2 {
 }
 
 .inventory-table thead {
-    background-color: #1e3a5f; 
+    background-color: #cf0015; 
     color: #ffffff; 
 }
 
@@ -80,11 +79,11 @@ h2 {
 }
 
 .inventory-table tr:nth-child(even) {
-    background-color: #f2f2f2; 
+    background-color: #edeae6; 
 }
 
 .inventory-table .btn-edit {
-    background-color: #61afef; 
+    background-color: #cf0015; 
     color: #ffffff; 
     border: none;
     padding: 5px 10px;
@@ -101,7 +100,7 @@ h2 {
 }
 
 .pagination button {
-    background-color: #1e3a5f; 
+    background-color: #cf0015; 
     color: white;
     border: none;
     padding: 8px 16px;
@@ -110,5 +109,5 @@ h2 {
 }
 
 .pagination button:hover {
-    background-color: #333;
+    background-color: #c5a173; 
 }
