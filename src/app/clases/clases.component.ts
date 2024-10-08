@@ -116,7 +116,7 @@ export class InventarioMateriasPrimas {
   Cantidad: number|undefined=undefined; // Cantidad disponible en el inventario
   Fecha_Actualizacion: string=''; // Fecha de la última actualización del inventario
   Fecha_Actualizacion_Number: number|undefined=undefined;
-  Punto_Reorden:number|undefined=undefined;
+  Punto_Reorden:number|undefined=undefined; //Cantidad minima que se puede tener de materia antes de hacer otro pedido
 
   setData(data: any) {
     this.Id_Inventario = data.Id_Inventario || '';
