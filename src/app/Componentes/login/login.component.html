@@ -1,19 +1,27 @@
 <div class="body">
-    <div class="contenedor-principal">
-
-        <div class="login-box">
+  
+    <div class="container">
+        
+        <div class="form-box">
             <h2>Inicio de sesión</h2>
-
-            <form action="#" method="POST">
-
-                <input type="text" id="username" name="username" required placeholder="Usuario" [(ngModel)]="Usuario">
-
-                <input type="password" name="password" id="password" required placeholder="Contraseña"
-                    [(ngModel)]="Contrasena">
-
-                <button type="submit" (click)="InicioSesion()">Iniciar sesión</button>
-
+            
+            <form id="login" class="input-group">
+                <input type="email" class="input-field" placeholder="Usuario" required>
+                <input type="password" class="input-field" placeholder="Contraseña" required>
+              
+                <button type="submit" class="submit-btn">Iniciar</button>
             </form>
+           
         </div>
+
+        <div class="image-box">
+            <img src="https://scontent.ftam1-1.fna.fbcdn.net/v/t39.30808-6/326989147_624590866340370_8538060385348728975_n.png?_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=_rA8DuTrvTkQ7kNvgHS0O5C&_nc_ht=scontent.ftam1-1.fna&_nc_gid=AR4AK8eMfuJ2dqdSmFZ1z_w&oh=00_AYC9QX9bEs5DesmqwujJSRALCURQFeGxea3uzqmHjFX_cw&oe=670A7592" alt="Logo" class="logo-image">
+        </div>
+
+        <img src="https://cdn-icons-png.flaticon.com/512/5314/5314773.png" alt="Imagen Fija" class="fixed-image">
+
+        <img src="https://cdn-icons-png.flaticon.com/512/5314/5314773.png" alt="Imagen Fija Superior" class="fixed-image-top-left">
+
     </div>
+  
 </div>
