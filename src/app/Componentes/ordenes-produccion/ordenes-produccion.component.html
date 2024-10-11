@@ -1,27 +1,49 @@
 <nav-bar></nav-bar>
 
-Ordenes de produccion
+<div id="DispFlex">
+  <div id="Titutlo">
+    Ordenes de produccion
+  </div>
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+
+
+  <!-- Button trigger modal -->
+  <button id="BtnCrearOrden" type="button" class="btn btn-primary" data-bs-toggle="modal"
+    data-bs-target="#staticBackdrop">
     Crear orden
   </button>
-  
-  <!-- Modal -->
-  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-         
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarModalElemento">Cerrar</button>
-          <button type="button" class="btn btn-primary" (click)="CrearOrdenProduccion()">Crear</button>
-        </div>
+
+
+  <div id="BusquedaProduccion">
+    Buscar produccion:
+
+    <label for="start">Fecha inicial:</label>
+    <input type="date" id="start" name="trip-start" min="2024-01-01" />
+
+    <label for="end">Fecha final:</label>
+    <input type="date" id="start" name="trip-end" min="2024-01-01" />
+
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+          id="btnCerrarModalElemento">Cerrar</button>
+        <button type="button" class="btn btn-primary" (click)="CrearOrdenProduccion()">Crear</button>
       </div>
     </div>
   </div>
+</div>
