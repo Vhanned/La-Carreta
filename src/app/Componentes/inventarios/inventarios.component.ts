@@ -58,6 +58,7 @@ export class InventariosComponent {
   EditarModalMateria(materia: MateriaPrima) {
     this.materiaAEditar = materia;
   }
+
   // Método para editar una materia prima existente
   editarMateria() {
 
@@ -65,17 +66,11 @@ export class InventariosComponent {
     let materiaDoc = doc(this.firebase, "MateriasPrimas", this.materiaAEditar.Id_Materia);
     setDoc(materiaDoc, JSON.parse(JSON.stringify(this.materiaAEditar)))
       .then(() => {
-        alert("Materia prima actualizada exitosamente");
+        alert("Informacion actualizada exitosamente");
       })
       .catch((error) => {
-        console.error("Error al actualizar materia prima: ", error);
+        console.error("Error al actualizar la informacion: ", error);
       });
-
-      /*
-      let rutaDoc = doc(this.firebase, "Laptops", this.EditarLap.IDLaptop);
-      setDoc(rutaDoc, JSON.parse(JSON.stringify(this.EditarLap)));
-      alert("Edición exitosa"); 
-    */
 
     let btnCerrarEditar = document.getElementById('btnCerrarEditarElemento');
     btnCerrarEditar?.click();

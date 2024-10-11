@@ -20,4 +20,8 @@ export class NavBarComponent {
     this.routing.navigate(['login']);
    }
 
+   IrOrdenesProduccion(){
+    this.routing.navigate(['ordenes-produccion']);
+   }
+
 }

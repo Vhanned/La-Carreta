@@ -14,6 +14,7 @@ import { environment } from '../environments/environment';
 import { MenuprincipalComponent } from './Componentes/menuprincipal/menuprincipal.component';
 import { NavBarComponent } from './Componentes/nav-bar/nav-bar.component';
 import { InventariosComponent } from './Componentes/inventarios/inventarios.component';
+import { OrdenesProduccionComponent } from './Componentes/ordenes-produccion/ordenes-produccion.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { InventariosComponent } from './Componentes/inventarios/inventarios.comp
     MenuprincipalComponent,
     NavBarComponent,
     InventariosComponent,
+    OrdenesProduccionComponent,
 
   ],
   imports: [

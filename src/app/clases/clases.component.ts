@@ -44,6 +44,7 @@ export class MateriaPrima {
   Id_Materia: string=''; // ID único de la materia prima
   Codigo:number|undefined=undefined;
   Nombre: string=''; // Nombre de la materia prima (ej. "Caseína", "Leche Fluida")
+  Costopromedio: number|undefined=undefined; //Costo de la materia prima, sera un valor por defecto el cual podran editar en el reporte del dia en caso de ser necesario
   Unidad_Medida: string=''; // Unidad de medida (litros, kilogramos, etc.)
   Existencias:number|undefined=undefined; //Registro de cuando se agega, en dado caso seria en una nueva coleccion
   Marca:string='';
