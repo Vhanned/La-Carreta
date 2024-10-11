@@ -120,10 +120,5 @@ h2 {
 }
 
 .pagination button:hover {
-<<<<<<< HEAD
-    background-color: #c5a173; 
-} 
-=======
     background: linear-gradient(45deg, #c5a173, #cf0015);
 }
->>>>>>> fcb7768fb9a07b7bcb38aedc403a73f538bf3e49
