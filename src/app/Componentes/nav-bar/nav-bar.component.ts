@@ -24,4 +24,8 @@ export class NavBarComponent {
     this.routing.navigate(['ordenes-produccion']);
    }
 
+   IrProductos(){
+    this.routing.navigate(['inventarios-productos']);
+   }
+
 }

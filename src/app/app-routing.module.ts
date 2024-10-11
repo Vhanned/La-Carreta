@@ -4,13 +4,15 @@ import { LoginComponent } from './Componentes/login/login.component';
 import { MenuprincipalComponent } from './Componentes/menuprincipal/menuprincipal.component';
 import { InventariosComponent } from './Componentes/inventarios/inventarios.component';
 import { OrdenesProduccionComponent } from './Componentes/ordenes-produccion/ordenes-produccion.component';
+import { InventariosProductosComponent } from './Componentes/inventarios-productos/inventarios-productos.component';
 
 const routes: Routes = [
 {path:'',component:LoginComponent},
 {path:'login',component:LoginComponent},
 {path:'menuprincipal',component:MenuprincipalComponent},
 {path: 'inventarios',component:InventariosComponent},
-{path: 'ordenes-produccion', component:OrdenesProduccionComponent}
+{path: 'ordenes-produccion', component:OrdenesProduccionComponent},
+{path: 'inventarios-productos', component:InventariosProductosComponent}
 ];
 
 @NgModule({

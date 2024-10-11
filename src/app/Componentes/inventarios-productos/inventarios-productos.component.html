@@ -1,0 +1,43 @@
+<nav-bar></nav-bar>
+
+
+<div class="container">
+    <!-- Título -->
+     
+    <h2>Inventario de Productos</h2>
+  
+    <!-- Botón de agregar nueva materia prima -->
+    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregarModal">
+      Agregar Producto
+    </button>
+  
+    <!-- Tabla de productos terminados -->
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Codigo</th>
+          <th>Nombre</th>
+          <th>Elaboracion</th>
+          <th>Tipo de empaquetado</th>
+          <th>Existencias</th>
+          <th>Punto de Reorden</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let producto of listaProductos">
+          <td>{{ producto.Codigo }}</td>
+          <td>{{ producto.Nombre }}</td>
+          <td>{{ producto.Elaboracion }}</td>
+          <td>{{ producto.Codigo }}</td>
+          <td>{{ producto.Codigo }}</td>
+          <td>{{ producto.Codigo }}</td>
+          <td>
+            <!-- Botón de editar -->
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarModal">
+              Ver detalles
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>

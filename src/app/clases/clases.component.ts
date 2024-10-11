@@ -5,7 +5,7 @@ export class Producto {
   }
 
   Id_Producto: string=''; // ID único del producto
-  Clave:string='';
+  Codigo:string=''; //Identificador visible al usuario
   Nombre: string=''; // Nombre del producto
   Elaboracion:string=''; //Proceso de elaboracion, a manera de instructivo
   Tipo_Empaquetado: string=''; // Tipo de producto (por ejemplo, queso fresco, queso madurado)
@@ -19,7 +19,7 @@ export class Producto {
 
   setData(data: any) {
     this.Id_Producto = data.Id_Producto || '';
-    this.Clave = data.Clave || '';
+    this.Codigo = data.Codigo || '';
     this.Nombre = data.Nombre || '';
     this.Elaboracion = data.Elaboracion || '';
     this.Tipo_Empaquetado = data.Tipo_Empaquetado || '';

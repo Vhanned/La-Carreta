@@ -15,7 +15,7 @@ import { MenuprincipalComponent } from './Componentes/menuprincipal/menuprincipa
 import { NavBarComponent } from './Componentes/nav-bar/nav-bar.component';
 import { InventariosComponent } from './Componentes/inventarios/inventarios.component';
 import { OrdenesProduccionComponent } from './Componentes/ordenes-produccion/ordenes-produccion.component';
-import { InventeriosProductosComponent } from './Componentes/inventerios-productos/inventerios-productos.component';
+import { InventariosProductosComponent } from './Componentes/inventarios-productos/inventarios-productos.component';
 
 @NgModule({
   declarations: [
@@ -25,8 +25,7 @@ import { InventeriosProductosComponent } from './Componentes/inventerios-product
     NavBarComponent,
     InventariosComponent,
     OrdenesProduccionComponent,
-    InventeriosProductosComponent,
-
+    InventariosProductosComponent
   ],
   imports: [
     BrowserModule,

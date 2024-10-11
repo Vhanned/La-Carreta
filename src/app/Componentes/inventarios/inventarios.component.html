@@ -1,6 +1,7 @@
 <nav-bar></nav-bar>
 <div class="container">
   <!-- Título -->
+
   <h2>Inventario de Materias Primas</h2>
 
   <!-- Botón de agregar nueva materia prima -->
@@ -43,7 +44,8 @@
 
 
   <!-- Modal para agregar nueva materia prima -->
-  <div class="modal fade" id="agregarModal" tabindex="-1" aria-labelledby="agregarModalLabel" aria-hidden="true">
+  <div class="modal fade" id="agregarModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="agregarModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -93,8 +95,7 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-            id="btnCerrarModalElemento">Cerrar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
           <button type="button" class="btn btn-primary" (click)="agregarMateria()">Guardar</button>
         </div>
       </div>
@@ -102,7 +103,8 @@
   </div>
 
   <!-- Modal para editar materia prima -->
-  <div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
+  <div class="modal fade" id="editarModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="editarModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -147,11 +149,9 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-            id="btnCerrarEditarElemento">Cerrar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
           <button type="button" class="btn btn-primary" (click)="editarMateria()">Guardar Cambios</button>
         </div>
       </div>
     </div>
   </div>
-</div>
