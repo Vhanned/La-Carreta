@@ -51,6 +51,7 @@ export class MateriaPrima {
 
   setData(data: any) {
     this.Id_Materia = data.Id_Materia || '';
+    this.Codigo = data.Codigo || '';
     this.Nombre = data.Nombre || '';
     this.Unidad_Medida = data.Unidad_Medida || '';
     this.Marca = data.Marca || '';

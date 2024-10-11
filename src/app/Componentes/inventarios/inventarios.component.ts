@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Firestore, collection, collectionData, doc, setDoc, deleteDoc } from '@angular/fire/firestore';
 import { MateriaPrima } from 'src/app/clases/clases.component';
-import { query } from 'firebase/firestore';
+import { arrayRemove, query } from 'firebase/firestore';
 
 @Component({
   selector: 'inventarios',
@@ -10,13 +10,13 @@ import { query } from 'firebase/firestore';
 })
 export class InventariosComponent {
 
-  // Lista de materias primas obtenidas de Firestore
-  materias: MateriaPrima[] = [];
-  
   // Materia prima temporal para agregar o editar
-  nuevaMateria: MateriaPrima = new MateriaPrima();
-  materiaAEditar: MateriaPrima = new MateriaPrima();
-  
+  nuevaMateria = new MateriaPrima();
+  materiaAEditar = new MateriaPrima();
+
+  // Lista de materias primas obtenidas de Firestore
+  materias: MateriaPrima[] = new Array();
+
   // Referencia a la colección en Firestore
   MateriasBD = collection(this.firebase, "MateriasPrimas");
 
@@ -36,7 +36,7 @@ export class InventariosComponent {
 
   // Método para agregar una nueva materia prima
   agregarMateria() {
-    this.nuevaMateria.Id_Materia = this.GenerateRandomString(5); // Generar un ID único para la nueva materia
+    this.nuevaMateria.Id_Materia = this.GenerateRandomString(20); // Generar un ID único para la nueva materia
     let nuevaMateriaDoc = doc(this.firebase, "MateriasPrimas", this.nuevaMateria.Id_Materia);
 
     // Guardar la nueva materia en Firestore
@@ -49,30 +49,20 @@ export class InventariosComponent {
         console.error("Error al agregar materia prima: ", error);
       });
 
-      let btnCerrar = document.getElementById('btnCerrarModalElemento');
-      btnCerrar?.click();
-      
+    let btnCerrar = document.getElementById('btnCerrarModalElemento');
+    btnCerrar?.click();
+
   }
 
   // Método para seleccionar una materia prima para edición
-  seleccionarMateriaParaEditar(materia: MateriaPrima) {
-    // Crear una nueva instancia de MateriaPrima y copiar sus propiedades manualmente
-    let materiaEditar = new MateriaPrima();
-    materiaEditar.Id_Materia = materia.Id_Materia;
-    materiaEditar.Nombre = materia.Nombre;
-    materiaEditar.Unidad_Medida = materia.Unidad_Medida;
-    materiaEditar.Marca = materia.Marca;
-    materiaEditar.Existencias = materia.Existencias;
-    materiaEditar.Punto_Reorden = materia.Punto_Reorden;
-  
-    this.materiaAEditar = materiaEditar; // Asignar la nueva instancia a la materiaAEditar
+  EditarModalMateria(materia: MateriaPrima) {
+    this.materiaAEditar = materia;
   }
-
   // Método para editar una materia prima existente
   editarMateria() {
-    let materiaDoc = doc(this.firebase, "MateriasPrimas", this.materiaAEditar.Id_Materia);
 
     // Actualizar los datos de la materia en Firestore
+    let materiaDoc = doc(this.firebase, "MateriasPrimas", this.materiaAEditar.Id_Materia);
     setDoc(materiaDoc, JSON.parse(JSON.stringify(this.materiaAEditar)))
       .then(() => {
         alert("Materia prima actualizada exitosamente");
@@ -80,6 +70,15 @@ export class InventariosComponent {
       .catch((error) => {
         console.error("Error al actualizar materia prima: ", error);
       });
+
+      /*
+      let rutaDoc = doc(this.firebase, "Laptops", this.EditarLap.IDLaptop);
+      setDoc(rutaDoc, JSON.parse(JSON.stringify(this.EditarLap)));
+      alert("Edición exitosa"); 
+    */
+
+    let btnCerrarEditar = document.getElementById('btnCerrarEditarElemento');
+    btnCerrarEditar?.click();
   }
 
   // Método para eliminar una materia prima

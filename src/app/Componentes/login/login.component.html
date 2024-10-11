@@ -6,10 +6,10 @@
             <h2>Inicio de sesión</h2>
             
             <form id="login" class="input-group">
-                <input type="email" class="input-field" placeholder="Usuario" required>
-                <input type="password" class="input-field" placeholder="Contraseña" required>
+                <input type="email" class="input-field" [(ngModel)]="Usuario" placeholder="Usuario" required name="Usuario">
+                <input type="password" class="input-field" [(ngModel)]="Contrasena" placeholder="Contraseña" required name="Contrasena">
               
-                <button type="submit" class="submit-btn">Iniciar</button>
+                <button type="submit" class="submit-btn" (click)="InicioSesion()">Iniciar</button>
             </form>
            
         </div>

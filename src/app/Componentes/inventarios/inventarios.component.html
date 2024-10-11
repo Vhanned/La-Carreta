@@ -3,11 +3,16 @@
   <!-- Título -->
   <h2>Inventario de Materias Primas</h2>
 
+  <!-- Botón de agregar nueva materia prima -->
+  <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregarModal">
+    Agregar Materia Prima
+  </button>
+
   <!-- Tabla de materias primas -->
   <table class="table table-striped">
     <thead>
       <tr>
-        <th>ID Materia</th>
+        <th>Codigo</th>
         <th>Nombre</th>
         <th>Unidad de Medida</th>
         <th>Marca</th>
@@ -18,7 +23,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let materia of materias">
-        <td>{{ materia.Id_Materia }}</td>
+        <td>{{ materia.Codigo }}</td>
         <td>{{ materia.Nombre }}</td>
         <td>{{ materia.Unidad_Medida }}</td>
         <td>{{ materia.Marca }}</td>
@@ -26,7 +31,8 @@
         <td>{{ materia.Punto_Reorden }}</td>
         <td>
           <!-- Botón de editar -->
-          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarModal">
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarModal"
+            (click)="EditarModalMateria(materia)">
             Editar
           </button>
         </td>
@@ -34,10 +40,7 @@
     </tbody>
   </table>
 
-  <!-- Botón de agregar nueva materia prima -->
-  <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregarModal">
-    Agregar Materia Prima
-  </button>
+
 
   <!-- Modal para agregar nueva materia prima -->
   <div class="modal fade" id="agregarModal" tabindex="-1" aria-labelledby="agregarModalLabel" aria-hidden="true">
@@ -50,29 +53,48 @@
         <div class="modal-body">
           <form>
             <div class="mb-3">
+              <label for="nombre" class="form-label">Codigo</label>
+              <input type="text" class="form-control" id="nombre" [(ngModel)]="nuevaMateria.Codigo" name="nombre"
+                required>
+            </div>
+            <div class="mb-3">
               <label for="nombre" class="form-label">Nombre</label>
-              <input type="text" class="form-control" id="nombre" [(ngModel)]="nuevaMateria.Nombre" name="nombre" required>
+              <input type="text" class="form-control" id="nombre" [(ngModel)]="nuevaMateria.Nombre" name="nombre"
+                required>
             </div>
             <div class="mb-3">
               <label for="unidad_medida" class="form-label">Unidad de Medida</label>
-              <input type="text" class="form-control" id="unidad_medida" [(ngModel)]="nuevaMateria.Unidad_Medida" name="unidad_medida" required>
+              <select class="form-control" id="unidad_medida" [(ngModel)]="nuevaMateria.Unidad_Medida"
+                name="unidad_medida" required>
+                <option value="">Seleccione una unidad de medida</option>
+                <option value="litros">Litros</option>
+                <option value="kilogramos">Kilogramos</option>
+                <option value="gramos">Gramos</option>
+                <option value="mililitros">Mililitros</option>
+                <option value="piezas">Piezas</option>
+                <!-- Agrega más opciones según sea necesario -->
+              </select>
             </div>
+
             <div class="mb-3">
               <label for="marca" class="form-label">Marca</label>
               <input type="text" class="form-control" id="marca" [(ngModel)]="nuevaMateria.Marca" name="marca" required>
             </div>
             <div class="mb-3">
-              <label for="nombre" class="form-label">Existencias</label>
-              <input type="text" class="form-control" id="existencias" [(ngModel)]="nuevaMateria.Existencias" name="existencias" required>
+              <label for="existencias" class="form-label">Existencias</label>
+              <input type="text" class="form-control" id="existencias" [(ngModel)]="nuevaMateria.Existencias"
+                name="existencias" required>
             </div>
             <div class="mb-3">
               <label for="punto_reorden" class="form-label">Punto de Reorden</label>
-              <input type="number" class="form-control" id="punto_reorden" [(ngModel)]="nuevaMateria.Punto_Reorden" name="punto_reorden" required>
+              <input type="number" class="form-control" id="punto_reorden" [(ngModel)]="nuevaMateria.Punto_Reorden"
+                name="punto_reorden" required>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarModalElemento">Cerrar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+            id="btnCerrarModalElemento">Cerrar</button>
           <button type="button" class="btn btn-primary" (click)="agregarMateria()">Guardar</button>
         </div>
       </div>
@@ -91,29 +113,43 @@
           <form>
             <div class="mb-3">
               <label for="editNombre" class="form-label">Nombre</label>
-              <input type="text" class="form-control" id="editNombre" [(ngModel)]="materiaAEditar.Nombre" name="nombre" required>
+              <input type="text" class="form-control" id="editNombre" [(ngModel)]="materiaAEditar.Nombre" name="nombre"
+                required>
             </div>
             <div class="mb-3">
-              <label for="editUnidad_medida" class="form-label">Unidad de Medida</label>
-              <input type="text" class="form-control" id="editUnidad_medida" [(ngModel)]="materiaAEditar.Unidad_Medida" name="unidad_medida" required>
+              <label for="unidad_medida" class="form-label">Unidad de Medida</label>
+              <select class="form-control" id="unidad_medida" [(ngModel)]="materiaAEditar.Unidad_Medida"
+                name="unidad_medida" required>
+                <option value="">Seleccione una unidad de medida</option>
+                <option value="Litros">Litros</option>
+                <option value="Kilogramos">Kilogramos</option>
+                <option value="Gramos">Gramos</option>
+                <option value="Mililitros">Mililitros</option>
+                <option value="Piezas">Piezas</option>
+                <!-- Agrega más opciones según sea necesario -->
+              </select>
             </div>
             <div class="mb-3">
               <label for="editMarca" class="form-label">Marca</label>
-              <input type="text" class="form-control" id="editMarca" [(ngModel)]="materiaAEditar.Marca" name="marca" required>
+              <input type="text" class="form-control" id="editMarca" [(ngModel)]="materiaAEditar.Marca" name="marca"
+                required>
+            </div>
+            <div class="mb-3">
+              <label for="editExistencias" class="form-label">Existencias</label>
+              <input type="text" class="form-control" id="editExistencias" [(ngModel)]="materiaAEditar.Existencias"
+                name="existencias" required>
             </div>
             <div class="mb-3">
               <label for="editPunto_reorden" class="form-label">Punto de Reorden</label>
-              <input type="number" class="form-control" id="editPunto_reorden" [(ngModel)]="materiaAEditar.Existencias" name="punto_reorden" required>
-            </div>
-            <div class="mb-3">
-              <label for="editPunto_reorden" class="form-label">Punto de Reorden</label>
-              <input type="number" class="form-control" id="editPunto_reorden" [(ngModel)]="materiaAEditar.Punto_Reorden" name="punto_reorden" required>
+              <input type="number" class="form-control" id="editPunto_reorden"
+                [(ngModel)]="materiaAEditar.Punto_Reorden" name="punto_reorden" required>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarEditarElemento">Cerrar</button>
-          <button type="button" class="btn btn-primary">Guardar Cambios</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+            id="btnCerrarEditarElemento">Cerrar</button>
+          <button type="button" class="btn btn-primary" (click)="editarMateria()">Guardar Cambios</button>
         </div>
       </div>
     </div>
