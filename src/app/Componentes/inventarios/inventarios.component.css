@@ -30,7 +30,7 @@ h2 {
 }
 
 .actions-bar button {
-    background-color: #cf0015; 
+    background: linear-gradient(45deg, #cf0015, #c5a173);
     color: #ffffff; 
     padding: 8px 15px;
     border: none;
@@ -38,10 +38,15 @@ h2 {
     margin-left: 10px;
     cursor: pointer;
     font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.actions-bar button:hover {
+    background: linear-gradient(45deg, #c5a173, #cf0015);
 }
 
 .btn-add {
-    background-color: #c5a173; 
+    background: linear-gradient(45deg, #c5a173, #cf0015);
 }
 
 .search-bar {
@@ -83,7 +88,7 @@ h2 {
 }
 
 .inventory-table .btn-edit {
-    background-color: #cf0015; 
+    background: linear-gradient(45deg, #cf0015, #c5a173);
     color: #ffffff; 
     border: none;
     padding: 5px 10px;
@@ -92,6 +97,11 @@ h2 {
     margin: 0 auto;
     display: block;
     font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.inventory-table .btn-edit:hover {
+    background: linear-gradient(45deg, #c5a173, #cf0015);
 }
 
 .pagination {
@@ -100,14 +110,20 @@ h2 {
 }
 
 .pagination button {
-    background-color: #cf0015; 
+    background: linear-gradient(45deg, #cf0015, #c5a173);
     color: white;
     border: none;
     padding: 8px 16px;
     margin: 0 2px;
     cursor: pointer;
+    transition: background 0.3s ease;
 }
 
 .pagination button:hover {
+<<<<<<< HEAD
     background-color: #c5a173; 
 } 
+=======
+    background: linear-gradient(45deg, #c5a173, #cf0015);
+}
+>>>>>>> fcb7768fb9a07b7bcb38aedc403a73f538bf3e49
