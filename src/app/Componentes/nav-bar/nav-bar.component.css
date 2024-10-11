@@ -4,8 +4,8 @@
     justify-content: center;
     align-items: start;
     height: 9vh;
-    background-color: #DCD9D4;
-    background-image: linear-gradient(to right, #ff4b2b, #ff416c);
+    background-color: #bb405a;
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
     background-blend-mode: soft-light,screen;
     background-size: cover;
 }
@@ -34,13 +34,29 @@
     align-items: center;
     font-size: 1.2rem;
     font-weight: 700;
-    color: #2a2a2a;
+    color: #ddd9d9;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.nav p{
+    white-space: nowrap;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #ddd9d9;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .nav li:hover a{
-    color: #9b50cc;
+    color: #fad118;
+}
+
+.nav li:hover p{
+    color: #fad118;
 }
 
 .nav-link::befeore{
