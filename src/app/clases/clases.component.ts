@@ -71,6 +71,7 @@ export class Receta {
 
   Id_Receta: string=''; // ID único de la solicitud
   Id_Producto: string='';
+  //Nombre_Producto:string=''
   Cantidad_Producto:number|undefined=undefined;
   Materia_Prima: MateriaPrima[]=[]; // ID de la materia prima solicitada
   Cantidad_Materia: number[]=[];
