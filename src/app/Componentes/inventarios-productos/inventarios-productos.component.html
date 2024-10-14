@@ -1,13 +1,13 @@
 <nav-bar></nav-bar>
 
-
 <div class="container">
     <!-- Título -->
 
     <h2>Inventario de Productos</h2>
 
     <!-- Botón de agregar nueva materia prima -->
-    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregarModal">
+    <button class="btn btn-success" data-bs-toggle="modal"
+        data-bs-target="#agregarModal">
         Agregar Producto
     </button>
 
@@ -20,7 +20,7 @@
                 <th>Elaboracion</th>
                 <th>Tipo de empaquetado</th>
                 <th>Existencias</th>
-                <th>Punto de Reorden</th>
+                <th>Fecha de fabricacion</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -33,12 +33,71 @@
                 <td>{{ producto.Codigo }}</td>
                 <td>{{ producto.Codigo }}</td>
                 <td>
-                    <!-- Botón de editar -->
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarModal">
+                    <!-- Botón de ver detalles -->
+                    <button class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#editarModal">
                         Ver detalles
                     </button>
                 </td>
             </tr>
         </tbody>
     </table>
+</div>
+
+<!-- Modal para agregar nuevo producto -->
+<div class="modal fade" id="agregarModal" data-bs-backdrop="static"
+    data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="agregarModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="agregarModalLabel">Agregar nuevo producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Codigo</label>
+                        <input type="text" class="form-control" id="nombre"
+                            [(ngModel)]="nuevoProducto.Codigo" name="nombre"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombre"
+                            [(ngModel)]="nuevoProducto.Nombre" name="nombre"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="marca"
+                            class="form-label">Elaboracion</label>
+                        <input type="text" class="form-control" id="marca"
+                            [(ngModel)]="nuevoProducto.Elaboracion" name="marca"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="punto_reorden" class="form-label">Lista de materias primas</label>
+                        <input type="number" class="form-control"
+                            id="punto_reorden"
+                            [(ngModel)]="nuevoProducto.Tipo_Empaquetado"
+                            name="punto_reorden" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Tipo_Empaquetado" class="form-label">Tipo de empaquetado</label>
+                        <input type="number" class="form-control"
+                            id="punto_reorden"
+                            [(ngModel)]="nuevoProducto.Tipo_Empaquetado"
+                            name="punto_reorden" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                    data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary"
+                    (click)="insertarProducto()">Guardar</button>
+            </div>
+        </div>
+    </div>
 </div>
