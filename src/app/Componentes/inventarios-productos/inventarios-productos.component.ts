@@ -12,36 +12,65 @@ export class InventariosProductosComponent {
   //Agregar producto al inventario
   nuevoProducto = new Producto();
   verDetalleProducto = new Producto();
-  listaMaeriasPrimas:MateriaPrima[] = new Array();
+  listaMateriasPrimas: MateriaPrima[] = [];
+  materiaPrimaSeleccionada: MateriaPrima | null = null;  // Materia prima seleccionada
+  cantidadSeleccionada: number | null = null;  // Cantidad de materia prima seleccionada
 
   //Lista de productos
-  listaProductos: Producto[] = new Array();
+  listaProductos: Producto[] = [];
+
+  
 
   //Direccion en donde se guardan los productos en firebase
   ProductosBD = collection(this.firebase, "Productos");
 
   constructor(private firebase: Firestore) {
-
     let q = query(this.ProductosBD);
     collectionData(q).subscribe((productoSnap) => {
-      this.listaProductos = new Array();
+      this.listaProductos = [];
       productoSnap.forEach((item) => {
-        let materiaPrima = new Producto();
-        materiaPrima.setData(item);
+        let producto = new Producto();
+        producto.setData(item);
         console.log(item);
-        this.listaProductos.push(materiaPrima);
+        this.listaProductos.push(producto);
       });
     });
 
+    this.obtenerMateriasPrimas();
+  }
 
+  obtenerMateriasPrimas() {
+    const materiasPrimasBD = collection(this.firebase, "MateriasPrimas");
+    collectionData(materiasPrimasBD, { idField: 'Id_Materia' }).subscribe((data: any) => {
+      this.listaMateriasPrimas = data.map((materia: any) => {
+        let materiaPrima = new MateriaPrima();
+        materiaPrima.setData(materia);
+        return materiaPrima;
+      });
+    });
+  }
+
+  agregarMateriaPrima() {
+    if (this.materiaPrimaSeleccionada) {
+      // Agregar la materia prima seleccionada y un campo para la cantidad
+      this.verDetalleProducto.Materias_Primas.push(this.materiaPrimaSeleccionada);
+      this.verDetalleProducto.Cantidad_MateriasPrimas.push(0); // Inicia con cantidad 0
+      this.materiaPrimaSeleccionada = null as any; // Resetear la selección
+    }
+    console.log(this.materiaPrimaSeleccionada)
+  }
+
+  eliminarMateriaPrima(index: number) {
+    // Eliminar la materia prima y su cantidad correspondiente
+    this.verDetalleProducto.Materias_Primas.splice(index, 1);
+    this.verDetalleProducto.Cantidad_MateriasPrimas.splice(index, 1);
   }
 
   insertarProducto() {
-
-    this.nuevoProducto.Id_Producto = this.GenerateRandomString(20); // Generar un ID único para la nueva materia
+    this.nuevoProducto.Id_Producto = this.GenerateRandomString(20); // Generar un ID único
     let nuevaMateriaDoc = doc(this.firebase, "Productos", this.nuevoProducto.Id_Producto);
 
-    // Guardar la nueva materia en Firestore
+    // Guardar el nuevo producto en Firestore
     setDoc(nuevaMateriaDoc, JSON.parse(JSON.stringify(this.nuevoProducto)))
       .then(() => {
         alert("Producto agregado exitosamente");
@@ -53,9 +82,7 @@ export class InventariosProductosComponent {
 
     let btnCerrar = document.getElementById('btnCerrarModalElemento');
     btnCerrar?.click();
-
   }
-
 
   GenerateRandomString(num: number): string {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -67,32 +94,25 @@ export class InventariosProductosComponent {
     return result;
   }
 
-
   limpiarFormulario() {
-    this.nuevoProducto = new Producto(); // Resetea la nueva materia
+    this.nuevoProducto = new Producto(); // Resetea el nuevo producto
   }
 
-
-  // Método para seleccionar una materia prima para edición
   verModalDetalles(producto: Producto) {
     this.verDetalleProducto = producto;
   }
 
-  // Método para editar una materia prima existente
   editarDetalles() {
-
-    // Actualizar los datos de la materia en Firestore
     let detalleDoc = doc(this.firebase, "Productos", this.verDetalleProducto.Id_Producto);
     setDoc(detalleDoc, JSON.parse(JSON.stringify(this.verDetalleProducto)))
       .then(() => {
-        alert("Informacion actualizada exitosamente");
+        alert("Información actualizada exitosamente");
       })
       .catch((error) => {
-        console.error("Error al actualizar la informacion: ", error);
+        console.error("Error al actualizar la información: ", error);
       });
 
     let btnCerrarEditar = document.getElementById('btnCerrarEditarElemento');
     btnCerrarEditar?.click();
   }
-
 }
