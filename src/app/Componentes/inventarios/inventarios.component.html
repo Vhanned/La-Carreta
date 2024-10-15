@@ -5,7 +5,7 @@
   <h2>Inventario de Materias Primas</h2>
 
   <!-- Botón de agregar nueva materia prima -->
-  <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregarModal">
+  <button id="BotonAgregar" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregarModal">
     Agregar Materia Prima
   </button>
 
@@ -15,7 +15,8 @@
       <tr>
         <th>Codigo</th>
         <th>Nombre</th>
-        <th>Unidad de Medida</th>
+        <th>Unidad de medida</th>
+        <th>Precio por unidad (MXN)</th>
         <th>Marca</th>
         <th>Existencias</th>
         <th>Punto de Reorden</th>
@@ -27,6 +28,7 @@
         <td>{{ materia.Codigo }}</td>
         <td>{{ materia.Nombre }}</td>
         <td>{{ materia.Unidad_Medida }}</td>
+        <td>{{ materia.Precio_unitario }}</td>
         <td>{{ materia.Marca }}</td>
         <td>{{materia.Existencias}}</td>
         <td>{{ materia.Punto_Reorden }}</td>
@@ -114,6 +116,11 @@
         <div class="modal-body">
           <form>
             <div class="mb-3">
+              <label for="nombre" class="form-label">Codigo</label>
+              <input type="text" class="form-control" id="nombre" [(ngModel)]="materiaAEditar.Codigo" name="codigo"
+                required>
+            </div>
+            <div class="mb-3">
               <label for="editNombre" class="form-label">Nombre</label>
               <input type="text" class="form-control" id="editNombre" [(ngModel)]="materiaAEditar.Nombre" name="nombre"
                 required>
@@ -130,6 +137,11 @@
                 <option value="Piezas">Piezas</option>
                 <!-- Agrega más opciones según sea necesario -->
               </select>
+            </div>
+            <div class="mb-3">
+              <label for="editMarca" class="form-label">Precio unitario (MXN)</label>
+              <input type="number" class="form-control" id="Precio_unitario" [(ngModel)]="materiaAEditar.Precio_unitario" name="Precio_unitario"
+                required>
             </div>
             <div class="mb-3">
               <label for="editMarca" class="form-label">Marca</label>
@@ -149,7 +161,7 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button id="btnCerrarEditarElemento" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
           <button type="button" class="btn btn-primary" (click)="editarMateria()">Guardar Cambios</button>
         </div>
       </div>

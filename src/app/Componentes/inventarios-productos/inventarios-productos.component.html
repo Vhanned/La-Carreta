@@ -106,9 +106,9 @@
             <div class="modal-body">
                 <form>
                     <div class="mb-3">
-                        <label for="editNombre" class="form-label">Codigo</label>
-                        <input type="text" class="form-control" id="editNombre" [(ngModel)]="verDetalleProducto.Codigo"
-                            name="nombre" required>
+                        <label for="editCodigo" class="form-label">Codigo</label>
+                        <input type="text" class="form-control" id="editCodigo" [(ngModel)]="verDetalleProducto.Codigo"
+                            name="codigo" required>
                     </div>
                     <div class="mb-3">
                         <label for="editNombre" class="form-label">Nombre</label>
@@ -121,10 +121,12 @@
                             [(ngModel)]="verDetalleProducto.Elaboracion" name="marca" required>
                     </div>
                     <div class="mb-3">
-                        <label for="editMarca" class="form-label">Lista de materias primas</label>
-                        <input type="text" class="form-control" id="editMarca"
-                            [(ngModel)]="verDetalleProducto.Materias_Primas" name="marca" required>
-                    </div>
+                        <label for="Materias_Primas" class="form-label">Lista de materias primas</label>
+                        <select class="form-control" id="Materias_Primas" [(ngModel)]="verDetalleProducto.Materias_Primas" name="Materias_Primas" required>
+                          <option *ngFor="let materia of listaMaeriasPrimas" [value]="materia.Nombre">{{materia.Nombre}}</option>
+                        </select>
+                      </div>
+                      
                     <div class="mb-3">
                         <label for="editExistencias" class="form-label">Existencias</label>
                         <input type="text" class="form-control" id="editExistencias"
@@ -138,7 +140,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button id="btnCerrarEditarElemento" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-primary" (click)="editarDetalles()">Guardar Cambios</button>
             </div>
         </div>

@@ -122,3 +122,8 @@ h2 {
 .pagination button:hover {
     background: linear-gradient(45deg, #c5a173, #cf0015);
 }
+
+
+#BotonAgregar{
+    align-self: end;
+}

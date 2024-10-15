@@ -48,6 +48,8 @@ export class MateriaPrima {
   Unidad_Medida: string=''; // Unidad de medida (litros, kilogramos, etc.)
   Existencias:number|undefined=undefined; //Registro de cuando se agega, en dado caso seria en una nueva coleccion
   Marca:string='';
+  Tipo:string='';
+  Precio_unitario: number|undefined=undefined;
   Punto_Reorden:number|undefined=undefined; //Cuando el inventario es menor que el punto de reorden, aparece una alerta
 
   setData(data: any) {
@@ -57,6 +59,8 @@ export class MateriaPrima {
     this.Unidad_Medida = data.Unidad_Medida || '';
     this.Marca = data.Marca || '';
     this.Existencias = data.Existencias || '';
+    this.Tipo = data.Tipo || '';
+    this.Precio_unitario = data.Precio_unitario || '';
     this.Punto_Reorden = data.Punto_Reorden || undefined;
   }
 

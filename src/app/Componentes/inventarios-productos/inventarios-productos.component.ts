@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { collection, collectionData, doc, Firestore, query, setDoc } from '@angular/fire/firestore';
-import { Producto } from 'src/app/clases/clases.component';
+import { MateriaPrima, Producto } from 'src/app/clases/clases.component';
 
 @Component({
   selector: 'inventarios-productos',
@@ -12,6 +12,7 @@ export class InventariosProductosComponent {
   //Agregar producto al inventario
   nuevoProducto = new Producto();
   verDetalleProducto = new Producto();
+  listaMaeriasPrimas:MateriaPrima[] = new Array();
 
   //Lista de productos
   listaProductos: Producto[] = new Array();
@@ -81,7 +82,7 @@ export class InventariosProductosComponent {
   editarDetalles() {
 
     // Actualizar los datos de la materia en Firestore
-    let detalleDoc = doc(this.firebase, "MateriasPrimas", this.verDetalleProducto.Id_Producto);
+    let detalleDoc = doc(this.firebase, "Productos", this.verDetalleProducto.Id_Producto);
     setDoc(detalleDoc, JSON.parse(JSON.stringify(this.verDetalleProducto)))
       .then(() => {
         alert("Informacion actualizada exitosamente");
