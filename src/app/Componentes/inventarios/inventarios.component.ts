@@ -15,7 +15,11 @@ export class InventariosComponent {
   materiaAEditar = new MateriaPrima();
 
   // Lista de materias primas obtenidas de Firestore
-  materias: MateriaPrima[] = new Array();
+  materias: MateriaPrima[] = [];
+  materiasFiltradas: MateriaPrima[] = []; // Lista para almacenar el resultado del filtro
+
+  // Texto de búsqueda
+  searchText: string = '';
 
   // Referencia a la colección en Firestore
   MateriasBD = collection(this.firebase, "MateriasPrimas");
@@ -24,14 +28,25 @@ export class InventariosComponent {
     // Cargar las materias primas desde Firestore al iniciar el componente
     let q = query(this.MateriasBD);
     collectionData(q).subscribe((materiaPrimaSnap) => {
-      this.materias = new Array();
+      this.materias = [];
       materiaPrimaSnap.forEach((item) => {
         let materiaPrima = new MateriaPrima();
         materiaPrima.setData(item);
         console.log(item);
         this.materias.push(materiaPrima);
       });
+      this.filtrarMaterias(); // Aplicar el filtro después de cargar los datos
     });
+  }
+
+  // Método para aplicar el filtro según el texto de búsqueda
+  filtrarMaterias() {
+    this.materiasFiltradas = this.materias.filter(materia =>
+      materia.Nombre.toLowerCase().includes(this.searchText.toLowerCase()) ||
+      materia.Codigo.toLowerCase().includes(this.searchText.toLowerCase()) ||
+      materia.Marca.toLowerCase().includes(this.searchText.toLowerCase()) ||
+      materia.Tipo.toLowerCase().includes(this.searchText.toLowerCase())
+    );
   }
 
   // Método para agregar una nueva materia prima
@@ -51,7 +66,6 @@ export class InventariosComponent {
 
     let btnCerrar = document.getElementById('btnCerrarModalElemento');
     btnCerrar?.click();
-
   }
 
   // Método para seleccionar una materia prima para edición
@@ -61,8 +75,6 @@ export class InventariosComponent {
 
   // Método para editar una materia prima existente
   editarMateria() {
-
-    // Actualizar los datos de la materia en Firestore
     let materiaDoc = doc(this.firebase, "MateriasPrimas", this.materiaAEditar.Id_Materia);
     setDoc(materiaDoc, JSON.parse(JSON.stringify(this.materiaAEditar)))
       .then(() => {
@@ -79,8 +91,6 @@ export class InventariosComponent {
   // Método para eliminar una materia prima
   eliminarMateria(materia: MateriaPrima) {
     let materiaDoc = doc(this.firebase, "MateriasPrimas", materia.Id_Materia);
-
-    // Eliminar la materia de Firestore
     deleteDoc(materiaDoc)
       .then(() => {
         alert("Materia prima eliminada exitosamente");
@@ -106,5 +116,4 @@ export class InventariosComponent {
     }
     return result;
   }
-
 }

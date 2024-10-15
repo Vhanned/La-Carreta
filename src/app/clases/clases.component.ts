@@ -1,21 +1,21 @@
 export class Producto {
 
-  constructor(){
+  constructor() {
 
   }
 
-  Id_Producto: string=''; // ID único del producto
-  Codigo:string=''; //Identificador visible al usuario
-  Nombre: string=''; // Nombre del producto
-  Elaboracion:string=''; //Proceso de elaboracion, a manera de instructivo
-  Tipo_Empaquetado: string=''; // Tipo de producto (por ejemplo, queso fresco, queso madurado)
-  Costo: number|undefined=undefined; // Costo de producción del producto por lote
-  Tamano_Lote: number|undefined=undefined;
-  Activo: boolean|undefined=undefined; // Indica si el producto está disponible para producción
-  Materias_Primas: MateriaPrima[]=[]; // Lista de materias primas necesarias para producir este producto
-  Cantidad_MateriasPrimas: Number[]=[]; //Que tanto se va a usar de cada materia prima
-  Litros:number|undefined=undefined; //litros necesarios para la elaboracion de cada lote
-  Tiempo_Elaboracion:string='';
+  Id_Producto: string = ''; // ID único del producto
+  Codigo: string = ''; //Identificador visible al usuario
+  Nombre: string = ''; // Nombre del producto
+  Elaboracion: string = ''; //Proceso de elaboracion, a manera de instructivo
+  Tipo_Empaquetado: string = ''; // Tipo de producto (por ejemplo, queso fresco, queso madurado)
+  Costo: number | undefined = undefined; // Costo de producción del producto por lote
+  Tamano_Lote: number | undefined = undefined;
+  Activo: boolean | undefined = undefined; // Indica si el producto está disponible para producción
+  Materias_Primas: MateriaPrima[] = []; // Lista de materias primas necesarias para producir este producto
+  Cantidad_MateriasPrimas: Number[] = []; //Que tanto se va a usar de cada materia prima
+  Litros: number | undefined = undefined; //litros necesarios para la elaboracion de cada lote
+  Tiempo_Elaboracion: string = '';
 
   setData(data: any) {
     this.Id_Producto = data.Id_Producto || '';
@@ -37,20 +37,20 @@ export class Producto {
 //Materias primas
 export class MateriaPrima {
 
-  constructor(){
+  constructor() {
 
   }
 
-  Id_Materia: string=''; // ID único de la materia prima
-  Codigo:number|undefined=undefined;
-  Nombre: string=''; // Nombre de la materia prima (ej. "Caseína", "Leche Fluida")
-  Costopromedio: number|undefined=undefined; //Costo de la materia prima, sera un valor por defecto el cual podran editar en el reporte del dia en caso de ser necesario
-  Unidad_Medida: string=''; // Unidad de medida (litros, kilogramos, etc.)
-  Existencias:number|undefined=undefined; //Registro de cuando se agega, en dado caso seria en una nueva coleccion
-  Marca:string='';
-  Tipo:string='';
-  Precio_unitario: number|undefined=undefined;
-  Punto_Reorden:number|undefined=undefined; //Cuando el inventario es menor que el punto de reorden, aparece una alerta
+  Id_Materia: string = ''; // ID único de la materia prima
+  Codigo: string = '';
+  Nombre: string = ''; // Nombre de la materia prima (ej. "Caseína", "Leche Fluida")
+  Costo_promedio: number | undefined = undefined; //Costo de la materia prima, sera un valor por defecto el cual podran editar en el reporte del dia en caso de ser necesario
+  Unidad_Medida: string = ''; // Unidad de medida (litros, kilogramos, etc.)
+  Existencias: number | undefined = undefined; //Registro de cuando se agega, en dado caso seria en una nueva coleccion
+  Marca: string = '';
+  Tipo: string = '';
+  Precio_unitario: number | undefined = undefined;
+  Punto_Reorden: number | undefined = undefined; //Cuando el inventario es menor que el punto de reorden, aparece una alerta
 
   setData(data: any) {
     this.Id_Materia = data.Id_Materia || '';
@@ -69,27 +69,27 @@ export class MateriaPrima {
 //Solicitudes de materias primas
 export class Receta {
 
-  constructor(){
+  constructor() {
 
   }
 
-  Id_Receta: string=''; // ID único de la solicitud
-  Id_Producto: string='';
+  Id_Receta: string = ''; // ID único de la solicitud
+  Id_Producto: string = '';
   //Nombre_Producto:string=''
-  Cantidad_Producto:number|undefined=undefined;
-  Materia_Prima: MateriaPrima[]=[]; // ID de la materia prima solicitada
-  Cantidad_Materia: number[]=[];
-  Fecha_Elaboracion: string=''; // Fecha cuando se genero la receta
-  Fecha_Elabroacion: number|undefined=undefined;
-  Fecha_Entrega_Materia:string=''; //
-  Fecha_Entrega_Materia_Number:number|undefined=undefined;
-  Fecha_Finalizacion:string=''; //Cuando se termino 
-  Solicitante:string='';
-  Estado: string=''; // Estado de la receta generada, materia prima entregada, en proceso, finalizado
-  Tinas: TinaProduccion[]=[];
-  Usuario_Elabroacion:string='';
-  Tiempo_elaboracion_total:string='';
-  Clave_Lote:string='';
+  Cantidad_Producto: number | undefined = undefined;
+  Materia_Prima: MateriaPrima[] = []; // ID de la materia prima solicitada
+  Cantidad_Materia: number[] = [];
+  Fecha_Elaboracion: string = ''; // Fecha cuando se genero la receta
+  Fecha_Elabroacion: number | undefined = undefined;
+  Fecha_Entrega_Materia: string = ''; //
+  Fecha_Entrega_Materia_Number: number | undefined = undefined;
+  Fecha_Finalizacion: string = ''; //Cuando se termino 
+  Solicitante: string = '';
+  Estado: string = ''; // Estado de la receta generada, materia prima entregada, en proceso, finalizado
+  Tinas: TinaProduccion[] = [];
+  Usuario_Elabroacion: string = '';
+  Tiempo_elaboracion_total: string = '';
+  Clave_Lote: string = '';
 
   setData(data: any) {
     this.Id_Receta = data.Id_Receta || '';
@@ -109,24 +109,24 @@ export class Receta {
     this.Tiempo_elaboracion_total = data.Tiempo_elaboracion_total || '';
     this.Clave_Lote = data.Clave_Lote || '';
   }
-  
+
 }
 
 //Inventario de materias primas
 export class InventarioMateriasPrimas {
 
-  constructor(){
+  constructor() {
 
   }
 
-  Id_Inventario: string=''; // ID único del inventario
-  Id_Materia: string=''; // ID de la materia prima
-  Nombre_Materia:string='';
-  Unidad_Medida:number|undefined=undefined;
-  Cantidad: number|undefined=undefined; // Cantidad disponible en el inventario
-  Fecha_Actualizacion: string=''; // Fecha de la última actualización del inventario
-  Fecha_Actualizacion_Number: number|undefined=undefined;
-  Punto_Reorden:number|undefined=undefined; //Cantidad minima que se puede tener de materia antes de hacer otro pedido
+  Id_Inventario: string = ''; // ID único del inventario
+  Id_Materia: string = ''; // ID de la materia prima
+  Nombre_Materia: string = '';
+  Unidad_Medida: number | undefined = undefined;
+  Cantidad: number | undefined = undefined; // Cantidad disponible en el inventario
+  Fecha_Actualizacion: string = ''; // Fecha de la última actualización del inventario
+  Fecha_Actualizacion_Number: number | undefined = undefined;
+  Punto_Reorden: number | undefined = undefined; //Cantidad minima que se puede tener de materia antes de hacer otro pedido
 
   setData(data: any) {
     this.Id_Inventario = data.Id_Inventario || '';
@@ -144,13 +144,13 @@ export class InventarioMateriasPrimas {
 //Tinas de producción
 export class TinaProduccion {
 
-  constructor(){
+  constructor() {
 
   }
 
-  Id_Tina: string=''; // ID único de la tina
-  Nombre_Tina:string='';
-  Capacidad: number|undefined=undefined; // Tipo de tina (ejemplo: "tina grande", "tina pequeña")
+  Id_Tina: string = ''; // ID único de la tina
+  Nombre_Tina: string = '';
+  Capacidad: number | undefined = undefined; // Tipo de tina (ejemplo: "tina grande", "tina pequeña")
 
   setData(data: any) {
     this.Id_Tina = data.Id_Tina || '';
@@ -163,17 +163,17 @@ export class TinaProduccion {
 //Ventas
 export class Venta {
 
-  constructor(){
-  
+  constructor() {
+
   }
 
-  Id_Venta: string=''; // ID único de la venta
-  Id_Cliente: string=''; // ID del cliente (en caso de ser necesario)
-  Id_Producto: string=''; // ID del producto vendido
-  Vantidad_Vendida: number|undefined=undefined; // Cantidad vendida del producto
-  Precio: number|undefined=undefined; // Precio de la venta
-  Satisfaccion_Cliente: number|undefined=undefined; // Nivel de satisfacción del cliente (escala del 1 al 5)
-  Comentarios: string=''; // Comentarios del cliente sobre la venta
+  Id_Venta: string = ''; // ID único de la venta
+  Id_Cliente: string = ''; // ID del cliente (en caso de ser necesario)
+  Id_Producto: string = ''; // ID del producto vendido
+  Vantidad_Vendida: number | undefined = undefined; // Cantidad vendida del producto
+  Precio: number | undefined = undefined; // Precio de la venta
+  Satisfaccion_Cliente: number | undefined = undefined; // Nivel de satisfacción del cliente (escala del 1 al 5)
+  Comentarios: string = ''; // Comentarios del cliente sobre la venta
 
   setData(data: any) {
     this.Id_Venta = data.Id_Venta || '';
@@ -187,21 +187,21 @@ export class Venta {
 
 }
 
-export class InventarioProductos{
+export class InventarioProductos {
 
-  constructor(){
+  constructor() {
 
   }
 
-  Id_producto:string='';
-  Nombre_Producto:string='';
-  Cantidad:number|undefined=undefined;
-  Fecha_LoteMasAntiguo:string='';
-  Fecha_UltimoLote:string='';
-  Fecha_LoteMasAntiguo_Number:number|undefined=undefined;
-  Fecha_UltimoLote_Number:number|undefined=undefined;
-  Id_RectetaMasAntigua:string='';
-  Id_RecetaMasReciente:string='';
+  Id_producto: string = '';
+  Nombre_Producto: string = '';
+  Cantidad: number | undefined = undefined;
+  Fecha_LoteMasAntiguo: string = '';
+  Fecha_UltimoLote: string = '';
+  Fecha_LoteMasAntiguo_Number: number | undefined = undefined;
+  Fecha_UltimoLote_Number: number | undefined = undefined;
+  Id_RectetaMasAntigua: string = '';
+  Id_RecetaMasReciente: string = '';
 
   setData(data: any) {
     this.Id_producto = data.Id_producto || '';
@@ -217,20 +217,20 @@ export class InventarioProductos{
 
 }
 
-export class Usuarios{
-  
-  constructor(){
+export class Usuarios {
+
+  constructor() {
 
   }
 
-  NombreUsuario:string='';
-  Contrasena:string='';
-  Rol:string='';
+  NombreUsuario: string = '';
+  Contrasena: string = '';
+  Rol: string = '';
 
-  setData(data:any){
+  setData(data: any) {
     this.NombreUsuario = data.Usuario;
     this.Contrasena = data.Contrasena;
     this.Rol = data.Rol;
-    }
+  }
 
 }

@@ -51,6 +51,8 @@ export class InventariosProductosComponent {
     });
   }
 
+  
+
   agregarMateriaPrima() {
     if (this.materiaPrimaSeleccionada && this.cantidadSeleccionada) {
       this.nuevoProducto.Materias_Primas.push(this.materiaPrimaSeleccionada);

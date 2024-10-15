@@ -5,10 +5,23 @@
 
   <h2>Inventario de Materias Primas</h2>
 
-  <!-- Botón de agregar nueva materia prima -->
-  <button id="BotonAgregar" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#agregarModal">
-    Agregar Materia Prima
-  </button>
+
+  <div id="ContenedorBusqueda">
+    <input 
+      type="text" 
+      name="" 
+      class="search-bar" 
+      value="" 
+      placeholder="Buscar..." 
+      [(ngModel)]="searchText"
+      (ngModelChange)="filtrarMaterias()"
+    >
+    <!-- Botón de agregar nueva materia prima -->
+    <button id="BotonAgregar" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#agregarModal">
+      Agregar Materia Prima
+    </button>
+  </div>
+  
 
   <!-- Tabla de materias primas -->
   <table class="table table-striped">
@@ -18,6 +31,7 @@
         <th>Nombre</th>
         <th>Unidad de medida</th>
         <th>Precio por unidad (MXN)</th>
+        <th>Tipo</th>
         <th>Marca</th>
         <th>Existencias</th>
         <th>Punto de Reorden</th>
@@ -25,13 +39,14 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let materia of materias">
+      <tr *ngFor="let materia of materiasFiltradas">
         <td>{{ materia.Codigo }}</td>
         <td>{{ materia.Nombre }}</td>
         <td>{{ materia.Unidad_Medida }}</td>
         <td>{{ materia.Precio_unitario }}</td>
+        <td>{{ materia.Tipo}}</td>
         <td>{{ materia.Marca }}</td>
-        <td>{{materia.Existencias}}</td>
+        <td>{{ materia.Existencias }}</td>
         <td>{{ materia.Punto_Reorden }}</td>
         <td>
           <!-- Botón de editar -->
@@ -80,7 +95,22 @@
                 <!-- Agrega más opciones según sea necesario -->
               </select>
             </div>
-
+            <div class="mb-3">
+              <label for="Precio_unitario" class="form-label">Precio unitario (MXN)</label>
+              <input type="number" class="form-control" id="Precio_unitario"
+                [(ngModel)]="nuevaMateria.Precio_unitario" name="Precio_unitario" required>
+            </div>
+            <div class="mb-3">
+              <label for="Tipo" class="form-label">Tipo</label>
+              <select class="form-control" id="Tipo" [(ngModel)]="nuevaMateria.Tipo"
+                name="Tipo" required>
+                <option value="">Seleccione un tipo</option>
+                <option value="Ingrediente">Ingrediente</option>
+                <option value="Aditivo">Aditivo</option>
+                <option value="Materia Prima">Materia Prima</option>
+                <!-- Agregar más opciones según sea necesario -->
+              </select>
+            </div>
             <div class="mb-3">
               <label for="marca" class="form-label">Marca</label>
               <input type="text" class="form-control" id="marca" [(ngModel)]="nuevaMateria.Marca" name="marca" required>
@@ -98,7 +128,7 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button id="btnCerrarModalElemento" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
           <button type="button" class="btn btn-primary" (click)="agregarMateria()">Guardar</button>
         </div>
       </div>
@@ -143,6 +173,17 @@
               <label for="editMarca" class="form-label">Precio unitario (MXN)</label>
               <input type="number" class="form-control" id="Precio_unitario"
                 [(ngModel)]="materiaAEditar.Precio_unitario" name="Precio_unitario" required>
+            </div>
+            <div class="mb-3">
+              <label for="Tipo" class="form-label">Tipo</label>
+              <select class="form-control" id="Tipo" [(ngModel)]="materiaAEditar.Tipo"
+                name="Tipo" required>
+                <option value="">Seleccione un tipo</option>
+                <option value="Ingrediente">Ingrediente</option>
+                <option value="Aditivo">Aditivo</option>
+                <option value="Materia Prima">Materia Prima</option>
+                <!-- Agregar más opciones según sea necesario -->
+              </select>
             </div>
             <div class="mb-3">
               <label for="editMarca" class="form-label">Marca</label>
