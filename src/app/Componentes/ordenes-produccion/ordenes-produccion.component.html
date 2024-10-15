@@ -7,7 +7,7 @@
 
       <!-- Botón para activar el modal, centrado -->
       <button id="BtnCrearOrden" type="button" class="btn btn-primary mb-4" data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop">
+        data-bs-target="#staticBackdrop" (click)="resetForm(); creatingNew = true;">
         Crear Orden
       </button>
 
@@ -15,9 +15,10 @@
       <div id="BusquedaProduccion" class="mb-4">
         <h5>Buscar Producción</h5>
         <label for="start" class="form-label">Fecha inicial:</label>
-        <input type="date" id="start" name="trip-start" class="form-control mb-2" style="display: inline-block; width: auto;">
+        <input type="date" id="start" name="trip-start" class="form-control mb-2 d-inline-block" style="width: auto;">
         <label for="end" class="form-label">Fecha final:</label>
-        <input type="date" id="end" name="trip-end" class="form-control mb-2" style="display: inline-block; width: auto;">
+        <input type="date" id="end" name="trip-end" class="form-control mb-2 d-inline-block" style="width: auto;">
+        <button class="btn btn-primary ms-2" (click)="BuscarProduccion()">Buscar</button>
       </div>
       
       <!-- Tabla para mostrar las órdenes de producción -->
@@ -30,55 +31,69 @@
             <th>Cantidad</th>
             <th>Descripción</th>
             <th>Responsable</th>
+            <th>Acciones</th> <!-- Added for Edit, Delete, Details -->
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let orden of ordenes | async">
             <td>{{ orden.id }}</td>
-            <td>{{ orden.fechaInicio }}</td>
+            <td>{{ orden.fechaInicio ? (orden.fechaInicio | date:'dd/MM/yyyy') : 'Sin fecha' }}</td>
             <td>{{ orden.cantidad }}</td>
-            <td>{{ orden.descripcion }}</td>
-            <td>{{ orden.responsable }}</td>
+            <td>{{ orden.descripcion || 'Sin descripción' }}</td>
+            <td>{{ orden.responsable || 'Sin responsable' }}</td>
+            <td>
+              <!-- Edit Button -->
+              <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="EditarOrdenProduccion(orden); creatingNew = false;">Editar</button>
+              <!-- Delete Button -->
+              <button class="btn btn-danger btn-sm" (click)="EliminarOrdenProduccion(orden.id)">Eliminar</button>
+              <!-- Details Button -->
+              <button class="btn btn-info btn-sm" (click)="MostrarDetalles(orden)">Detalles</button>
+            </td>
           </tr>
-        </tbody>
+        </tbody>        
       </table>
     </div>
   </div>
 </div>
 
-<!-- Modal -->
+
+<!-- Modal for Creating or Editing Orders -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-  aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Orden de Producción</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="mb-3">
-            <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
-            <input type="date" class="form-control" id="fechaInicio" [(ngModel)]="fechaInicio">
-          </div>
-          <div class="mb-3">
-            <label for="cantidad" class="form-label">Cantidad a Producir</label>
-            <input type="number" class="form-control" id="cantidad" [(ngModel)]="cantidad" placeholder="Ingrese la cantidad">
-          </div>
-          <div class="mb-3">
-            <label for="descripcionProducto" class="form-label">Descripción del Producto</label>
-            <textarea class="form-control" id="descripcionProducto" [(ngModel)]="descripcion" rows="3" placeholder="Descripción del producto"></textarea>
-          </div>
-          <div class="mb-3">
-            <label for="responsable" class="form-label">Responsable</label>
-            <input type="text" class="form-control" id="responsable" [(ngModel)]="responsable" placeholder="Nombre del responsable">
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarModalElemento">Cerrar</button>
-        <button type="button" class="btn btn-primary" (click)="CrearOrdenProduccion()">Crear</button>
-      </div>
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">{{ creatingNew ? 'Nueva Orden de Producción' : 'Editar Orden de Producción' }}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetForm()"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
+                        <input type="date" class="form-control" id="fechaInicio" [(ngModel)]="fechaInicio" name="fechaInicio" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cantidad" class="form-label">Cantidad a Producir</label>
+                        <input type="number" class="form-control" id="cantidad" [(ngModel)]="cantidad" name="cantidad" placeholder="Ingrese la cantidad" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="descripcionProducto" class="form-label">Descripción del Producto</label>
+                        <textarea class="form-control" id="descripcionProducto" [(ngModel)]="descripcion" name="descripcion" rows="3" placeholder="Descripción del producto" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="responsable" class="form-label">Responsable</label>
+                        <input type="text" class="form-control" id="responsable" [(ngModel)]="responsable" name="responsable" placeholder="Nombre del responsable" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarModalElemento" (click)="resetForm()">Cerrar</button>
+                <button type="button" class="btn btn-primary" (click)="creatingNew ? CrearOrdenProduccion() : GuardarCambios()">
+                  {{ creatingNew ? 'Crear' : 'Guardar Cambios' }}
+              </button>
+              
+            </div>
+        </div>
     </div>
-  </div>
 </div>
+
