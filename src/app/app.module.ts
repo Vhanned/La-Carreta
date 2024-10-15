@@ -16,6 +16,10 @@ import { NavBarComponent } from './Componentes/nav-bar/nav-bar.component';
 import { InventariosComponent } from './Componentes/inventarios/inventarios.component';
 import { OrdenesProduccionComponent } from './Componentes/ordenes-produccion/ordenes-produccion.component';
 import { InventariosProductosComponent } from './Componentes/inventarios-productos/inventarios-productos.component';
+import { AlmacenComponent } from './almacen/almacen.component';
+import { AdmContComponent } from './adm-cont/adm-cont.component';
+import { VentasComponent } from './ventas/ventas.component';
+import { ProduccionComponent } from './produccion/produccion.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +29,11 @@ import { InventariosProductosComponent } from './Componentes/inventarios-product
     NavBarComponent,
     InventariosComponent,
     OrdenesProduccionComponent,
-    InventariosProductosComponent
+    InventariosProductosComponent,
+    AlmacenComponent,
+    AdmContComponent,
+    VentasComponent,
+    ProduccionComponent
   ],
   imports: [
     BrowserModule,
