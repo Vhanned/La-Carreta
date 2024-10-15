@@ -11,6 +11,7 @@ export class InventariosProductosComponent {
 
   //Agregar producto al inventario
   nuevoProducto = new Producto();
+  verDetalleProducto = new Producto();
 
   //Lista de productos
   listaProductos: Producto[] = new Array();
@@ -68,6 +69,29 @@ export class InventariosProductosComponent {
 
   limpiarFormulario() {
     this.nuevoProducto = new Producto(); // Resetea la nueva materia
+  }
+
+
+  // Método para seleccionar una materia prima para edición
+  verModalDetalles(producto: Producto) {
+    this.verDetalleProducto = producto;
+  }
+
+  // Método para editar una materia prima existente
+  editarDetalles() {
+
+    // Actualizar los datos de la materia en Firestore
+    let detalleDoc = doc(this.firebase, "MateriasPrimas", this.verDetalleProducto.Id_Producto);
+    setDoc(detalleDoc, JSON.parse(JSON.stringify(this.verDetalleProducto)))
+      .then(() => {
+        alert("Informacion actualizada exitosamente");
+      })
+      .catch((error) => {
+        console.error("Error al actualizar la informacion: ", error);
+      });
+
+    let btnCerrarEditar = document.getElementById('btnCerrarEditarElemento');
+    btnCerrarEditar?.click();
   }
 
 }

@@ -3,11 +3,10 @@
 <div class="container">
     <!-- Título -->
 
-    <h2>Inventario de Productos</h2>
+    <h2>Lista de Productos</h2>
 
     <!-- Botón de agregar nueva materia prima -->
-    <button class="btn btn-success" data-bs-toggle="modal"
-        data-bs-target="#agregarModal">
+    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregarModal">
         Agregar Producto
     </button>
 
@@ -19,8 +18,7 @@
                 <th>Nombre</th>
                 <th>Elaboracion</th>
                 <th>Tipo de empaquetado</th>
-                <th>Existencias</th>
-                <th>Fecha de fabricacion</th>
+                <th>Estado</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -29,13 +27,12 @@
                 <td>{{ producto.Codigo }}</td>
                 <td>{{ producto.Nombre }}</td>
                 <td>{{ producto.Elaboracion }}</td>
-                <td>{{ producto.Codigo }}</td>
-                <td>{{ producto.Codigo }}</td>
-                <td>{{ producto.Codigo }}</td>
+                <td>{{ producto.Tipo_Empaquetado }}</td>
+                <td>{{ producto.Activo }}</td>
                 <td>
                     <!-- Botón de ver detalles -->
-                    <button class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#editarModal">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarModal"
+                        (click)="verModalDetalles(producto)">
                         Ver detalles
                     </button>
                 </td>
@@ -45,58 +42,104 @@
 </div>
 
 <!-- Modal para agregar nuevo producto -->
-<div class="modal fade" id="agregarModal" data-bs-backdrop="static"
-    data-bs-keyboard="false" tabindex="-1"
+<div class="modal fade" id="agregarModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="agregarModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="agregarModalLabel">Agregar nuevo producto</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form>
                     <div class="mb-3">
-                        <label for="nombre" class="form-label">Codigo</label>
-                        <input type="text" class="form-control" id="nombre"
-                            [(ngModel)]="nuevoProducto.Codigo" name="nombre"
-                            required>
+                        <label for="codigo" class="form-label">Codigo</label>
+                        <input type="text" class="form-control" id="codigo" [(ngModel)]="nuevoProducto.Codigo"
+                            name="codigo" required>
                     </div>
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="nombre"
-                            [(ngModel)]="nuevoProducto.Nombre" name="nombre"
-                            required>
+                        <input type="text" class="form-control" id="nombre" [(ngModel)]="nuevoProducto.Nombre"
+                            name="nombre" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="marca" class="form-label">Elaboracion</label>
+                        <button id="AgregarLista" type="button" class="btn btn-success btn-sm">
+                            Agregar materia a la lista
+                        </button>
+                        <input type="text" class="form-control" id="marca" [(ngModel)]="nuevoProducto.Elaboracion"
+                            name="marca" required>
                     </div>
                     <div class="mb-3">
-                        <label for="marca"
-                            class="form-label">Elaboracion</label>
-                        <input type="text" class="form-control" id="marca"
-                            [(ngModel)]="nuevoProducto.Elaboracion" name="marca"
-                            required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="punto_reorden" class="form-label">Lista de materias primas</label>
-                        <input type="number" class="form-control"
-                            id="punto_reorden"
-                            [(ngModel)]="nuevoProducto.Tipo_Empaquetado"
-                            name="punto_reorden" required>
+                        <label for="lista_materias" class="form-label">Lista de materias primas</label>
+                        <input type="text" class="form-control" id="lista_materias"
+                            [(ngModel)]="nuevoProducto.Tipo_Empaquetado" name="lista_materias" required>
                     </div>
                     <div class="mb-3">
                         <label for="Tipo_Empaquetado" class="form-label">Tipo de empaquetado</label>
-                        <input type="number" class="form-control"
-                            id="punto_reorden"
-                            [(ngModel)]="nuevoProducto.Tipo_Empaquetado"
-                            name="punto_reorden" required>
+                        <input type="number" class="form-control" id="punto_reorden"
+                            [(ngModel)]="nuevoProducto.Tipo_Empaquetado" name="punto_reorden" required>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"
-                    data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary"
-                    (click)="insertarProducto()">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" (click)="insertarProducto()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Modal para ver detalles -->
+<div class="modal fade" id="editarModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="editarModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editarModalLabel">Editar Detalles</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="editNombre" class="form-label">Codigo</label>
+                        <input type="text" class="form-control" id="editNombre" [(ngModel)]="verDetalleProducto.Codigo"
+                            name="nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editNombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="editNombre" [(ngModel)]="verDetalleProducto.Nombre"
+                            name="nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="unidad_medida" class="form-label">Elaboracion</label>
+                        <input type="text" class="form-control" id="elaboracion"
+                            [(ngModel)]="verDetalleProducto.Elaboracion" name="marca" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editMarca" class="form-label">Lista de materias primas</label>
+                        <input type="text" class="form-control" id="editMarca"
+                            [(ngModel)]="verDetalleProducto.Materias_Primas" name="marca" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editExistencias" class="form-label">Existencias</label>
+                        <input type="text" class="form-control" id="editExistencias"
+                            [(ngModel)]="verDetalleProducto.Tipo_Empaquetado" name="existencias" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPunto_reorden" class="form-label">Punto de Reorden</label>
+                        <input type="number" class="form-control" id="editPunto_reorden"
+                            [(ngModel)]="verDetalleProducto.Tiempo_Elaboracion" name="punto_reorden" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" (click)="editarDetalles()">Guardar Cambios</button>
             </div>
         </div>
     </div>

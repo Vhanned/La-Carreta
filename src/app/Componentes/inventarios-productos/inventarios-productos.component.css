@@ -122,3 +122,15 @@ h2 {
 .pagination button:hover {
     background: linear-gradient(45deg, #c5a173, #cf0015);
 }
+
+#codigo{
+    max-width: 15%;
+}
+
+#nombre{
+    max-width: 20%;
+}
+
+#AgregarLista{
+    
+}
