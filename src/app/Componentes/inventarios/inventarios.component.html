@@ -1,11 +1,12 @@
 <nav-bar></nav-bar>
-<div class="container">
+
+<div style="margin-top: 2%;" class="container">
   <!-- Título -->
 
   <h2>Inventario de Materias Primas</h2>
 
   <!-- Botón de agregar nueva materia prima -->
-  <button id="BotonAgregar" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregarModal">
+  <button id="BotonAgregar" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#agregarModal">
     Agregar Materia Prima
   </button>
 
@@ -34,7 +35,7 @@
         <td>{{ materia.Punto_Reorden }}</td>
         <td>
           <!-- Botón de editar -->
-          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarModal"
+          <button id="BotonEditarMateia" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#editarModal"
             (click)="EditarModalMateria(materia)">
             Editar
           </button>
@@ -140,8 +141,8 @@
             </div>
             <div class="mb-3">
               <label for="editMarca" class="form-label">Precio unitario (MXN)</label>
-              <input type="number" class="form-control" id="Precio_unitario" [(ngModel)]="materiaAEditar.Precio_unitario" name="Precio_unitario"
-                required>
+              <input type="number" class="form-control" id="Precio_unitario"
+                [(ngModel)]="materiaAEditar.Precio_unitario" name="Precio_unitario" required>
             </div>
             <div class="mb-3">
               <label for="editMarca" class="form-label">Marca</label>
@@ -161,7 +162,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button id="btnCerrarEditarElemento" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button id="btnCerrarEditarElemento" type="button" class="btn btn-secondary"
+            data-bs-dismiss="modal">Cerrar</button>
           <button type="button" class="btn btn-primary" (click)="editarMateria()">Guardar Cambios</button>
         </div>
       </div>
