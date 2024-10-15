@@ -15,6 +15,7 @@ export class InventariosProductosComponent {
   listaMateriasPrimas: MateriaPrima[] = [];
   materiaPrimaSeleccionada: MateriaPrima | null = null;  // Materia prima seleccionada
   cantidadSeleccionada: number | null = null;  // Cantidad de materia prima seleccionada
+  materiasPrimas: MateriaPrima[] = new Array();
 
   //Lista de productos
   listaProductos: Producto[] = [];
@@ -51,14 +52,14 @@ export class InventariosProductosComponent {
   }
 
   agregarMateriaPrima() {
-    if (this.materiaPrimaSeleccionada) {
-      // Agregar la materia prima seleccionada y un campo para la cantidad
-      this.verDetalleProducto.Materias_Primas.push(this.materiaPrimaSeleccionada);
-      this.verDetalleProducto.Cantidad_MateriasPrimas.push(0); // Inicia con cantidad 0
-      this.materiaPrimaSeleccionada = null as any; // Resetear la selección
+    if (this.materiaPrimaSeleccionada && this.cantidadSeleccionada) {
+      this.nuevoProducto.Materias_Primas.push(this.materiaPrimaSeleccionada);
+      this.nuevoProducto.Cantidad_MateriasPrimas.push(this.cantidadSeleccionada);
+      this.materiaPrimaSeleccionada = null; // Resetear la selección
+      this.cantidadSeleccionada = null; // Resetear la cantidad
     }
-    console.log(this.materiaPrimaSeleccionada)
   }
+  
 
   eliminarMateriaPrima(index: number) {
     // Eliminar la materia prima y su cantidad correspondiente
@@ -67,22 +68,30 @@ export class InventariosProductosComponent {
   }
 
   insertarProducto() {
-    this.nuevoProducto.Id_Producto = this.GenerateRandomString(20); // Generar un ID único
-    let nuevaMateriaDoc = doc(this.firebase, "Productos", this.nuevoProducto.Id_Producto);
-
-    // Guardar el nuevo producto en Firestore
-    setDoc(nuevaMateriaDoc, JSON.parse(JSON.stringify(this.nuevoProducto)))
-      .then(() => {
-        alert("Producto agregado exitosamente");
-        this.limpiarFormulario();
-      })
-      .catch((error) => {
-        console.error("Error al agregar el producto: ", error);
-      });
-
+    if (this.nuevoProducto.Materias_Primas.length > 0) {
+      this.nuevoProducto.Id_Producto = this.GenerateRandomString(20); // Generar un ID único
+      let nuevaMateriaDoc = doc(this.firebase, "Productos", this.nuevoProducto.Id_Producto);
+  
+      // Guardar el nuevo producto en Firestore
+      setDoc(nuevaMateriaDoc, JSON.parse(JSON.stringify(this.nuevoProducto)))
+        .then(() => {
+          alert("Producto agregado exitosamente");
+          this.limpiarFormulario();
+          this.closeModal(); // Llamar a la función para cerrar el modal
+        })
+        .catch((error) => {
+          console.error("Error al agregar el producto: ", error);
+        });
+    } else {
+      alert("Por favor, agregue al menos una materia prima antes de guardar el producto.");
+    }
+  }
+  
+  closeModal() {
     let btnCerrar = document.getElementById('btnCerrarModalElemento');
     btnCerrar?.click();
   }
+  
 
   GenerateRandomString(num: number): string {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

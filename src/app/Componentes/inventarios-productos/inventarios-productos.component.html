@@ -51,36 +51,46 @@
             </div>
             <div class="modal-body">
                 <form>
+                    <!-- Dropdown para seleccionar la materia prima -->
                     <div class="mb-3">
-                        <label for="codigo" class="form-label">Codigo</label>
-                        <input type="text" class="form-control" id="codigo" [(ngModel)]="nuevoProducto.Codigo"
-                            name="codigo" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="nombre" [(ngModel)]="nuevoProducto.Nombre"
-                            name="nombre" required>
+                        <label for="materiaPrimaSelect" class="form-label">Seleccionar Materia Prima</label>
+                        <select [(ngModel)]="materiaPrimaSeleccionada" name="materiaPrima" class="form-select"
+                            id="materiaPrimaSelect" required>
+                            <option *ngFor="let materia of materiasPrimas" [ngValue]="materia">{{materia.Nombre}}
+                            </option>
+                        </select>
                     </div>
 
+                    <!-- Campo para cantidad -->
                     <div class="mb-3">
-                        <label for="marca" class="form-label">Elaboracion</label>
-                        <button id="AgregarLista" type="button" class="btn btn-success btn-sm">
-                            Agregar materia a la lista
-                        </button>
-                        <input type="text" class="form-control" id="marca" [(ngModel)]="nuevoProducto.Elaboracion"
-                            name="marca" required>
+                        <label for="cantidadMateriaPrima" class="form-label">Cantidad</label>
+                        <input type="number" [(ngModel)]="cantidadSeleccionada" name="cantidadMateriaPrima"
+                            id="cantidadMateriaPrima" class="form-control" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="lista_materias" class="form-label">Lista de materias primas</label>
-                        <input type="text" class="form-control" id="lista_materias"
-                            [(ngModel)]="nuevoProducto.Tipo_Empaquetado" name="lista_materias" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="Tipo_Empaquetado" class="form-label">Tipo de empaquetado</label>
-                        <input type="number" class="form-control" id="punto_reorden"
-                            [(ngModel)]="nuevoProducto.Tipo_Empaquetado" name="punto_reorden" required>
-                    </div>
+
+                    <!-- Botón para agregar materia prima a la tabla -->
+                    <button type="button" class="btn btn-primary" (click)="agregarMateriaPrima()">Agregar Materia
+                        Prima</button>
                 </form>
+
+                <!-- Tabla para mostrar las materias primas seleccionadas -->
+                <!-- Tabla para mostrar las materias primas seleccionadas -->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Materia Prima</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let materia of nuevoProducto.Materias_Primas; let i = index">
+                            <td>{{ materia.Nombre }}</td>
+                            <td>{{ nuevoProducto.Cantidad_MateriasPrimas[i] }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
