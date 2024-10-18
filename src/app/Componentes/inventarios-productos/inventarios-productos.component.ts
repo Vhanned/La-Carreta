@@ -19,6 +19,7 @@ export class InventariosProductosComponent {
   cantidadSeleccionada: number | null = null;  // Cantidad de materia prima seleccionada
   materiasPrimas: MateriaPrima[] = new Array();
 
+
   //Lista de productos
   listaProductos: Producto[] = [];
 

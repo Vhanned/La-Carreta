@@ -86,7 +86,6 @@
               <label for="unidad_medida" class="form-label">Unidad de Medida</label>
               <select class="form-control" id="unidad_medida" [(ngModel)]="nuevaMateria.Unidad_Medida"
                 name="unidad_medida" required>
-                <option value="">Seleccione una unidad de medida</option>
                 <option value="Litros">Litros</option>
                 <option value="Kilogramos">Kilogramos</option>
                 <option value="Gramos">Gramos</option>
@@ -104,7 +103,6 @@
               <label for="Tipo" class="form-label">Tipo</label>
               <select class="form-control" id="Tipo" [(ngModel)]="nuevaMateria.Tipo"
                 name="Tipo" required>
-                <option value="">Seleccione un tipo</option>
                 <option value="Ingrediente">Ingrediente</option>
                 <option value="Aditivo">Aditivo</option>
                 <option value="Materia Prima">Materia Prima</option>
@@ -117,7 +115,7 @@
             </div>
             <div class="mb-3">
               <label for="existencias" class="form-label">Existencias</label>
-              <input type="text" class="form-control" id="existencias" [(ngModel)]="nuevaMateria.Existencias"
+              <input type="number" class="form-control" id="existencias" [(ngModel)]="nuevaMateria.Existencias"
                 name="existencias" required>
             </div>
             <div class="mb-3">
@@ -160,7 +158,6 @@
               <label for="unidad_medida" class="form-label">Unidad de Medida</label>
               <select class="form-control" id="unidad_medida" [(ngModel)]="materiaAEditar.Unidad_Medida"
                 name="unidad_medida" required>
-                <option value="">Seleccione una unidad de medida</option>
                 <option value="Litros">Litros</option>
                 <option value="Kilogramos">Kilogramos</option>
                 <option value="Gramos">Gramos</option>
@@ -178,7 +175,6 @@
               <label for="Tipo" class="form-label">Tipo</label>
               <select class="form-control" id="Tipo" [(ngModel)]="materiaAEditar.Tipo"
                 name="Tipo" required>
-                <option value="">Seleccione un tipo</option>
                 <option value="Ingrediente">Ingrediente</option>
                 <option value="Aditivo">Aditivo</option>
                 <option value="Materia Prima">Materia Prima</option>
@@ -192,7 +188,7 @@
             </div>
             <div class="mb-3">
               <label for="editExistencias" class="form-label">Existencias</label>
-              <input type="text" class="form-control" id="editExistencias" [(ngModel)]="materiaAEditar.Existencias"
+              <input type="number" min="0" class="form-control" id="editExistencias" [(ngModel)]="materiaAEditar.Existencias"
                 name="existencias" required>
             </div>
             <div class="mb-3">

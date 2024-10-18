@@ -36,7 +36,7 @@ export class LoginComponent {
             timer: 800
           });
             this.Credencial.setData(UsuarioSnap[0]);
-            this.routing.navigate(['menuprincipal'], { state: this.Credencial });
+            this.routing.navigate(['ordenes-produccion'], { state: this.Credencial });
             console.log(this.Credencial);
         } else {
           Swal.fire({
