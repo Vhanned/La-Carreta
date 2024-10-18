@@ -19,7 +19,7 @@
     width: 100%;       
     height: auto;    
     text-align: center;
-    border: 2px solid #2A3A50; 
+    border: 2px solid #2A3A50; /* Borde gris oscuro */
 }
 
 /* Título */
@@ -58,14 +58,35 @@
     resize: none;
 }
 
+/* Input de fecha */
+.input-field.date {
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    border: 2px solid #2A3A50;
+    border-radius: 8px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 /* Estilo del input al enfocar */
 .input-field:focus {
-    border-color: #FFD369; 
+    border-color: #FFD369;  /* Amarillo suave cuando se selecciona */
     box-shadow: 0 0 8px rgba(255, 211, 105, 0.5);
 }
 
-/* Botón de enviar */
-.submit-btn {
+/* Contenedor de botones */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Botones */
+.submit-btn, .edit-btn {
     background-color: #2A3A50;
     color: white;
     border: none;
@@ -76,9 +97,19 @@
     transition: background-color 0.3s ease;
 }
 
-.submit-btn:hover {
+.submit-btn:hover, .edit-btn:hover {
     background-color: #FFD369;
     color: #2A3A50;
+}
+
+/* Estilo para los textos descriptivos */
+.formulario p {
+    font-family: Arial, sans-serif;
+    font-size: 1rem;
+    color: #2A3A50;
+    margin-bottom: 5px;
+    text-align: left;
+    padding-left: 4%;
 }
 
 /* Responsividad */
@@ -99,7 +130,7 @@
         width: 95%; 
     }
 
-    .submit-btn {
+    .submit-btn, .edit-btn {
         padding: 12px 25px;
         font-size: 1rem;
     }
