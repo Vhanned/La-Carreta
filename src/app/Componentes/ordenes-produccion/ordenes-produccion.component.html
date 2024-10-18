@@ -20,42 +20,41 @@
         <input type="date" id="end" name="trip-end" class="form-control mb-2 d-inline-block" style="width: auto;">
         <button class="btn btn-primary ms-2" (click)="BuscarProduccion()">Buscar</button>
       </div>
-      
+
       <!-- Tabla para mostrar las órdenes de producción -->
       <h3>Lista de Órdenes de Producción</h3>
       <table class="table table-bordered mt-3">
         <thead class="table-dark">
           <tr>
-            <th>ID</th>
+            <th>Fecha de Creación</th>
             <th>Fecha de Inicio</th>
+            <th>Fecha de Finalización</th>
             <th>Cantidad</th>
             <th>Descripción</th>
             <th>Responsable</th>
-            <th>Acciones</th> <!-- Added for Edit, Delete, Details -->
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let orden of ordenes | async">
-            <td>{{ orden.id }}</td>
-            <td>{{ orden.fechaInicio ? (orden.fechaInicio | date:'dd/MM/yyyy') : 'Sin fecha' }}</td>
+            <td>{{ orden.fechaCreacion ? (orden.fechaCreacion | date: 'dd/MM/yyyy') : 'Sin fecha' }}</td> <!-- Formato dd/MM/yyyy -->
+            <td>{{ orden.fechaInicio ? (orden.fechaInicio | date: 'dd/MM/yyyy') : 'Sin fecha' }}</td>
+            <td>{{ orden.fechaFin ? (orden.fechaFin | date: 'dd/MM/yyyy') : 'Sin fecha' }}</td>
             <td>{{ orden.cantidad }}</td>
             <td>{{ orden.descripcion || 'Sin descripción' }}</td>
             <td>{{ orden.responsable || 'Sin responsable' }}</td>
             <td>
-              <!-- Edit Button -->
+              <!-- Botones de acciones -->
               <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="EditarOrdenProduccion(orden); creatingNew = false;">Editar</button>
-              <!-- Delete Button -->
               <button class="btn btn-danger btn-sm" (click)="EliminarOrdenProduccion(orden.id)">Eliminar</button>
-              <!-- Details Button -->
               <button class="btn btn-info btn-sm" (click)="MostrarDetalles(orden)">Detalles</button>
             </td>
           </tr>
-        </tbody>        
+        </tbody>
       </table>
     </div>
   </div>
 </div>
-
 
 <!-- Modal for Creating or Editing Orders -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -71,6 +70,10 @@
                     <div class="mb-3">
                         <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
                         <input type="date" class="form-control" id="fechaInicio" [(ngModel)]="fechaInicio" name="fechaInicio" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fechaFin" class="form-label">Fecha de Finalización</label>
+                        <input type="date" class="form-control" id="fechaFin" [(ngModel)]="fechaFin" name="fechaFin" required>
                     </div>
                     <div class="mb-3">
                         <label for="cantidad" class="form-label">Cantidad a Producir</label>
@@ -90,10 +93,9 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarModalElemento" (click)="resetForm()">Cerrar</button>
                 <button type="button" class="btn btn-primary" (click)="creatingNew ? CrearOrdenProduccion() : GuardarCambios()">
                   {{ creatingNew ? 'Crear' : 'Guardar Cambios' }}
-              </button>
+                </button>
               
             </div>
         </div>
     </div>
 </div>
-
