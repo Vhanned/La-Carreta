@@ -26,7 +26,6 @@
       <table class="table table-bordered mt-3">
         <thead class="table-dark">
           <tr>
-            <th>ID</th>
             <th>Fecha de Inicio</th>
             <th>Cantidad</th>
             <th>Descripción</th>
@@ -36,7 +35,6 @@
         </thead>
         <tbody>
           <tr *ngFor="let orden of ordenes | async">
-            <td>{{ orden.id }}</td>
             <td>{{ orden.fechaInicio ? (orden.fechaInicio | date:'dd/MM/yyyy') : 'Sin fecha' }}</td>
             <td>{{ orden.cantidad }}</td>
             <td>{{ orden.descripcion || 'Sin descripción' }}</td>

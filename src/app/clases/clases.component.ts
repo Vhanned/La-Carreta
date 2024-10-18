@@ -1,7 +1,7 @@
 export class Producto {
 
   constructor() {
-
+    this.Estado = "Activo";
   }
 
   Id_Producto: string = ''; // ID único del producto
@@ -11,7 +11,7 @@ export class Producto {
   Tipo_Empaquetado: string = ''; // Tipo de producto (por ejemplo, queso fresco, queso madurado)
   Costo: number | undefined = undefined; // Costo de producción del producto por lote
   Tamano_Lote: number | undefined = undefined;
-  Activo: boolean | undefined = undefined; // Indica si el producto está disponible para producción
+  Estado: string=''; // Indica si el producto está disponible para producción
   Materias_Primas: MateriaPrima[] = []; // Lista de materias primas necesarias para producir este producto
   Cantidad_MateriasPrimas: Number[] = []; //Que tanto se va a usar de cada materia prima
   Litros: number | undefined = undefined; //litros necesarios para la elaboracion de cada lote
@@ -25,7 +25,7 @@ export class Producto {
     this.Tipo_Empaquetado = data.Tipo_Empaquetado || '';
     this.Costo = data.Costo || undefined;
     this.Tamano_Lote = data.Tamano_Lote || undefined;
-    this.Activo = data.Activo || undefined;
+    this.Estado = data.Estado || '';
     this.Materias_Primas = data.Materias_Primas || [];
     this.Cantidad_MateriasPrimas = data.Cantidad_MateriasPrimas || [];
     this.Litros = data.Litros || undefined;

@@ -18,7 +18,6 @@
                 <th>Codigo</th>
                 <th>Nombre</th>
                 <th>Elaboracion</th>
-                <th>Tipo de empaquetado</th>
                 <th>Estado</th>
                 <th>Acciones</th>
             </tr>
@@ -28,8 +27,7 @@
                 <td>{{ producto.Codigo }}</td>
                 <td>{{ producto.Nombre }}</td>
                 <td>{{ producto.Elaboracion }}</td>
-                <td>{{ producto.Tipo_Empaquetado }}</td>
-                <td>{{ producto.Activo }}</td>
+                <td>{{ producto.Estado }}</td>
                 <td>
                     <!-- Botón de ver detalles -->
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarModal"
@@ -45,7 +43,7 @@
 <!-- Modal para agregar nuevo producto -->
 <div class="modal fade" id="agregarModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="agregarModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="agregarModalLabel">Agregar nuevo producto</h5>
@@ -54,14 +52,20 @@
             <div class="modal-body">
                 <form>
                     <div class="mb-3">
-                        <label for="materiaPrimaSelect" class="form-label">Seleccionar Materia Prima</label>
-                        <select [(ngModel)]="materiaPrimaSeleccionada" name="materiaPrima" class="form-select"
-                            id="materiaPrimaSelect" required>
-                            <option *ngFor="let materia of materiasPrimas" [ngValue]="materia">{{ materia.Nombre }}
-                            </option>
-                        </select>
-                    </div>
-
+                        <label for="nombre" class="form-label">Codigo</label>
+                        <input type="text" class="form-control" id="nombre" [(ngModel)]="nuevoProducto.Codigo" name="nombre"
+                          required>
+                      </div>
+                      <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" [(ngModel)]="nuevoProducto.Nombre" name="nombre"
+                          required>
+                      </div>
+                      <div class="mb-3">
+                        <label for="nombre" class="form-label">Elaboracion</label>
+                        <input type="text" class="form-control" id="nombre" [(ngModel)]="nuevoProducto.Elaboracion" name="nombre"
+                          required>
+                      </div>
                     <div class="mb-3">
                         <label for="Materias_Primas" class="form-label">Seleccione una Materia Prima</label>
                         <select class="form-select" id="Materias_Primas" [(ngModel)]="materiaPrimaSeleccionada">
@@ -90,6 +94,14 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div class="mb-3">
+                        <label for="Estado" class="form-label">Estado</label>
+                        <select class="form-control" id="Estado" [(ngModel)]="nuevoProducto.Estado"
+                          name="Estado" required disabled>
+                          <option value="Activo">Activo</option>
+                          <!-- Agregar más opciones según sea necesario -->
+                        </select>
+                      </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -103,7 +115,7 @@
 <!-- Modal para editar producto -->
 <div class="modal fade" id="editarModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="editarModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="editarModalLabel">Editar Detalles del Producto</h5>
@@ -124,7 +136,7 @@
                     <div class="mb-3">
                         <label for="editElaboracion" class="form-label">Elaboracion</label>
                         <input type="text" class="form-control" id="editElaboracion"
-                            [(ngModel)]="verDetalleProducto.Elaboracion" name="elaboracion" required>
+                            [(ngModel)]="verDetalleProducto.Elaboracion" name="editElaboracion" required>
                     </div>
 
                     <div class="mb-3">
@@ -155,18 +167,15 @@
                             </tr>
                         </tbody>
                     </table>
-
                     <div class="mb-3">
-                        <label for="editTipoEmpaquetado" class="form-label">Tipo de Empaquetado</label>
-                        <input type="text" class="form-control" id="editTipoEmpaquetado"
-                            [(ngModel)]="verDetalleProducto.Tipo_Empaquetado" name="tipoEmpaquetado" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="editPuntoReorden" class="form-label">Punto de Reorden</label>
-                        <input type="number" class="form-control" id="editPuntoReorden"
-                            [(ngModel)]="verDetalleProducto.Activo" name="puntoReorden" required>
-                    </div>
+                        <label for="Tipo" class="form-label">Estado</label>
+                        <select class="form-control" id="Tipo" [(ngModel)]="verDetalleProducto.Estado"
+                          name="Tipo" required>
+                          <option value="Activo">Activo</option>
+                          <option value="Inactivo">Inactivo</option>
+                          <!-- Agregar más opciones según sea necesario -->
+                        </select>
+                      </div>
                 </form>
             </div>
             <div class="modal-footer">

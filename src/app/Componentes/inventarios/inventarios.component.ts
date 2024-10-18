@@ -51,22 +51,36 @@ export class InventariosComponent {
 
   // Método para agregar una nueva materia prima
   agregarMateria() {
-    this.nuevaMateria.Id_Materia = this.GenerateRandomString(20); // Generar un ID único para la nueva materia
+    // Verificar que todos los campos estén completos
+    if (!this.nuevaMateria.Codigo || !this.nuevaMateria.Nombre || !this.nuevaMateria.Unidad_Medida ||
+        !this.nuevaMateria.Precio_unitario || !this.nuevaMateria.Tipo || !this.nuevaMateria.Marca ||
+        !this.nuevaMateria.Existencias || this.nuevaMateria.Punto_Reorden === undefined) {
+        
+        alert('Por favor, completa todos los campos antes de agregar la materia prima.');
+        return;
+    }
+
+    // Generar un ID único para la nueva materia prima
+    this.nuevaMateria.Id_Materia = this.GenerateRandomString(20);
+
+    // Crear una referencia al documento en Firestore
     let nuevaMateriaDoc = doc(this.firebase, "MateriasPrimas", this.nuevaMateria.Id_Materia);
 
     // Guardar la nueva materia en Firestore
     setDoc(nuevaMateriaDoc, JSON.parse(JSON.stringify(this.nuevaMateria)))
       .then(() => {
         alert("Materia prima agregada exitosamente");
-        this.limpiarFormulario();
+        this.limpiarFormulario(); // Limpiar el formulario después de agregar la materia prima
       })
       .catch((error) => {
         console.error("Error al agregar materia prima: ", error);
       });
 
+    // Cerrar el modal después de guardar
     let btnCerrar = document.getElementById('btnCerrarModalElemento');
     btnCerrar?.click();
-  }
+}
+
 
   // Método para seleccionar una materia prima para edición
   EditarModalMateria(materia: MateriaPrima) {

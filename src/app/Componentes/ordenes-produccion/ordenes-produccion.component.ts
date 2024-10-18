@@ -179,7 +179,6 @@ showFilteredOrders(orders: OrdenProduccion[]) {
           orders.forEach(order => {
               const tr = document.createElement('tr');
               tr.innerHTML = `
-                  <td>${order.id}</td>
                   <td>${order.fechaInicio ? new Date(order.fechaInicio).toLocaleDateString() : 'Sin fecha'}</td>
                   <td>${order.cantidad}</td>
                   <td>${order.descripcion || 'Sin descripción'}</td>
