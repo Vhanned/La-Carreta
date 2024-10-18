@@ -71,10 +71,6 @@ export class InventariosComponent {
     // Guardar la nueva materia en Firestore
     setDoc(nuevaMateriaDoc, JSON.parse(JSON.stringify(this.nuevaMateria)))
       .then(() => {
-<<<<<<< HEAD
-        alert("Materia prima agregada exitosamente");
-        this.limpiarFormulario(); // Limpiar el formulario después de agregar la materia prima
-=======
         Swal.fire({
           position: "center",
           icon: "success",
@@ -83,7 +79,6 @@ export class InventariosComponent {
           timer: 1000
         });
         this.limpiarFormulario();
->>>>>>> de1bcaf490bd2d1ab498b69eea638d5fe58f868c
       })
       .catch((error) => {
         console.error("Error al agregar materia prima: ", error);
