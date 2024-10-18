@@ -58,7 +58,13 @@ export class InventariosComponent {
         !this.nuevaMateria.Precio_unitario || !this.nuevaMateria.Tipo || !this.nuevaMateria.Marca ||
         !this.nuevaMateria.Existencias || this.nuevaMateria.Punto_Reorden === undefined) {
         
-        alert('Por favor, completa todos los campos antes de agregar la materia prima.');
+        Swal.fire({
+          position: "center",
+          icon: "warning",
+          title: "Por favor, completa todos los campos antes de agregar la materia prima.",
+          showConfirmButton: false,
+          timer: 1000
+        });
         return;
     }
 

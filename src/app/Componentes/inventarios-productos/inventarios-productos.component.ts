@@ -15,9 +15,8 @@ export class InventariosProductosComponent {
   nuevoProducto = new Producto();
   verDetalleProducto = new Producto();
   listaMateriasPrimas: MateriaPrima[] = [];
-  materiaPrimaSeleccionada: MateriaPrima | null = null;  // Materia prima seleccionada
+  materiaPrimaSeleccionada: MateriaPrima | null = null;  // Materia prima seleccionada en el menu desplegable
   cantidadSeleccionada: number | null = null;  // Cantidad de materia prima seleccionada
-  materiasPrimas: MateriaPrima[] = new Array();
 
 
   //Lista de productos
@@ -57,50 +56,64 @@ export class InventariosProductosComponent {
   
 
   agregarMateriaPrima() {
-    if (this.materiaPrimaSeleccionada && this.cantidadSeleccionada) {
+    //Verifica si hay una materia seleccionada en el menu
+    if (this.materiaPrimaSeleccionada) {
+      //Inserta la materia seleccionada en el arreglo de materias dentro de la clase producto
       this.nuevoProducto.Materias_Primas.push(this.materiaPrimaSeleccionada);
-      this.nuevoProducto.Cantidad_MateriasPrimas.push(this.cantidadSeleccionada);
+      //Agrega una cantidad por defecto para poder modificarse
+      this.nuevoProducto.Cantidad_MateriasPrimas.push(0);
+      //Elimina posibilidad de seleccionar la materia prima del menu desplegable
+      this.listaMateriasPrimas = this.listaMateriasPrimas.filter(materia => materia !== this.materiaPrimaSeleccionada);
+
       this.materiaPrimaSeleccionada = null; // Resetear la selección
-      this.cantidadSeleccionada = null; // Resetear la cantidad
     }
   }
   
 
   eliminarMateriaPrima(index: number) {
-    // Eliminar la materia prima y su cantidad correspondiente
-    this.verDetalleProducto.Materias_Primas.splice(index, 1);
+    // Elimina la materia prima del arreglo
+    const materiaEliminada = this.verDetalleProducto.Materias_Primas.splice(index, 1)[0];
+
+    // Elimina la cantidad correspondiente
     this.verDetalleProducto.Cantidad_MateriasPrimas.splice(index, 1);
-  }
+
+    // Vuelve a añadir la materia prima a la lista de materias primas disponibles
+    this.listaMateriasPrimas.push(materiaEliminada);
+}
+
 
   insertarProducto() {
-    if (this.nuevoProducto.Materias_Primas.length > 0) {
-      this.nuevoProducto.Id_Producto = this.GenerateRandomString(20); // Generar un ID único
-      let nuevaMateriaDoc = doc(this.firebase, "Productos", this.nuevoProducto.Id_Producto);
-  
-      // Guardar el nuevo producto en Firestore
-      setDoc(nuevaMateriaDoc, JSON.parse(JSON.stringify(this.nuevoProducto)))
-        .then(() => {
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Producto agregado exitosamente",
-            showConfirmButton: false,
-            timer: 1000
+
+    if(!this.nuevoProducto.Codigo || !this.nuevoProducto.Nombre || !this.nuevoProducto.Elaboracion ){
+      if (this.nuevoProducto.Materias_Primas.length > 0) {
+        this.nuevoProducto.Id_Producto = this.GenerateRandomString(20); // Generar un ID único
+        let nuevaMateriaDoc = doc(this.firebase, "Productos", this.nuevoProducto.Id_Producto);
+    
+        // Guardar el nuevo producto en Firestore
+        setDoc(nuevaMateriaDoc, JSON.parse(JSON.stringify(this.nuevoProducto)))
+          .then(() => {
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Producto agregado exitosamente",
+              showConfirmButton: false,
+              timer: 1000
+            });
+            this.limpiarFormulario();
+            this.closeModal(); // Llamar a la función para cerrar el modal
+          })
+          .catch((error) => {
+            console.error("Error al agregar el producto: ", error);
           });
-          this.limpiarFormulario();
-          this.closeModal(); // Llamar a la función para cerrar el modal
-        })
-        .catch((error) => {
-          console.error("Error al agregar el producto: ", error);
+      } else {
+        Swal.fire({
+          position: "top",
+          icon: "error",
+          title: "Por favor, agregue al menos una materia prima antes de guardar el producto.",
+          showConfirmButton: false,
+          timer: 1700
         });
-    } else {
-      Swal.fire({
-        position: "top",
-        icon: "error",
-        title: "Por favor, agregue al menos una materia prima antes de guardar el producto.",
-        showConfirmButton: false,
-        timer: 1700
-      });
+      }
     }
   }
   
