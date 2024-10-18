@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Firestore, collection, collectionData, doc, setDoc, deleteDoc } from '@angular/fire/firestore';
 import { MateriaPrima } from 'src/app/clases/clases.component';
 import { arrayRemove, query } from 'firebase/firestore';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'inventarios',
@@ -69,8 +71,19 @@ export class InventariosComponent {
     // Guardar la nueva materia en Firestore
     setDoc(nuevaMateriaDoc, JSON.parse(JSON.stringify(this.nuevaMateria)))
       .then(() => {
+<<<<<<< HEAD
         alert("Materia prima agregada exitosamente");
         this.limpiarFormulario(); // Limpiar el formulario después de agregar la materia prima
+=======
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Materia prima agregada exitosamente",
+          showConfirmButton: false,
+          timer: 1000
+        });
+        this.limpiarFormulario();
+>>>>>>> de1bcaf490bd2d1ab498b69eea638d5fe58f868c
       })
       .catch((error) => {
         console.error("Error al agregar materia prima: ", error);
@@ -92,7 +105,13 @@ export class InventariosComponent {
     let materiaDoc = doc(this.firebase, "MateriasPrimas", this.materiaAEditar.Id_Materia);
     setDoc(materiaDoc, JSON.parse(JSON.stringify(this.materiaAEditar)))
       .then(() => {
-        alert("Informacion actualizada exitosamente");
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Informacion actualizada exitosamente",
+          showConfirmButton: false,
+          timer: 1000
+        });
       })
       .catch((error) => {
         console.error("Error al actualizar la informacion: ", error);
@@ -107,7 +126,13 @@ export class InventariosComponent {
     let materiaDoc = doc(this.firebase, "MateriasPrimas", materia.Id_Materia);
     deleteDoc(materiaDoc)
       .then(() => {
-        alert("Materia prima eliminada exitosamente");
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Materia prima eliminada exitosamente",
+          showConfirmButton: false,
+          timer: 1000
+        });
       })
       .catch((error) => {
         console.error("Error al eliminar materia prima: ", error);

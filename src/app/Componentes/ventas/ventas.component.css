@@ -1,0 +1,137 @@
+/* Contenedor que actúa como "body" */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #874014;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Contenedor interno (blanco) */
+.inner-container {
+    background-color: white;
+    border-radius: 10px;
+    padding: 40px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px; 
+    width: 100%;       
+    height: auto;    
+    text-align: center;
+    border: 2px solid #2A3A50; 
+}
+
+/* Título */
+.Titulo h1 {
+    font-family: Arial, sans-serif;
+    font-size: 2.5rem;
+    color: #2A3A50;   
+    margin-bottom: 20px;
+}
+
+/* Subtítulo */
+.subtitulo {
+    font-family: Arial, sans-serif;
+    font-size: 1.5rem;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+/* Estilo general para inputs */
+.input-field {
+    width: 90%;
+    padding: 15px;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    border: 2px solid #2A3A50;
+    border-radius: 8px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    transition: all 0.3s ease;
+}
+
+/* Input de texto más alto para descripciones */
+.input-field.textarea {
+    height: 150px;
+    resize: none;
+}
+
+/* Input de fecha */
+.input-field.date {
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    border: 2px solid #2A3A50;
+    border-radius: 8px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Estilo del input al enfocar */
+.input-field:focus {
+    border-color: #FFD369;  /* Amarillo suave cuando se selecciona */
+    box-shadow: 0 0 8px rgba(255, 211, 105, 0.5);
+}
+
+/* Contenedor de botones */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Botones */
+.submit-btn, .edit-btn {
+    background-color: #2A3A50;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover, .edit-btn:hover {
+    background-color: #FFD369;
+    color: #2A3A50;
+}
+
+/* Estilo para los textos descriptivos */
+.formulario p {
+    font-family: Arial, sans-serif;
+    font-size: 1rem;
+    color: #2A3A50;
+    margin-bottom: 5px;
+    text-align: left;
+    padding-left: 4%;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .inner-container {
+        padding: 20px;
+    }
+
+    .Titulo h1 {
+        font-size: 2rem;
+    }
+
+    .subtitulo {
+        font-size: 1.25rem;
+    }
+
+    .input-field {
+        width: 95%; 
+    }
+
+    .submit-btn, .edit-btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+}

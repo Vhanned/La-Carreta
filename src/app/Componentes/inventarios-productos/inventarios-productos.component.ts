@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { collection, collectionData, doc, Firestore, query, setDoc } from '@angular/fire/firestore';
 import { MateriaPrima, Producto } from 'src/app/clases/clases.component';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'inventarios-productos',
@@ -78,7 +80,13 @@ export class InventariosProductosComponent {
       // Guardar el nuevo producto en Firestore
       setDoc(nuevaMateriaDoc, JSON.parse(JSON.stringify(this.nuevoProducto)))
         .then(() => {
-          alert("Producto agregado exitosamente");
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Producto agregado exitosamente",
+            showConfirmButton: false,
+            timer: 1000
+          });
           this.limpiarFormulario();
           this.closeModal(); // Llamar a la función para cerrar el modal
         })
@@ -86,7 +94,13 @@ export class InventariosProductosComponent {
           console.error("Error al agregar el producto: ", error);
         });
     } else {
-      alert("Por favor, agregue al menos una materia prima antes de guardar el producto.");
+      Swal.fire({
+        position: "top",
+        icon: "error",
+        title: "Por favor, agregue al menos una materia prima antes de guardar el producto.",
+        showConfirmButton: false,
+        timer: 1700
+      });
     }
   }
   
@@ -118,7 +132,13 @@ export class InventariosProductosComponent {
     let detalleDoc = doc(this.firebase, "Productos", this.verDetalleProducto.Id_Producto);
     setDoc(detalleDoc, JSON.parse(JSON.stringify(this.verDetalleProducto)))
       .then(() => {
-        alert("Información actualizada exitosamente");
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Información actualizada exitosamente",
+          showConfirmButton: false,
+          timer: 1000
+        });
       })
       .catch((error) => {
         console.error("Error al actualizar la información: ", error);
