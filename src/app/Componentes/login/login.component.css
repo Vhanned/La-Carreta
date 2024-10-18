@@ -82,10 +82,14 @@
     padding: 15px;
     color: white;
     font-size: 18px;
-    border-radius: 30px;
+    border-radius: 0px; /* Lo quite equisdede */
     cursor: pointer;
     transition: background 0.3s ease, transform 0.3s ease;
     width: 100%;  
+}
+
+.submit-btn-container {
+    overflow: hidden;
 }
 
 .submit-btn:hover {
