@@ -11,35 +11,31 @@ import Swal from 'sweetalert2';
 })
 export class InventariosProductosComponent {
 
-  //Agregar producto al inventario
   nuevoProducto = new Producto();
   verDetalleProducto = new Producto();
   listaMateriasPrimas: MateriaPrima[] = [];
-  materiaPrimaSeleccionada: MateriaPrima | null = null;  // Materia prima seleccionada en el menu desplegable
-  cantidadSeleccionada: number | null = null;  // Cantidad de materia prima seleccionada
+  materiaPrimaSeleccionada: MateriaPrima | null = null;
+  materiaPrimaSeleccionadaEditar: MateriaPrima | null = null;
 
-
-  //Lista de productos
   listaProductos: Producto[] = [];
 
-  
-
-  //Direccion en donde se guardan los productos en firebase
   ProductosBD = collection(this.firebase, "Productos");
 
   constructor(private firebase: Firestore) {
+    this.cargarProductos();
+    this.obtenerMateriasPrimas();
+  }
+
+  cargarProductos() {
     let q = query(this.ProductosBD);
     collectionData(q).subscribe((productoSnap) => {
       this.listaProductos = [];
       productoSnap.forEach((item) => {
         let producto = new Producto();
         producto.setData(item);
-        console.log(item);
         this.listaProductos.push(producto);
       });
     });
-
-    this.obtenerMateriasPrimas();
   }
 
   obtenerMateriasPrimas() {
@@ -53,111 +49,86 @@ export class InventariosProductosComponent {
     });
   }
 
-  
-
   agregarMateriaPrima() {
-    //Verifica si hay una materia seleccionada en el menu
     if (this.materiaPrimaSeleccionada) {
-      //Inserta la materia seleccionada en el arreglo de materias dentro de la clase producto
       this.nuevoProducto.Materias_Primas.push(this.materiaPrimaSeleccionada);
-      //Agrega una cantidad por defecto para poder modificarse
       this.nuevoProducto.Cantidad_MateriasPrimas.push(0);
-      //Elimina posibilidad de seleccionar la materia prima del menu desplegable
       this.listaMateriasPrimas = this.listaMateriasPrimas.filter(materia => materia !== this.materiaPrimaSeleccionada);
-
-      this.materiaPrimaSeleccionada = null; // Resetear la selección
+      this.materiaPrimaSeleccionada = null;
     }
   }
-  
 
-  eliminarMateriaPrima(index: number) {
-    // Elimina la materia prima del arreglo
-    const materiaEliminada = this.verDetalleProducto.Materias_Primas.splice(index, 1)[0];
+  agregarMateriaPrimaEditar() {
+    if (this.materiaPrimaSeleccionadaEditar) {
+      this.verDetalleProducto.Materias_Primas.push(this.materiaPrimaSeleccionadaEditar);
+      this.verDetalleProducto.Cantidad_MateriasPrimas.push(0);
+      this.listaMateriasPrimas = this.listaMateriasPrimas.filter(materia => materia !== this.materiaPrimaSeleccionadaEditar);
+      this.materiaPrimaSeleccionadaEditar = null;
+    }
+  }
 
-    // Elimina la cantidad correspondiente
-    this.verDetalleProducto.Cantidad_MateriasPrimas.splice(index, 1);
+  eliminarMateriaPrima(index: number, editMode: boolean = false) {
+    let materiaEliminada;
+    if (editMode) {
+      materiaEliminada = this.verDetalleProducto.Materias_Primas.splice(index, 1)[0];
+      this.verDetalleProducto.Cantidad_MateriasPrimas.splice(index, 1);
+    } else {
+      materiaEliminada = this.nuevoProducto.Materias_Primas.splice(index, 1)[0];
+      this.nuevoProducto.Cantidad_MateriasPrimas.splice(index, 1);
+    }
 
-    // Vuelve a añadir la materia prima a la lista de materias primas disponibles
     this.listaMateriasPrimas.push(materiaEliminada);
-}
-
+  }
 
   insertarProducto() {
-
-    if(!this.nuevoProducto.Codigo || !this.nuevoProducto.Nombre || !this.nuevoProducto.Elaboracion ){
-      if (this.nuevoProducto.Materias_Primas.length > 0) {
-        this.nuevoProducto.Id_Producto = this.GenerateRandomString(20); // Generar un ID único
-        let nuevaMateriaDoc = doc(this.firebase, "Productos", this.nuevoProducto.Id_Producto);
-    
-        // Guardar el nuevo producto en Firestore
-        setDoc(nuevaMateriaDoc, JSON.parse(JSON.stringify(this.nuevoProducto)))
-          .then(() => {
-            Swal.fire({
-              position: "center",
-              icon: "success",
-              title: "Producto agregado exitosamente",
-              showConfirmButton: false,
-              timer: 1000
-            });
-            this.limpiarFormulario();
-            this.closeModal(); // Llamar a la función para cerrar el modal
-          })
-          .catch((error) => {
-            console.error("Error al agregar el producto: ", error);
-          });
-      } else {
-        Swal.fire({
-          position: "top",
-          icon: "error",
-          title: "Por favor, agregue al menos una materia prima antes de guardar el producto.",
-          showConfirmButton: false,
-          timer: 1700
-        });
-      }
+    if (!this.nuevoProducto.Codigo || !this.nuevoProducto.Nombre || !this.nuevoProducto.Elaboracion || this.nuevoProducto.Materias_Primas.length === 0) {
+      Swal.fire('Error', 'Todos los campos son obligatorios y debe agregar al menos una materia prima', 'error');
+      return;
     }
-  }
-  
-  closeModal() {
-    let btnCerrar = document.getElementById('btnCerrarModalElemento');
-    btnCerrar?.click();
-  }
-  
 
-  GenerateRandomString(num: number): string {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    const charactersLength = characters.length;
-    for (let i = 0; i < num; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    this.nuevoProducto.Id_Producto = this.GenerateRandomString(20);
+    let nuevaMateriaDoc = doc(this.firebase, "Productos", this.nuevoProducto.Id_Producto);
+
+    setDoc(nuevaMateriaDoc, JSON.parse(JSON.stringify(this.nuevoProducto)))
+      .then(() => {
+        Swal.fire('Éxito', 'Producto agregado correctamente', 'success');
+        this.nuevoProducto = new Producto(); // Limpiar formulario
+        this.cargarProductos(); // Refrescar lista de productos
+      })
+      .catch((error) => {
+        Swal.fire('Error', 'Ocurrió un error al guardar el producto', 'error');
+        console.error("Error guardando producto: ", error);
+      });
+  }
+
+  editarDetalles() {
+    if (!this.verDetalleProducto.Codigo || !this.verDetalleProducto.Nombre || !this.verDetalleProducto.Elaboracion || this.verDetalleProducto.Materias_Primas.length === 0) {
+      Swal.fire('Error', 'Todos los campos son obligatorios y debe agregar al menos una materia prima', 'error');
+      return;
     }
-    return result;
-  }
 
-  limpiarFormulario() {
-    this.nuevoProducto = new Producto(); // Resetea el nuevo producto
+    let productoDoc = doc(this.firebase, "Productos", this.verDetalleProducto.Id_Producto);
+    setDoc(productoDoc, JSON.parse(JSON.stringify(this.verDetalleProducto)))
+      .then(() => {
+        Swal.fire('Éxito', 'Producto actualizado correctamente', 'success');
+        this.cargarProductos(); // Refrescar lista de productos
+      })
+      .catch((error) => {
+        Swal.fire('Error', 'Ocurrió un error al actualizar el producto', 'error');
+        console.error("Error actualizando producto: ", error);
+      });
   }
 
   verModalDetalles(producto: Producto) {
     this.verDetalleProducto = producto;
   }
 
-  editarDetalles() {
-    let detalleDoc = doc(this.firebase, "Productos", this.verDetalleProducto.Id_Producto);
-    setDoc(detalleDoc, JSON.parse(JSON.stringify(this.verDetalleProducto)))
-      .then(() => {
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Información actualizada exitosamente",
-          showConfirmButton: false,
-          timer: 1000
-        });
-      })
-      .catch((error) => {
-        console.error("Error al actualizar la información: ", error);
-      });
-
-    let btnCerrarEditar = document.getElementById('btnCerrarEditarElemento');
-    btnCerrarEditar?.click();
+  GenerateRandomString(length: number): string {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
   }
 }
