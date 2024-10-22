@@ -52,6 +52,7 @@ h2 {
 
 .search-bar {
     margin-bottom: 15px;
+    margin-right: 40vh;
 }
 
 .search-bar input {
@@ -133,5 +134,5 @@ h2 {
 
 #ContenedorBusqueda{
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
 }

@@ -125,3 +125,23 @@ h2 {
 }
 
 
+.form-control{
+    max-width: 50vh;
+    display: flex;
+}
+
+#MateriasAgregadas{
+    max-width: 90vh;
+    justify-content: flex-end;
+}
+
+.modal-body {
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.formulario {
+    padding-right: 15px; /* Espacio entre el formulario y la tabla */
+}
+
+

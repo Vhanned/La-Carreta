@@ -11,8 +11,13 @@ import Swal from 'sweetalert2';
 })
 export class InventariosProductosComponent {
 
+  //variable temporal para agregar un nuevo producto
   nuevoProducto = new Producto();
+  //variable temporal para mostrar las materias primas disponibles
+  ModalverMateriasPrimasAgregar:MateriaPrima[] = [];
+  //variable para ver la informacion del producto seleccionado y editarla de ser necesario
   verDetalleProducto = new Producto();
+  //
   listaMateriasPrimas: MateriaPrima[] = [];
   materiaPrimaSeleccionada: MateriaPrima | null = null;
   materiaPrimaSeleccionadaEditar: MateriaPrima | null = null;
@@ -20,10 +25,21 @@ export class InventariosProductosComponent {
   listaProductos: Producto[] = [];
 
   ProductosBD = collection(this.firebase, "Productos");
+  materiasPrimasBD = collection(this.firebase, "MateriasPrimas");
 
   constructor(private firebase: Firestore) {
     this.cargarProductos();
     this.obtenerMateriasPrimas();
+    let q = query(this.materiasPrimasBD);
+    collectionData(q).subscribe((materiaPrimaSnap) => {
+      this.ModalverMateriasPrimasAgregar = [];
+      materiaPrimaSnap.forEach((item) => {
+        let materiaPrima = new MateriaPrima();
+        materiaPrima.setData(item);
+        console.log(item);
+        this.ModalverMateriasPrimasAgregar.push(materiaPrima);
+      });
+    });
   }
 
   cargarProductos() {
@@ -49,36 +65,7 @@ export class InventariosProductosComponent {
     });
   }
 
-  agregarMateriaPrima() {
-    if (this.materiaPrimaSeleccionada) {
-      this.nuevoProducto.Materias_Primas.push(this.materiaPrimaSeleccionada);
-      this.nuevoProducto.Cantidad_MateriasPrimas.push(0);
-      this.listaMateriasPrimas = this.listaMateriasPrimas.filter(materia => materia !== this.materiaPrimaSeleccionada);
-      this.materiaPrimaSeleccionada = null;
-    }
-  }
 
-  agregarMateriaPrimaEditar() {
-    if (this.materiaPrimaSeleccionadaEditar) {
-      this.verDetalleProducto.Materias_Primas.push(this.materiaPrimaSeleccionadaEditar);
-      this.verDetalleProducto.Cantidad_MateriasPrimas.push(0);
-      this.listaMateriasPrimas = this.listaMateriasPrimas.filter(materia => materia !== this.materiaPrimaSeleccionadaEditar);
-      this.materiaPrimaSeleccionadaEditar = null;
-    }
-  }
-
-  eliminarMateriaPrima(index: number, editMode: boolean = false) {
-    let materiaEliminada;
-    if (editMode) {
-      materiaEliminada = this.verDetalleProducto.Materias_Primas.splice(index, 1)[0];
-      this.verDetalleProducto.Cantidad_MateriasPrimas.splice(index, 1);
-    } else {
-      materiaEliminada = this.nuevoProducto.Materias_Primas.splice(index, 1)[0];
-      this.nuevoProducto.Cantidad_MateriasPrimas.splice(index, 1);
-    }
-
-    this.listaMateriasPrimas.push(materiaEliminada);
-  }
 
   insertarProducto() {
     if (!this.nuevoProducto.Codigo || !this.nuevoProducto.Nombre || !this.nuevoProducto.Elaboracion || this.nuevoProducto.Materias_Primas.length === 0) {
