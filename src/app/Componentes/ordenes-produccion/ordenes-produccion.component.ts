@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Firestore, collectionData, collection, addDoc, doc, updateDoc, deleteDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import Swal from 'sweetalert2'; // Importamos SweetAlert
 
 interface OrdenProduccion {
   id: string;
@@ -44,15 +45,15 @@ export class OrdenesProduccionComponent implements OnInit {
   CrearOrdenProduccion() {
     const nuevaOrden: OrdenProduccion = {
       id: '', // Firestore generará el ID
-      fechaInicio: this.formatDateForStorage(this.fechaInicio),
-      fechaFin: this.fechaFin ? this.formatDateForStorage(this.fechaFin) : '',  // Fecha de finalización
+      fechaInicio: this.fechaInicio ? this.formatDateForStorage(this.fechaInicio) : '', // Corregir formato de fecha
+      fechaFin: this.fechaFin ? this.formatDateForStorage(this.fechaFin) : '', // Corregir formato de fecha
       cantidad: this.cantidad,
       descripcion: this.descripcion,
       responsable: this.responsable,
       status: 'Pending',
-      fechaCreacion: new Date().toISOString()  // Guardamos la fecha de creación
+      fechaCreacion: new Date().toISOString()  // Guardamos la fecha de creación actual
     };
-
+  
     const ordenesCollection = collection(this.firebase, 'ordenes');
     addDoc(ordenesCollection, nuevaOrden)
       .then(() => {
@@ -96,24 +97,48 @@ export class OrdenesProduccionComponent implements OnInit {
   }
 
   EliminarOrdenProduccion(id: string) {
-    const ordenRef = doc(this.firebase, 'ordenes', id);
-    deleteDoc(ordenRef)
-      .then(() => {
-        console.log('Orden eliminada con éxito');
-      })
-      .catch((error) => {
-        console.error('Error al eliminar la orden: ', error);
-      });
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "No podrás revertir esta acción",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const ordenRef = doc(this.firebase, 'ordenes', id);
+        deleteDoc(ordenRef)
+          .then(() => {
+            Swal.fire(
+              'Eliminada',
+              'La orden ha sido eliminada.',
+              'success'
+            );
+          })
+          .catch((error) => {
+            Swal.fire(
+              'Error',
+              'Hubo un problema al eliminar la orden.',
+              'error'
+            );
+          });
+      }
+    });
   }
 
   MostrarDetalles(orden: OrdenProduccion) {
-    this.selectedOrden = orden;
     const formattedDate = orden.fechaInicio ? this.formatDateForDisplay(orden.fechaInicio) : "Fecha no disponible";
-    alert(`Detalles:
-      - Fecha de Inicio: ${formattedDate}
-      - Cantidad: ${orden.cantidad}
-      - Descripción: ${orden.descripcion}
-      - Responsable: ${orden.responsable}`);
+    Swal.fire({
+      title: 'Detalles de la Orden',
+      html: `<b>Fecha de Inicio:</b> ${formattedDate}<br>
+             <b>Cantidad:</b> ${orden.cantidad}<br>
+             <b>Descripción:</b> ${orden.descripcion}<br>
+             <b>Responsable:</b> ${orden.responsable}`,
+      icon: 'info',
+      confirmButtonText: 'Cerrar'
+    });
   }
 
   resetForm() {
@@ -135,19 +160,20 @@ export class OrdenesProduccionComponent implements OnInit {
     const startDateInput = (document.getElementById('start') as HTMLInputElement).value;
     const endDateInput = (document.getElementById('end') as HTMLInputElement).value;
   
-    const startDate = this.convertToComparableDate(startDateInput);
-    const endDate = this.convertToComparableDate(endDateInput);
-  
-    if (!startDate || !endDate) {
-      console.warn('Por favor ingresa fechas válidas.');
+    if (!startDateInput || !endDateInput) {
+      // Si no se seleccionan fechas, mostramos todas las órdenes
+      this.RestablecerListaCompleta();
       return;
     }
   
+    const startDate = new Date(startDateInput);
+    const endDate = new Date(endDateInput);
+    endDate.setHours(23, 59, 59, 999); // Incluimos todo el día de la fecha final
+  
+    // Filtramos por la fecha de creación que esté dentro del rango
     const filteredOrders = this.ordenesOriginales.filter(order => {
-      const orderDate = this.convertToComparableDate(order.fechaInicio);
-      
-      // Verificamos si `orderDate` no es nulo antes de hacer la comparación
-      return orderDate && orderDate >= startDate && orderDate <= endDate;
+      const creationDate = new Date(order.fechaCreacion!);
+      return creationDate >= startDate && creationDate <= endDate;
     });
   
     console.log('Órdenes filtradas:', filteredOrders);
@@ -159,8 +185,16 @@ export class OrdenesProduccionComponent implements OnInit {
     });
   }
 
+  validarNombre(event: KeyboardEvent) {
+    const pattern = /[a-zA-Z\s]/;
+    const inputChar = String.fromCharCode(event.charCode);
+    
+    if (!pattern.test(inputChar)) {
+      event.preventDefault(); // Prevenir la entrada de caracteres inválidos
+    }
+  }
+
   convertToComparableDate(dateString: string): Date | null {
-    // Cambiamos el formato de la fecha de dd/MM/yyyy a un objeto Date
     const [day, month, year] = dateString.split('/').map(Number);
     return !isNaN(day) && !isNaN(month) && !isNaN(year) ? new Date(year, month - 1, day) : null;
   }
@@ -171,7 +205,7 @@ export class OrdenesProduccionComponent implements OnInit {
   }
 
   formatDateForStorage(dateString: string): string {
-    const [day, month, year] = dateString.split('/');
+    const [year, month, day] = dateString.split('-');
     return `${year}-${month}-${day}T00:00:00.000Z`;
   }
 
