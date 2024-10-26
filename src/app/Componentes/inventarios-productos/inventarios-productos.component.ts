@@ -14,13 +14,13 @@ export class InventariosProductosComponent {
   //variable temporal para agregar un nuevo producto
   nuevoProducto = new Producto();
   //variable temporal para mostrar las materias primas disponibles
-  ModalverMateriasPrimasAgregar:MateriaPrima[] = [];
+  ModalverMateriasPrimasAgregar: MateriaPrima[] = [];
   //variable para ver la informacion del producto seleccionado y editarla de ser necesario
   verDetalleProducto = new Producto();
   //
   listaMateriasPrimas: MateriaPrima[] = [];
-  materiaPrimaSeleccionada: MateriaPrima | null = null;
-  materiaPrimaSeleccionadaEditar: MateriaPrima | null = null;
+  //Materias primas agregadas que se mostraran en en la tabla de agregados del modal
+  MateriasPrimasAgregadas: MateriaPrima[] = [];
 
   listaProductos: Producto[] = [];
 
@@ -49,10 +49,17 @@ export class InventariosProductosComponent {
       productoSnap.forEach((item) => {
         let producto = new Producto();
         producto.setData(item);
+
+        // Asegurar que la cantidad de materias primas esté correctamente inicializada
+        if (!producto.Cantidad_MateriasPrimas || producto.Cantidad_MateriasPrimas.length !== producto.Materias_Primas.length) {
+          producto.Cantidad_MateriasPrimas = Array(producto.Materias_Primas.length).fill(0);
+        }
+
         this.listaProductos.push(producto);
       });
     });
   }
+
 
   obtenerMateriasPrimas() {
     const materiasPrimasBD = collection(this.firebase, "MateriasPrimas");
@@ -65,6 +72,57 @@ export class InventariosProductosComponent {
     });
   }
 
+  AgregarMateriaProducto(materia: MateriaPrima) {
+    // Verifica si la materia prima ya ha sido agregada al producto
+    let existeMateria = this.nuevoProducto.Materias_Primas.find(m => m.Id_Materia === materia.Id_Materia);
+
+    if (!existeMateria) {
+      // Agregar la materia prima al array Materias_Primas
+      this.nuevoProducto.Materias_Primas.push(materia);
+
+      // Asegurar que también agregamos una cantidad predeterminada en Cantidad_MateriasPrimas
+    } else {
+      console.log('Esta materia prima ya ha sido agregada.');
+      Swal.fire('Error', 'Esta materia prima ya ha sido agregada.', 'error');
+    }
+  }
+
+
+  AgregarMateriaEditarProducto(materia: MateriaPrima) {
+    // Verifica si la materia prima ya ha sido agregada al producto
+    let existeMateria = this.verDetalleProducto.Materias_Primas.find(m => m.Id_Materia === materia.Id_Materia);
+
+    if (!existeMateria) {
+      // Agregar la materia prima al array Materias_Primas
+      this.verDetalleProducto.Materias_Primas.push(materia);
+
+      // Asegurar que también agregamos una cantidad predeterminada en Cantidad_MateriasPrimas
+      this.verDetalleProducto.Cantidad_MateriasPrimas.push(0);  // Inicializar la cantidad en 0
+    } else {
+      Swal.fire('Error', 'Esta materia prima ya ha sido agregada.', 'error');
+    }
+  }
+
+  LimpiarFormulario() {
+    this.nuevoProducto = new Producto();
+    this.MateriasPrimasAgregadas = [];
+  }
+
+  EliminarMateriaProducto(index: number) {
+    // Eliminar el elemento de Materias_Primas usando el índice
+    this.nuevoProducto.Materias_Primas.splice(index, 1);
+
+    // También eliminar la cantidad correspondiente del array Cantidad_MateriasPrimas
+    this.nuevoProducto.Cantidad_MateriasPrimas.splice(index, 1);
+  }
+
+  EliminarMateriaEditarProducto(index: number) {
+    // Eliminar el elemento de Materias_Primas usando el índice
+    this.verDetalleProducto.Materias_Primas.splice(index, 1);
+
+    // También eliminar la cantidad correspondiente del array Cantidad_MateriasPrimas
+    this.verDetalleProducto.Cantidad_MateriasPrimas.splice(index, 1);
+  }
 
 
   insertarProducto() {
@@ -79,13 +137,16 @@ export class InventariosProductosComponent {
     setDoc(nuevaMateriaDoc, JSON.parse(JSON.stringify(this.nuevoProducto)))
       .then(() => {
         Swal.fire('Éxito', 'Producto agregado correctamente', 'success');
-        this.nuevoProducto = new Producto(); // Limpiar formulario
+        this.LimpiarFormulario(); // Limpiar formulario
         this.cargarProductos(); // Refrescar lista de productos
       })
       .catch((error) => {
         Swal.fire('Error', 'Ocurrió un error al guardar el producto', 'error');
         console.error("Error guardando producto: ", error);
       });
+
+    let btnCerrar = document.getElementById("CerrarAgregarProducto");
+    btnCerrar?.click()
   }
 
   editarDetalles() {
@@ -104,10 +165,14 @@ export class InventariosProductosComponent {
         Swal.fire('Error', 'Ocurrió un error al actualizar el producto', 'error');
         console.error("Error actualizando producto: ", error);
       });
+      let CerrarEditarModalProducto = document.getElementById("CerrarEditarProducto");
+      CerrarEditarModalProducto?.click();
   }
 
   verModalDetalles(producto: Producto) {
+    console.log(producto);
     this.verDetalleProducto = producto;
+    console.log(this.verDetalleProducto.Cantidad_MateriasPrimas)
   }
 
   GenerateRandomString(length: number): string {
@@ -118,4 +183,9 @@ export class InventariosProductosComponent {
     }
     return result;
   }
+
+  trackByIndex(index: number, item: any): number {
+    return index;
+  }
+
 }

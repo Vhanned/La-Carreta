@@ -46,7 +46,7 @@ export class MateriaPrima {
   Nombre: string = ''; // Nombre de la materia prima (ej. "Caseína", "Leche Fluida")
   Costo_promedio: number | undefined = undefined; //Costo de la materia prima, sera un valor por defecto el cual podran editar en el reporte del dia en caso de ser necesario
   Unidad_Medida: string = ''; // Unidad de medida (litros, kilogramos, etc.)
-  Existencias: number | undefined = undefined; //Registro de cuando se agega, en dado caso seria en una nueva coleccion
+  Existencias: number | undefined = undefined; //Registro de cuando se agrega, en dado caso seria en una nueva coleccion
   Marca: string = '';
   Tipo: string = '';
   Precio_unitario: number | undefined = undefined;
@@ -75,7 +75,8 @@ export class Receta {
 
   Id_Receta: string = ''; // ID único de la solicitud
   Id_Producto: string = '';
-  //Nombre_Producto:string=''
+  Nombre_Producto:string=''
+  Producto_Elaborado: Producto[] = [];
   Cantidad_Producto: number | undefined = undefined;
   Materia_Prima: MateriaPrima[] = []; // ID de la materia prima solicitada
   Cantidad_Materia: number[] = [];
@@ -86,7 +87,6 @@ export class Receta {
   Fecha_Finalizacion: string = ''; //Cuando se termino 
   Solicitante: string = '';
   Estado: string = ''; // Estado de la receta generada, materia prima entregada, en proceso, finalizado
-  Tinas: TinaProduccion[] = [];
   Usuario_Elabroacion: string = '';
   Tiempo_elaboracion_total: string = '';
   Clave_Lote: string = '';
@@ -104,7 +104,6 @@ export class Receta {
     this.Fecha_Finalizacion = data.Fecha_Finalizacion || '';
     this.Solicitante = data.Solicitante || '';
     this.Estado = data.Estado || '';
-    this.Tinas = data.Tinas || [];
     this.Usuario_Elabroacion = data.Usuario_Elabroacion || '';
     this.Tiempo_elaboracion_total = data.Tiempo_elaboracion_total || '';
     this.Clave_Lote = data.Clave_Lote || '';

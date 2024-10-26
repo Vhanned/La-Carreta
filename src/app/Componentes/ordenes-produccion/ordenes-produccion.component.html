@@ -30,7 +30,6 @@
             <th>Fecha de Inicio</th>
             <th>Fecha de Finalización</th>
             <th>Cantidad</th>
-            <th>Descripción</th>
             <th>Responsable</th>
             <th>Acciones</th>
           </tr>
@@ -41,7 +40,6 @@
             <td>{{ orden.fechaInicio ? (orden.fechaInicio | date: 'dd/MM/yyyy') : 'Sin fecha' }}</td>
             <td>{{ orden.fechaFin ? (orden.fechaFin | date: 'dd/MM/yyyy') : 'Sin fecha' }}</td>
             <td>{{ orden.cantidad }}</td>
-            <td>{{ orden.descripcion || 'Sin descripción' }}</td>
             <td>{{ orden.responsable || 'Sin responsable' }}</td>
             <td>
               <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="EditarOrdenProduccion(orden); creatingNew = false;">Editar</button>
@@ -58,7 +56,7 @@
 
 <!-- Modal para Crear o Editar Órdenes de Producción -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">{{ creatingNew ? 'Nueva Orden de Producción' : 'Editar Orden de Producción' }}</h1>
@@ -66,25 +64,83 @@
       </div>
       <div class="modal-body">
         <form>
-          <div class="mb-3">
-            <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
-            <input type="date" class="form-control" id="fechaInicio" [(ngModel)]="fechaInicio" name="fechaInicio" required>
-          </div>
-          <div class="mb-3">
-            <label for="fechaFin" class="form-label">Fecha de Finalización</label>
-            <input type="date" class="form-control" id="fechaFin" [(ngModel)]="fechaFin" name="fechaFin" required>
-          </div>
-          <div class="mb-3">
-            <label for="cantidad" class="form-label">Cantidad a Producir</label>
-            <input type="number" class="form-control" id="cantidad" [(ngModel)]="cantidad" name="cantidad" placeholder="Ingrese la cantidad" required>
-          </div>
-          <div class="mb-3">
-            <label for="descripcionProducto" class="form-label">Descripción del Producto</label>
-            <textarea class="form-control" id="descripcionProducto" [(ngModel)]="descripcion" name="descripcion" rows="3" placeholder="Descripción del producto" required></textarea>
-          </div>
-          <div class="mb-3">
-            <label for="responsable" class="form-label">Responsable</label>
-            <input type="text" class="form-control" id="responsable" [(ngModel)]="responsable" name="responsable" placeholder="Nombre del responsable" required>
+          <div class="d-flex">
+            <div class="formulario w-100">
+              <div class="mb-3">
+                <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
+                <input type="date" class="form-control" id="fechaInicio" [(ngModel)]="fechaInicio" name="fechaInicio" required>
+              </div>
+              <div class="mb-3">
+                <label for="fechaFin" class="form-label">Fecha de Finalización</label>
+                <input type="date" class="form-control" id="fechaFin" [(ngModel)]="fechaFin" name="fechaFin" required>
+              </div>
+              <div class="mb-3">
+                <label for="cantidad" class="form-label">Cantidad a Producir</label>
+                <input type="number" class="form-control" id="cantidad" [(ngModel)]="cantidad" name="cantidad" placeholder="Ingrese la cantidad" required>
+              </div>
+              <div class="mb-3">
+                <label for="responsable" class="form-label">Responsable</label>
+                <input type="text" class="form-control" id="responsable" [(ngModel)]="responsable" name="responsable" placeholder="Nombre del responsable" required>
+              </div>
+            </div>
+            <div class="tabla ms-s w-100">
+              <h3 style="color: black;">Lista de productos disponibles para su fabricacion</h3>
+              <table class="inventory-table">
+                  <thead>
+                      <tr>
+                        <th>Codigo</th>
+                        <th>Nombre</th>
+                        <th>Tipo de empaquetado</th>
+                        <th>Tiempo de elaboracion (Hrs)</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let producto of ListaProductos">
+                        <td>{{ producto.Codigo }}</td>
+                        <td>{{ producto.Nombre }}</td>
+                        <td>{{ producto.Tipo_Empaquetado }}</td>
+                        <td>{{ producto.Tiempo_Elaboracion}}</td>
+                        <td>{{ producto.Estado }}</td>
+                        <td>
+                          <button id="BotonEditarMateria" class="btn btn-outline-danger"
+                              (click)="AgregarProductoProduccion(producto)">
+                              Agregar
+                          </button>
+                      </td>
+                      </tr>
+                  </tbody>
+              </table>
+
+              <!--Tabla de productos agregados a la orden de produccion-->
+              <h3 style="color: black;">Lista de productos a producir</h3>
+              <table id="MateriasAgregadas" class="table mt-3">
+                  <thead>
+                      <tr>
+                          <th>Producto</th>
+                          <th>Cantidad a producir (Lts)</th>
+                          <th>Accion</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let ProductoAgregado of ProductosOrdenProduccion">
+                          <td>{{ProductoAgregado.Nombre_Producto}}</td>
+                          <td>
+                              <input type="number" min="0" name="CantidadMateria" id="CantidadMateria"
+                                  [(ngModel)]="ProductoAgregado.Cantidad_Producto">
+                          </td>
+                          <td>{{ProductoAgregado.Estado}}</td>
+                          <td>
+                              <button id="BotonEditarMateia" class="btn btn-outline-danger"
+                                  >
+                                  Eliminar
+                              </button>
+                          </td>
+                      </tr>
+                  </tbody>             
+              </table>
+            </div>
           </div>
         </form>
       </div>

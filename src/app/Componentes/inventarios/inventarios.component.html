@@ -94,7 +94,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="existencias" class="form-label">Existencias</label>
-                        <input type="number" class="form-control" id="existencias" [(ngModel)]="nuevaMateria.Existencias" name="existencias" required>
+                        <input type="number" min="0" class="form-control" id="existencias" [(ngModel)]="nuevaMateria.Existencias" name="existencias" required>
                     </div>
                     <div class="mb-3">
                         <label for="punto_reorden" class="form-label">Punto de Reorden</label>

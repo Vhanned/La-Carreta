@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Firestore, collectionData, collection, addDoc, doc, updateDoc, deleteDoc } from '@angular/fire/firestore';
+import { Firestore, collectionData, collection, addDoc, doc, updateDoc, deleteDoc, query } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { Producto, Receta } from 'src/app/clases/clases.component';
 import Swal from 'sweetalert2'; // Importamos SweetAlert
 
 interface OrdenProduccion {
   id: string;
   fechaInicio: string;
   fechaFin?: string;  // Fecha de finalización opcional
-  cantidad: number; 
+  cantidad: number;
   descripcion: string;
   responsable: string;
   status?: string;
@@ -30,9 +31,39 @@ export class OrdenesProduccionComponent implements OnInit {
   selectedOrden: OrdenProduccion | null = null;
   creatingNew: boolean = true;
 
+  //Lista de los productos activos
+  ListaProductos: Producto[] = [];
+
+  //Lista de productos agregados a la orden de produccion
+  ProductosOrdenProduccion: Receta[]=[];
+
+  ProductosBD = collection(this.firebase, "Productos");
+
   constructor(private firebase: Firestore) {
     const ordenesCollection = collection(this.firebase, 'ordenes');
     this.ordenes = collectionData(ordenesCollection, { idField: 'id' }) as Observable<OrdenProduccion[]>;
+
+    let q = query(this.ProductosBD);
+    collectionData(q).subscribe((productoSnap) => {
+      this.ListaProductos = [];  // Reiniciar la lista de productos
+      productoSnap.forEach((item) => {
+        let producto = new Producto();
+        producto.setData(item);
+
+        // Verificar si el producto está en estado "Activo"
+        if (producto.Estado === "Activo") {
+
+          // Asegurar que la cantidad de materias primas esté correctamente inicializada
+          if (!producto.Cantidad_MateriasPrimas || producto.Cantidad_MateriasPrimas.length !== producto.Materias_Primas.length) {
+            producto.Cantidad_MateriasPrimas = Array(producto.Materias_Primas.length).fill(0);
+          }
+
+          // Agregar el producto a la lista si está activo
+          this.ListaProductos.push(producto);
+        }
+      });
+    });
+
   }
 
   ngOnInit(): void {
@@ -40,6 +71,7 @@ export class OrdenesProduccionComponent implements OnInit {
       this.ordenesOriginales = data;  // Guardamos la lista original de órdenes
       console.log('Fetched Orders:', data);
     });
+
   }
 
   CrearOrdenProduccion() {
@@ -53,7 +85,7 @@ export class OrdenesProduccionComponent implements OnInit {
       status: 'Pending',
       fechaCreacion: new Date().toISOString()  // Guardamos la fecha de creación actual
     };
-  
+
     const ordenesCollection = collection(this.firebase, 'ordenes');
     addDoc(ordenesCollection, nuevaOrden)
       .then(() => {
@@ -76,6 +108,14 @@ export class OrdenesProduccionComponent implements OnInit {
     this.responsable = orden.responsable;
   }
 
+  AgregarProductoProduccion(producto: Producto) {
+
+  }
+
+  EliminarProductoOrden(elemento:any){
+
+  }
+
   GuardarCambios() {
     if (this.selectedOrden) {
       const ordenRef = doc(this.firebase, 'ordenes', this.selectedOrden.id);
@@ -86,13 +126,13 @@ export class OrdenesProduccionComponent implements OnInit {
         descripcion: this.descripcion,
         responsable: this.responsable
       })
-      .then(() => {
-        this.resetForm();
-        this.closeModal();
-      })
-      .catch((error) => {
-        console.error('Error al actualizar la orden: ', error);
-      });
+        .then(() => {
+          this.resetForm();
+          this.closeModal();
+        })
+        .catch((error) => {
+          console.error('Error al actualizar la orden: ', error);
+        });
     }
   }
 
@@ -159,25 +199,25 @@ export class OrdenesProduccionComponent implements OnInit {
   BuscarProduccion() {
     const startDateInput = (document.getElementById('start') as HTMLInputElement).value;
     const endDateInput = (document.getElementById('end') as HTMLInputElement).value;
-  
+
     if (!startDateInput || !endDateInput) {
       // Si no se seleccionan fechas, mostramos todas las órdenes
       this.RestablecerListaCompleta();
       return;
     }
-  
+
     const startDate = new Date(startDateInput);
     const endDate = new Date(endDateInput);
     endDate.setHours(23, 59, 59, 999); // Incluimos todo el día de la fecha final
-  
+
     // Filtramos por la fecha de creación que esté dentro del rango
     const filteredOrders = this.ordenesOriginales.filter(order => {
       const creationDate = new Date(order.fechaCreacion!);
       return creationDate >= startDate && creationDate <= endDate;
     });
-  
+
     console.log('Órdenes filtradas:', filteredOrders);
-  
+
     // Actualizamos el observable con las órdenes filtradas
     this.ordenes = new Observable<OrdenProduccion[]>(subscriber => {
       subscriber.next(filteredOrders);
@@ -188,7 +228,7 @@ export class OrdenesProduccionComponent implements OnInit {
   validarNombre(event: KeyboardEvent) {
     const pattern = /[a-zA-Z\s]/;
     const inputChar = String.fromCharCode(event.charCode);
-    
+
     if (!pattern.test(inputChar)) {
       event.preventDefault(); // Prevenir la entrada de caracteres inválidos
     }
