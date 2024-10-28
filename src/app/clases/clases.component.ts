@@ -89,12 +89,9 @@ export class OrdenesDeProduccion {
   constructor() {
 
   }
-
   Id_Orden: string = ''; // ID único de la solicitud
-  Nombre_Producto:string=''
   Producto_Elaborado: Producto[] = []; //Lista de productos agregados, se cargara la informaacion comppleta de cadaa producto
-  Cantidad_Producto: number[] = [];
-  Cantidad_Materia: number[] = [];
+  Cantidad_Producto: number[] = []; //Cantidad del producto que se va a elaborar, se agrega como arreglo para despues hacer el calculo de costos
   Fecha_Elaboracion: string = ''; // Fecha cuando se genero la receta
   Fecha_Elabroacion: number | undefined = undefined;
   Fecha_Entrega_Materia: string = ''; //
@@ -108,8 +105,8 @@ export class OrdenesDeProduccion {
 
   setData(data: any) {
     this.Id_Orden = data.Id_Orden || '';
-    this.Cantidad_Producto = data.Cantidad_Producto || undefined;
-    this.Cantidad_Materia = data.Cantidad_Materia || [];
+    this.Producto_Elaborado = data.Producto_Elaborado || [];
+    this.Cantidad_Producto = data.Cantidad_Producto || [];
     this.Fecha_Elaboracion = data.Fecha_Elaboracion || '';
     this.Fecha_Elabroacion = data.Fecha_Elabroacion || undefined;
     this.Fecha_Entrega_Materia = data.Fecha_Entrega_Materia || '';

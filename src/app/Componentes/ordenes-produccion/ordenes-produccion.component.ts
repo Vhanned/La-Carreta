@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Firestore, collectionData, collection, addDoc, doc, updateDoc, deleteDoc, query, setDoc } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
 import { Producto, OrdenesDeProduccion } from 'src/app/clases/clases.component';
 import Swal from 'sweetalert2'; // Importamos SweetAlert
 
@@ -78,28 +77,25 @@ export class OrdenesProduccionComponent {
 
   CrearOrdenProduccion() {
     //Validar que todos los campos esten llenos
-
     if (!this.OrdenProduccion.Fecha_Elaboracion || !this.OrdenProduccion.Fecha_Finalizacion || !this.OrdenProduccion.Usuario_Elabroacion ||!this.OrdenProduccion.Producto_Elaborado ) {
-      // Guardar en Firestore
-      this.OrdenProduccion.Id_Orden = this.GenerateRandomString(20);
-
-      let NuevaOrdenDoc = doc(this.firebase, "OrdenesProduccion", this.OrdenProduccion.Id_Orden);
-
-      setDoc(NuevaOrdenDoc, JSON.parse(JSON.stringify(this.OrdenProduccion)))
-        .then(() => {
-          Swal.fire('Éxito', 'Orden creada correctamente', 'success');
-        })
-        .catch((error) => {
-          Swal.fire('Error', 'Ocurrió un error al guardar el producto', 'error');
-          console.error("Error guardando producto: ", error);
-        });
-    } else {
-      Swal.fire('Error', 'Complete todos los campos', 'warning');
+      Swal.fire('Error', 'Complete todos los campos', 'error');
+      return;
     }
-    console.log(this.OrdenProduccion)
-  }
+    // Guardar en Firestore
+    this.OrdenProduccion.Id_Orden = this.GenerateRandomString(20);
 
-  CerrarModalCrear() {
+    let NuevaOrdenDoc = doc(this.firebase, "OrdenesProduccion", this.OrdenProduccion.Id_Orden);
+
+    setDoc(NuevaOrdenDoc, JSON.parse(JSON.stringify(this.OrdenProduccion)))
+      .then(() => {
+        Swal.fire('Éxito', 'Orden creada correctamente', 'success');
+      })
+      .catch((error) => {
+        Swal.fire('Error', 'Ocurrió un error al guardar el producto', 'error');
+        console.error("Error guardando producto: ", error);
+      });
+    console.log(this.OrdenProduccion)
+    
     let btnCerrar = document.getElementById('btnCerrarModalCrear');
     btnCerrar?.click();
   }
@@ -117,14 +113,20 @@ export class OrdenesProduccionComponent {
       // Agregar la materia prima al array de producto en Recetas
       this.ProductosAgregadosOrdenProduccion.Producto_Elaborado.push(producto);
       this.OrdenProduccion.Producto_Elaborado.push(producto);
+      //this.OrdenProduccion.Cantidad_Producto.push()
       console.log(this.ProductosAgregadosOrdenProduccion.Producto_Elaborado)
     } else {
-      Swal.fire('Error', 'Este produco ya ha sido agregado.', 'error');
+      Swal.fire('Error', 'Este producto ya ha sido agregado.', 'error');
     }
   }
 
-  EliminarProductoOrden(elemento: any) {
+  EliminarProductoOrden(index:number) {
+    // Eliminar el elemento de Producto_Elaborado usando el índice
+    this.ProductosAgregadosOrdenProduccion.Producto_Elaborado.splice(index, 1);
 
+    // También eliminar la cantidad correspondiente del array Cantidad_Producto
+    this.ProductosAgregadosOrdenProduccion.Cantidad_Producto.splice(index, 1);
+    console.log(this.ProductosAgregadosOrdenProduccion.Producto_Elaborado)
   }
 
   GuardarCambios() {
@@ -215,6 +217,10 @@ export class OrdenesProduccionComponent {
       result += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     return result;
+  }
+
+  trackByIndex(index: number, item: any): number {
+    return index;
   }
 
 }

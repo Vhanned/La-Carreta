@@ -6,8 +6,7 @@
 
     <div>
         <!-- Botón de agregar nuevo producto -->
-        <button class="btn btn-success" data-bs-toggle="modal"
-            data-bs-target="#agregarModal">
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#agregarModal">
             Agregar Producto
         </button>
     </div>
@@ -33,8 +32,7 @@
                 <td>{{ producto.Estado }}</td>
                 <td>
                     <!-- Botón de ver detalles -->
-                    <button class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#editarModal"
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarModal"
                         (click)="verModalDetalles(producto)">
                         Ver detalles
                     </button>
@@ -45,16 +43,14 @@
 </div>
 
 <!-- Modal para agregar nuevo producto -->
-<div class="modal fade" id="agregarModal" data-bs-backdrop="static"
-    data-bs-keyboard="false" tabindex="-1"
+<div class="modal fade" id="agregarModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="agregarModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="agregarModalLabel">Agregar nuevo
                     producto</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form>
@@ -62,53 +58,34 @@
                         <!-- Sección del formulario (columna izquierda) -->
                         <div class="formulario w-100">
                             <div class="mb-3">
-                                <label for="Codigo"
-                                    class="form-label">Codigo</label>
-                                <input type="text" class="form-control"
-                                    id="Codigo"
-                                    [(ngModel)]="nuevoProducto.Codigo"
+                                <label for="Codigo" class="form-label">Codigo</label>
+                                <input type="text" class="form-control" id="Codigo" [(ngModel)]="nuevoProducto.Codigo"
                                     name="Codigo" required>
                             </div>
                             <div class="mb-3">
-                                <label for="Nombre"
-                                    class="form-label">Nombre</label>
-                                <input type="text" class="form-control"
-                                    id="Nombre"
-                                    [(ngModel)]="nuevoProducto.Nombre"
+                                <label for="Nombre" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="Nombre" [(ngModel)]="nuevoProducto.Nombre"
                                     name="Nombre" required>
                             </div>
                             <div class="mb-3">
-                                <label for="Tipo_Empaquetado"
-                                    class="form-label">Tipo de
-                                    empaquetado</label>
-                                <input type="text" class="form-control"
-                                    id="Tipo_Empaquetado"
-                                    [(ngModel)]="nuevoProducto.Tipo_Empaquetado"
-                                    name="Tipo_Empaquetado" required>
+                                <label for="Tipo_Empaquetado" class="form-label">Tipo de empaquetado</label>
+                                <input type="text" class="form-control" id="Tipo_Empaquetado"
+                                    [(ngModel)]="nuevoProducto.Tipo_Empaquetado" name="Tipo_Empaquetado" required>
                             </div>
                             <div class="mb-3">
-                                <label for="Tiempo_Elaboracion"
-                                    class="form-label">Tiempo de
+                                <label for="Tiempo_Elaboracion" class="form-label">Tiempo de
                                     elaboracion</label>
-                                <input type="text" class="form-control"
-                                    id="Tiempo_Elaboracion"
-                                    [(ngModel)]="nuevoProducto.Tiempo_Elaboracion"
-                                    name="Tiempo_Elaboracion" required>
+                                <input type="text" class="form-control" id="Tiempo_Elaboracion"
+                                    [(ngModel)]="nuevoProducto.Tiempo_Elaboracion" name="Tiempo_Elaboracion" required>
                             </div>
                             <div class="mb-3">
-                                <label for="Elaboracion"
-                                    class="form-label">Elaboracion</label>
-                                <textarea class="form-control" id="Elaboracion"
-                                    [(ngModel)]="nuevoProducto.Elaboracion"
-                                    name="Elaboracion" rows="4"
-                                    required></textarea>
+                                <label for="Elaboracion" class="form-label">Elaboracion</label>
+                                <textarea class="form-control" id="Elaboracion" [(ngModel)]="nuevoProducto.Elaboracion"
+                                    name="Elaboracion" rows="4" required></textarea>
                             </div>
                             <div class="mb-3">
-                                <label for="Tipo"
-                                    class="form-label">Estado</label>
-                                <select class="form-control" id="Tipo"
-                                    [(ngModel)]="nuevoProducto.Estado"
-                                    name="Tipo"
+                                <label for="Tipo" class="form-label">Estado</label>
+                                <select class="form-control" id="Tipo" [(ngModel)]="nuevoProducto.Estado" name="Tipo"
                                     disabled required>
                                     <option value="Activo">Activo</option>
                                 </select>
@@ -134,8 +111,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr
-                                        *ngFor="let materia of ModalverMateriasPrimasAgregar">
+                                    <tr *ngFor="let materia of ModalverMateriasPrimasAgregar">
                                         <td>{{ materia.Codigo }}</td>
                                         <td>{{ materia.Nombre }}</td>
                                         <td>{{ materia.Unidad_Medida }}</td>
@@ -145,8 +121,7 @@
                                         <td>{{ materia.Existencias }}</td>
                                         <td>{{ materia.Punto_Reorden }}</td>
                                         <td>
-                                            <button id="BotonAgregarMateia"
-                                                class="btn btn-outline-danger"
+                                            <button id="BotonAgregarMateia" class="btn btn-outline-danger"
                                                 (click)="AgregarMateriaProducto(materia)">
                                                 Agregar
                                             </button>
@@ -166,19 +141,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr
-                                        *ngFor="let materiaAgregada of nuevoProducto.Materias_Primas, let i = index">
+                                    <tr *ngFor="let materiaAgregada of nuevoProducto.Materias_Primas, let i = index">
                                         <td>{{materiaAgregada.Nombre}}</td>
                                         <td>
-                                            <input type="number" min="0"
-                                                name="CantidadMateria"
-                                                id="CantidadMateria"
+                                            <input type="number" min="0" name="CantidadMateria" id="CantidadMateria"
                                                 [(ngModel)]="nuevoProducto.Cantidad_MateriasPrimas[i]">
                                         </td>
                                         <td>{{materiaAgregada.Unidad_Medida}}</td>
                                         <td>
-                                            <button id="BotonEditarMateia"
-                                                class="btn btn-outline-danger"
+                                            <button id="BotonEditarMateia" class="btn btn-outline-danger"
                                                 (click)="EliminarMateriaProducto(i)">
                                                 Eliminar
                                             </button>
@@ -192,27 +163,22 @@
             </div>
 
             <div class="modal-footer">
-                <button id="CerrarAgregarProducto" type="button"
-                    class="btn btn-secondary" data-bs-dismiss="modal"
+                <button id="CerrarAgregarProducto" type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                     (click)="LimpiarFormulario()">Cerrar</button>
-                <button type="button" class="btn btn-primary"
-                    (click)="insertarProducto()">Guardar</button>
+                <button type="button" class="btn btn-primary" (click)="insertarProducto()">Guardar</button>
             </div>
         </div>
     </div>
 </div>
 
 <!-- Modal para editar un producto -->
-<div class="modal fade" id="editarModal" data-bs-backdrop="static"
-    data-bs-keyboard="false" tabindex="-1"
+<div class="modal fade" id="editarModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="agregarModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="agregarModalLabel">Editar
-                    producto</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
+                <h5 class="modal-title" id="agregarModalLabel">Editar producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form>
@@ -220,53 +186,37 @@
                         <!-- Sección del formulario (columna izquierda) -->
                         <div class="formulario w-100">
                             <div class="mb-3">
-                                <label for="editarCodigo"
-                                    class="form-label">Codigo</label>
-                                <input type="text" class="form-control"
-                                    id="editarCodigo"
-                                    [(ngModel)]="verDetalleProducto.Codigo"
-                                    name="editarCodigo" required>
+                                <label for="editarCodigo" class="form-label">Codigo</label>
+                                <input type="text" class="form-control" id="editarCodigo"
+                                    [(ngModel)]="verDetalleProducto.Codigo" name="editarCodigo" required>
                             </div>
                             <div class="mb-3">
-                                <label for="editarNombre"
-                                    class="form-label">Nombre</label>
-                                <input type="text" class="form-control"
-                                    id="editarNombre"
-                                    [(ngModel)]="verDetalleProducto.Nombre"
-                                    name="editarNombre" required>
+                                <label for="editarNombre" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="editarNombre"
+                                    [(ngModel)]="verDetalleProducto.Nombre" name="editarNombre" required>
                             </div>
                             <div class="mb-3">
-                                <label for="editarTipo_Empaquetado"
-                                    class="form-label">Tipo de
-                                    empaquetado</label>
-                                <input type="text" class="form-control"
-                                    id="editarTipo_Empaquetado"
-                                    [(ngModel)]="verDetalleProducto.Tipo_Empaquetado"
-                                    name="editarTipo_Empaquetado" required>
+                                <label for="editarTipo_Empaquetado" class="form-label">Tipo de empaquetado</label>
+                                <input type="text" class="form-control" id="editarTipo_Empaquetado"
+                                    [(ngModel)]="verDetalleProducto.Tipo_Empaquetado" name="editarTipo_Empaquetado"
+                                    required>
                             </div>
                             <div class="mb-3">
-                                <label for="editarTiempo_Elaboracion"
-                                    class="form-label">Tiempo de
+                                <label for="editarTiempo_Elaboracion" class="form-label">Tiempo de
                                     elaboracion</label>
-                                <input type="text" class="form-control"
-                                    id="editarTiempo_Elaboracion"
-                                    [(ngModel)]="verDetalleProducto.Tiempo_Elaboracion"
-                                    name="editarTiempo_Elaboracion" required>
+                                <input type="text" class="form-control" id="editarTiempo_Elaboracion"
+                                    [(ngModel)]="verDetalleProducto.Tiempo_Elaboracion" name="editarTiempo_Elaboracion"
+                                    required>
                             </div>
                             <div class="mb-3">
-                                <label for="editarElaboracion"
-                                    class="form-label">Elaboracion</label>
-                                <textarea class="form-control"
-                                    id="editarElaboracion"
-                                    [(ngModel)]="verDetalleProducto.Elaboracion"
-                                    name="editarElaboracion" rows="4"
+                                <label for="editarElaboracion" class="form-label">Elaboracion</label>
+                                <textarea class="form-control" id="editarElaboracion"
+                                    [(ngModel)]="verDetalleProducto.Elaboracion" name="editarElaboracion" rows="4"
                                     required></textarea>
                             </div>
                             <div class="mb-3">
-                                <label for="editarTipo"
-                                    class="form-label">Estado</label>
-                                <select class="form-control" id="editarTipo"
-                                    [(ngModel)]="verDetalleProducto.Estado"
+                                <label for="editarTipo" class="form-label">Estado</label>
+                                <select class="form-control" id="editarTipo" [(ngModel)]="verDetalleProducto.Estado"
                                     name="editarTipo" required>
                                     <option value="Activo">Activo</option>
                                     <option value="Inactivo">Inactivo</option>
@@ -293,8 +243,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr
-                                        *ngFor="let materia of ModalverMateriasPrimasAgregar">
+                                    <tr *ngFor="let materia of ModalverMateriasPrimasAgregar">
                                         <td>{{ materia.Codigo }}</td>
                                         <td>{{ materia.Nombre }}</td>
                                         <td>{{ materia.Unidad_Medida }}</td>
@@ -304,8 +253,7 @@
                                         <td>{{ materia.Existencias }}</td>
                                         <td>{{ materia.Punto_Reorden }}</td>
                                         <td>
-                                            <button id="BotonEditarMateria"
-                                                class="btn btn-outline-danger"
+                                            <button id="BotonEditarMateria" class="btn btn-outline-danger"
                                                 (click)="AgregarMateriaEditarProducto(materia)">
                                                 Agregar
                                             </button>
@@ -335,8 +283,7 @@
                                         </td>
                                         <td>{{materiaAgregadaEditar.Unidad_Medida}}</td>
                                         <td>
-                                            <button id="BotonEditarMateria"
-                                                class="btn btn-outline-danger"
+                                            <button id="BotonEditarMateria" class="btn btn-outline-danger"
                                                 (click)="EliminarMateriaEditarProducto(j)">
                                                 Eliminar
                                             </button>
@@ -351,11 +298,9 @@
             </div>
 
             <div class="modal-footer">
-                <button id="CerrarEditarProducto" type="button"
-                    class="btn btn-secondary"
+                <button id="CerrarEditarProducto" type="button" class="btn btn-secondary"
                     data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary"
-                    (click)="editarDetalles()">Guardar</button>
+                <button type="button" class="btn btn-primary" (click)="editarDetalles()">Guardar</button>
             </div>
         </div>
     </div>

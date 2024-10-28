@@ -6,8 +6,7 @@
       <h1 class="mb-4">Órdenes de Producción</h1>
 
       <!-- Botón para activar el modal, centrado -->
-      <button id="BtnCrearOrden" type="button" class="btn btn-primary mb-4"
-        data-bs-toggle="modal"
+      <button id="BtnCrearOrden" type="button" class="btn btn-primary mb-4" data-bs-toggle="modal"
         data-bs-target="#staticBackdropCrear">
         Crear Orden
       </button>
@@ -16,13 +15,10 @@
       <div id="BusquedaProduccion" class="mb-4">
         <h5>Buscar Producción</h5>
         <label for="start" class="form-label">Fecha inicial:</label>
-        <input type="date" id="start" name="trip-start"
-          class="form-control mb-2 d-inline-block" style="width: auto;">
+        <input type="date" id="start" name="trip-start" class="form-control mb-2 d-inline-block" style="width: auto;">
         <label for="end" class="form-label">Fecha final:</label>
-        <input type="date" id="end" name="trip-end"
-          class="form-control mb-2 d-inline-block" style="width: auto;">
-        <button class="btn btn-primary ms-2"
-          (click)="BuscarProduccion()">Buscar</button>
+        <input type="date" id="end" name="trip-end" class="form-control mb-2 d-inline-block" style="width: auto;">
+        <button class="btn btn-primary ms-2" (click)="BuscarProduccion()">Buscar</button>
       </div>
 
       <!-- Tabla para mostrar las órdenes de producción -->
@@ -47,8 +43,7 @@
               <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
                 data-bs-target="#staticBackdropEditarProduccion" (click)="EditarOrdenProduccion(orden)">Editar</button>
               <button class="btn btn-danger btn-sm">Eliminar</button>
-              <button class="btn btn-info btn-sm"
-                (click)="MostrarDetalles(orden)">Detalles</button>
+              <button class="btn btn-info btn-sm" data-bs-target="#staticBackdropDetalles" data-bs-toggle="modal" (click)="MostrarDetalles(orden)">Detalles</button>
             </td>
           </tr>
         </tbody>
@@ -59,16 +54,15 @@
 </div>
 
 <!-- Modal para Crear produccion-->
-<div class="modal fade" id="staticBackdropCrear" data-bs-backdrop="static"
-  data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
-  aria-hidden="true">
+<div class="modal fade" id="staticBackdropCrear" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">Crea
           produccion</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"
-          aria-label="Close" (click)="resetForm()"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="resetForm()"></button>
       </div>
       <div class="modal-body">
         <form>
@@ -77,22 +71,19 @@
               <div class="mb-3">
                 <label for="fechaInicio" class="form-label">Fecha de
                   Inicio</label>
-                <input type="date" class="form-control" id="fechaInicio"
-                  [(ngModel)]="OrdenProduccion.Fecha_Elaboracion"
+                <input type="date" class="form-control" id="fechaInicio" [(ngModel)]="OrdenProduccion.Fecha_Elaboracion"
                   name="fechaInicio" required>
               </div>
               <div class="mb-3">
                 <label for="fechaFin" class="form-label">Fecha de
                   Finalización</label>
-                <input type="date" class="form-control" id="fechaFin"
-                  [(ngModel)]="OrdenProduccion.Fecha_Finalizacion"
+                <input type="date" class="form-control" id="fechaFin" [(ngModel)]="OrdenProduccion.Fecha_Finalizacion"
                   name="fechaFin" required>
               </div>
               <div class="mb-3">
                 <label for="responsable" class="form-label">Responsable</label>
-                <input type="text" class="form-control" id="responsable"
-                  [(ngModel)]="OrdenProduccion.Solicitante" name="responsable"
-                  placeholder="Nombre del responsable" required>
+                <input type="text" class="form-control" id="responsable" [(ngModel)]="OrdenProduccion.Solicitante"
+                  name="responsable" placeholder="Nombre del responsable" required>
               </div>
             </div>
             <div class="tabla ms-s w-100">
@@ -118,8 +109,7 @@
                     <td>{{ producto.Tiempo_Elaboracion}}</td>
                     <td>{{ producto.Estado }}</td>
                     <td>
-                      <button id="BotonAgregarProducto"
-                        class="btn btn-outline-danger"
+                      <button id="BotonAgregarProducto" class="btn btn-outline-danger"
                         (click)="AgregarProductoProduccion(producto)">
                         Agregar
                       </button>
@@ -143,13 +133,12 @@
                     *ngFor="let ProductoAgregado of ProductosAgregadosOrdenProduccion.Producto_Elaborado; let i=index">
                     <td>{{ProductoAgregado.Nombre}}</td>
                     <td>
-                      <input type="number" min="0" name="CantidadMateria" id="CantidadMateria"
-                        [(ngModel)]="ProductosAgregadosOrdenProduccion.Cantidad_Producto">
+                      <input type="number" min="0" name="CantidadProducto" id="CantidadProducto"
+                        [(ngModel)]="OrdenProduccion.Cantidad_Producto[i]">
                     </td>
                     <td>{{ProductosAgregadosOrdenProduccion.Estado}}</td>
                     <td>
-                      <button id="BotonEditarMateia"
-                        class="btn btn-outline-danger">
+                      <button id="BotonEditarMateia" class="btn btn-outline-danger" (click)="EliminarProductoOrden(i)">
                         Eliminar
                       </button>
                     </td>
@@ -161,10 +150,9 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-          id="btnCerrarModalCrear" (click)="resetForm()">Cerrar</button>
-        <button type="button" class="btn btn-primary"
-          (click)="CrearOrdenProduccion()" (click)="CerrarModalCrear()">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarModalCrear"
+          (click)="resetForm()">Cerrar</button>
+        <button type="button" class="btn btn-primary" (click)="CrearOrdenProduccion()">
           Crear
         </button>
       </div>
@@ -173,16 +161,14 @@
 </div>
 
 <!-- Modal para editar produccion-->
-<div class="modal fade" id="staticBackdropEditarProduccion"
-  data-bs-backdrop="static"
-  data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
-  aria-hidden="true">
+<div class="modal fade" id="staticBackdropEditarProduccion" data-bs-backdrop="static" data-bs-keyboard="false"
+  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar Produccion</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"
-          aria-label="Close" (click)="resetForm()"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="resetForm()"></button>
       </div>
       <div class="modal-body">
         <form>
@@ -191,22 +177,23 @@
               <div class="mb-3">
                 <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
                 <input type="date" class="form-control" id="fechaInicio"
-                  [(ngModel)]="EditarProduccionModal.Fecha_Elaboracion"
-                  name="fechaInicio" required>
+                  [(ngModel)]="EditarProduccionModal.Fecha_Elaboracion" name="fechaInicio" required>
               </div>
               <div class="mb-3">
                 <label for="fechaFin" class="form-label">Fecha de Finalización</label>
                 <input type="date" class="form-control" id="fechaFin"
-                  [(ngModel)]="EditarProduccionModal.Fecha_Finalizacion"
-                  name="fechaFin" required>
+                  [(ngModel)]="EditarProduccionModal.Fecha_Finalizacion" name="fechaFin" required>
               </div>
               <div class="mb-3">
                 <label for="responsable" class="form-label">Responsable</label>
-                <input type="text" class="form-control" id="responsable"
-                  [(ngModel)]="EditarProduccionModal.Solicitante" name="responsable"
-                  placeholder="Nombre del responsable" required>
+                <input type="text" class="form-control" id="responsable" [(ngModel)]="EditarProduccionModal.Solicitante"
+                  name="responsable" placeholder="Nombre del responsable" required>
+              </div>
+              <div>
+                Para la informacion completa de costos revise los detalles
               </div>
             </div>
+
             <div class="tabla ms-s w-100">
               <h3 style="color: black;">Lista de productos disponibles para su
                 fabricacion</h3>
@@ -230,8 +217,7 @@
                     <td>{{ producto.Tiempo_Elaboracion}}</td>
                     <td>{{ producto.Estado }}</td>
                     <td>
-                      <button id="BotonAgregarProducto"
-                        class="btn btn-outline-danger"
+                      <button id="BotonAgregarProducto" class="btn btn-outline-danger"
                         (click)="AgregarProductoProduccion(producto)">
                         Agregar
                       </button>
@@ -252,17 +238,15 @@
                 </thead>
                 <tbody>
                   <tr
-                    *ngFor="let ProductoAgregado of EditarProduccionModal.Producto_Elaborado; let i=index">
-                    <td>{{ProductoAgregado.Nombre}}</td>
+                    *ngFor="let EditarProductoAgregado of EditarProduccionModal.Producto_Elaborado; let i=index; trackBy: trackByIndex">
+                    <td>{{EditarProductoAgregado.Nombre}}</td>
                     <td>
-                      <input type="number" min="0" name="CantidadMateria"
-                        id="CantidadMateria"
-                        [(ngModel)]="ProductosAgregadosOrdenProduccion.Cantidad_Producto">
+                      <input type="number" min="0" name="editarCantidadProducto{{i}}" id="editarCantidadProducto"
+                        [(ngModel)]="EditarProduccionModal.Cantidad_Producto[i]">
                     </td>
-                    <td>{{ProductosAgregadosOrdenProduccion.Estado}}</td>
+                    <td>{{EditarProduccionModal.Estado}}</td>
                     <td>
-                      <button id="BotonEditarMateia"
-                        class="btn btn-outline-danger">
+                      <button id="BotonEditarMateia" class="btn btn-outline-danger">
                         Eliminar
                       </button>
                     </td>
@@ -274,12 +258,31 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-          id="btnCerrarModalElemento" (click)="resetForm()">Cerrar</button>
-        <button type="button" class="btn btn-primary"
-          (click)="CrearOrdenProduccion()">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarModalElemento"
+          (click)="resetForm()">Cerrar</button>
+        <button type="button" class="btn btn-primary" (click)="CrearOrdenProduccion()">
           Crear
         </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Detalles-->
+<div class="modal fade" id="staticBackdropDetalles" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Detalles de costos y cantidades</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Understood</button>
       </div>
     </div>
   </div>
