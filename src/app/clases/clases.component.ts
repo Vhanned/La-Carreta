@@ -93,7 +93,7 @@ export class OrdenesDeProduccion {
   Id_Orden: string = ''; // ID único de la solicitud
   Nombre_Producto:string=''
   Producto_Elaborado: Producto[] = []; //Lista de productos agregados, se cargara la informaacion comppleta de cadaa producto
-  Cantidad_Producto: number | undefined = undefined;
+  Cantidad_Producto: number[] = [];
   Cantidad_Materia: number[] = [];
   Fecha_Elaboracion: string = ''; // Fecha cuando se genero la receta
   Fecha_Elabroacion: number | undefined = undefined;

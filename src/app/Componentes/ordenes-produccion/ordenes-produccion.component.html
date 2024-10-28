@@ -8,7 +8,7 @@
       <!-- Botón para activar el modal, centrado -->
       <button id="BtnCrearOrden" type="button" class="btn btn-primary mb-4"
         data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop">
+        data-bs-target="#staticBackdropCrear">
         Crear Orden
       </button>
 
@@ -45,7 +45,7 @@
             <td>{{ orden.Solicitante}}</td>
             <td>
               <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                data-bs-target="#staticBackdropEditarProduccion">Editar</button>
+                data-bs-target="#staticBackdropEditarProduccion" (click)="EditarOrdenProduccion(orden)">Editar</button>
               <button class="btn btn-danger btn-sm">Eliminar</button>
               <button class="btn btn-info btn-sm"
                 (click)="MostrarDetalles(orden)">Detalles</button>
@@ -59,7 +59,7 @@
 </div>
 
 <!-- Modal para Crear produccion-->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+<div class="modal fade" id="staticBackdropCrear" data-bs-backdrop="static"
   data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-xl">
@@ -143,8 +143,7 @@
                     *ngFor="let ProductoAgregado of ProductosAgregadosOrdenProduccion.Producto_Elaborado; let i=index">
                     <td>{{ProductoAgregado.Nombre}}</td>
                     <td>
-                      <input type="number" min="0" name="CantidadMateria"
-                        id="CantidadMateria"
+                      <input type="number" min="0" name="CantidadMateria" id="CantidadMateria"
                         [(ngModel)]="ProductosAgregadosOrdenProduccion.Cantidad_Producto">
                     </td>
                     <td>{{ProductosAgregadosOrdenProduccion.Estado}}</td>
@@ -163,9 +162,9 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-          id="btnCerrarModalElemento" (click)="resetForm()">Cerrar</button>
+          id="btnCerrarModalCrear" (click)="resetForm()">Cerrar</button>
         <button type="button" class="btn btn-primary"
-          (click)="CrearOrdenProduccion()">
+          (click)="CrearOrdenProduccion()" (click)="CerrarModalCrear()">
           Crear
         </button>
       </div>
@@ -173,17 +172,15 @@
   </div>
 </div>
 
-
-
 <!-- Modal para editar produccion-->
-<div class="modal fade" id="staticBackdropEditarProduccion" data-bs-backdrop="static"
+<div class="modal fade" id="staticBackdropEditarProduccion"
+  data-bs-backdrop="static"
   data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Crea
-          produccion</h1>
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar Produccion</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal"
           aria-label="Close" (click)="resetForm()"></button>
       </div>
@@ -192,23 +189,21 @@
           <div class="d-flex">
             <div class="formulario w-100">
               <div class="mb-3">
-                <label for="fechaInicio" class="form-label">Fecha de
-                  Inicio</label>
+                <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
                 <input type="date" class="form-control" id="fechaInicio"
-                  [(ngModel)]="OrdenProduccion.Fecha_Elaboracion"
+                  [(ngModel)]="EditarProduccionModal.Fecha_Elaboracion"
                   name="fechaInicio" required>
               </div>
               <div class="mb-3">
-                <label for="fechaFin" class="form-label">Fecha de
-                  Finalización</label>
+                <label for="fechaFin" class="form-label">Fecha de Finalización</label>
                 <input type="date" class="form-control" id="fechaFin"
-                  [(ngModel)]="OrdenProduccion.Fecha_Finalizacion"
+                  [(ngModel)]="EditarProduccionModal.Fecha_Finalizacion"
                   name="fechaFin" required>
               </div>
               <div class="mb-3">
                 <label for="responsable" class="form-label">Responsable</label>
                 <input type="text" class="form-control" id="responsable"
-                  [(ngModel)]="OrdenProduccion.Solicitante" name="responsable"
+                  [(ngModel)]="EditarProduccionModal.Solicitante" name="responsable"
                   placeholder="Nombre del responsable" required>
               </div>
             </div>
@@ -257,7 +252,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    *ngFor="let ProductoAgregado of ProductosAgregadosOrdenProduccion.Producto_Elaborado; let i=index">
+                    *ngFor="let ProductoAgregado of EditarProduccionModal.Producto_Elaborado; let i=index">
                     <td>{{ProductoAgregado.Nombre}}</td>
                     <td>
                       <input type="number" min="0" name="CantidadMateria"

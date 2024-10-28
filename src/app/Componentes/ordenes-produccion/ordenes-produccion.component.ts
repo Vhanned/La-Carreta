@@ -15,11 +15,13 @@ export class OrdenesProduccionComponent {
   //Lista de ordenes de producccion traida de la base de datos
   ListaOrdenes: OrdenesDeProduccion[]=[];
 
+  //Variable para la edicion de la produccion
+  EditarProduccionModal = new OrdenesDeProduccion();
+
   //Lista de los productos activos disponibles para su elaboracion
   ListaProductos: Producto[] = [];
 
   //Lista de productos agregados a la orden de produccion
-  ProductosAgregarOrdenProduccion: OrdenesDeProduccion[] = [];
   ProductosAgregadosOrdenProduccion = new OrdenesDeProduccion();
 
   OrdenProduccion = new OrdenesDeProduccion();
@@ -77,8 +79,7 @@ export class OrdenesProduccionComponent {
   CrearOrdenProduccion() {
     //Validar que todos los campos esten llenos
 
-    if (!this.OrdenProduccion.Fecha_Elaboracion || !this.OrdenProduccion.Fecha_Finalizacion || !this.OrdenProduccion.Usuario_Elabroacion
-      ||!this.OrdenProduccion.Producto_Elaborado ) {
+    if (!this.OrdenProduccion.Fecha_Elaboracion || !this.OrdenProduccion.Fecha_Finalizacion || !this.OrdenProduccion.Usuario_Elabroacion ||!this.OrdenProduccion.Producto_Elaborado ) {
       // Guardar en Firestore
       this.OrdenProduccion.Id_Orden = this.GenerateRandomString(20);
 
@@ -95,16 +96,18 @@ export class OrdenesProduccionComponent {
     } else {
       Swal.fire('Error', 'Complete todos los campos', 'warning');
     }
-
+    console.log(this.OrdenProduccion)
   }
 
   CerrarModalCrear() {
-    let btnCerrar = document.getElementById('btnCerrarModalElemento');
+    let btnCerrar = document.getElementById('btnCerrarModalCrear');
     btnCerrar?.click();
   }
 
 
   EditarOrdenProduccion(orden: OrdenesDeProduccion) {
+    this.EditarProduccionModal = orden;
+    console.log(this.EditarProduccionModal)
   }
 
   AgregarProductoProduccion(producto: Producto) {
