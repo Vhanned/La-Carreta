@@ -23,7 +23,7 @@
     "firebase-tools": "^9.23.3",
     "rxfire": "^6.0.0",
     "rxjs": "^6.6.0",
-    "sweetalert2": "^11.14.3",
+    "sweetalert2": "^11.14.4",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },

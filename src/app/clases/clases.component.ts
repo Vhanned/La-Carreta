@@ -4,6 +4,23 @@ export class Producto {
     this.Estado = "Activo";
   }
 
+  toPlain() {
+    return {
+      Id_Producto: this.Id_Producto,
+      Codigo: this.Codigo,
+      Nombre: this.Nombre,
+      Elaboracion: this.Elaboracion,
+      Tipo_Empaquetado: this.Tipo_Empaquetado,
+      Costo: this.Costo,
+      Tamano_Lote: this.Tamano_Lote,
+      Estado: this.Estado,
+      Materias_Primas: this.Materias_Primas,
+      Cantidad_MateriasPrimas: this.Cantidad_MateriasPrimas,
+      Litros: this.Litros,
+      Tiempo_Elaboracion: this.Tiempo_Elaboracion,
+    };
+  }
+
   Id_Producto: string = ''; // ID único del producto
   Codigo: string = ''; //Identificador visible al usuario
   Nombre: string = ''; // Nombre del producto
@@ -67,24 +84,22 @@ export class MateriaPrima {
 }
 
 //Solicitudes de materias primas
-export class Receta {
+export class OrdenesDeProduccion {
 
   constructor() {
 
   }
 
-  Id_Receta: string = ''; // ID único de la solicitud
-  Id_Producto: string = '';
+  Id_Orden: string = ''; // ID único de la solicitud
   Nombre_Producto:string=''
-  Producto_Elaborado: Producto[] = [];
+  Producto_Elaborado: Producto[] = []; //Lista de productos agregados, se cargara la informaacion comppleta de cadaa producto
   Cantidad_Producto: number | undefined = undefined;
-  Materia_Prima: MateriaPrima[] = []; // ID de la materia prima solicitada
   Cantidad_Materia: number[] = [];
   Fecha_Elaboracion: string = ''; // Fecha cuando se genero la receta
   Fecha_Elabroacion: number | undefined = undefined;
   Fecha_Entrega_Materia: string = ''; //
   Fecha_Entrega_Materia_Number: number | undefined = undefined;
-  Fecha_Finalizacion: string = ''; //Cuando se termino 
+  Fecha_Finalizacion: string = ''; //Cuando se termino la orden de produccion
   Solicitante: string = '';
   Estado: string = ''; // Estado de la receta generada, materia prima entregada, en proceso, finalizado
   Usuario_Elabroacion: string = '';
@@ -92,10 +107,8 @@ export class Receta {
   Clave_Lote: string = '';
 
   setData(data: any) {
-    this.Id_Receta = data.Id_Receta || '';
-    this.Id_Producto = data.Id_Producto || '';
+    this.Id_Orden = data.Id_Orden || '';
     this.Cantidad_Producto = data.Cantidad_Producto || undefined;
-    this.Materia_Prima = data.Materia_Prima || [];
     this.Cantidad_Materia = data.Cantidad_Materia || [];
     this.Fecha_Elaboracion = data.Fecha_Elaboracion || '';
     this.Fecha_Elabroacion = data.Fecha_Elabroacion || undefined;

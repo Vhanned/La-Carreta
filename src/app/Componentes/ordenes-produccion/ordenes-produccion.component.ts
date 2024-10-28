@@ -1,48 +1,45 @@
 import { Component, OnInit } from '@angular/core';
-import { Firestore, collectionData, collection, addDoc, doc, updateDoc, deleteDoc, query } from '@angular/fire/firestore';
+import { Firestore, collectionData, collection, addDoc, doc, updateDoc, deleteDoc, query, setDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { Producto, Receta } from 'src/app/clases/clases.component';
+import { Producto, OrdenesDeProduccion } from 'src/app/clases/clases.component';
 import Swal from 'sweetalert2'; // Importamos SweetAlert
 
-interface OrdenProduccion {
-  id: string;
-  fechaInicio: string;
-  fechaFin?: string;  // Fecha de finalización opcional
-  cantidad: number;
-  descripcion: string;
-  responsable: string;
-  status?: string;
-  fechaCreacion?: string;  // Fecha de creación opcional
-}
 
 @Component({
   selector: 'ordenes-produccion',
   templateUrl: './ordenes-produccion.component.html',
   styleUrls: ['./ordenes-produccion.component.css']
 })
-export class OrdenesProduccionComponent implements OnInit {
-  ordenes: Observable<OrdenProduccion[]>;  // Observable de órdenes filtradas o no
-  ordenesOriginales: OrdenProduccion[] = [];  // Lista original de órdenes para poder restaurar
-  fechaInicio: string = '';
-  fechaFin: string = '';  // Fecha de finalización
-  cantidad: number = 0;
-  descripcion: string = '';
-  responsable: string = '';
-  selectedOrden: OrdenProduccion | null = null;
-  creatingNew: boolean = true;
+export class OrdenesProduccionComponent {
 
-  //Lista de los productos activos
+  //Lista de ordenes de producccion traida de la base de datos
+  ListaOrdenes: OrdenesDeProduccion[]=[];
+
+  //Lista de los productos activos disponibles para su elaboracion
   ListaProductos: Producto[] = [];
 
   //Lista de productos agregados a la orden de produccion
-  ProductosOrdenProduccion: Receta[]=[];
+  ProductosAgregarOrdenProduccion: OrdenesDeProduccion[] = [];
+  ProductosAgregadosOrdenProduccion = new OrdenesDeProduccion();
 
+  OrdenProduccion = new OrdenesDeProduccion();
+
+
+  //Direccion de la coleccion en firestore de la que se consultan los productos
   ProductosBD = collection(this.firebase, "Productos");
 
-  constructor(private firebase: Firestore) {
-    const ordenesCollection = collection(this.firebase, 'ordenes');
-    this.ordenes = collectionData(ordenesCollection, { idField: 'id' }) as Observable<OrdenProduccion[]>;
+  //Direccion de la coleccion de las ordenes de produccion
+  OrdenesBD = collection(this.firebase, 'OrdenesProduccion');
 
+  constructor(private firebase: Firestore) {
+
+    this.CargarProductos();
+    this.CargarListaOrdenesProduccion();
+    
+
+  }
+
+  CargarProductos(){
     let q = query(this.ProductosBD);
     collectionData(q).subscribe((productoSnap) => {
       this.ListaProductos = [];  // Reiniciar la lista de productos
@@ -63,77 +60,72 @@ export class OrdenesProduccionComponent implements OnInit {
         }
       });
     });
-
   }
 
-  ngOnInit(): void {
-    this.ordenes.subscribe((data: OrdenProduccion[]) => {
-      this.ordenesOriginales = data;  // Guardamos la lista original de órdenes
-      console.log('Fetched Orders:', data);
+  CargarListaOrdenesProduccion(){
+    let q = query(this.OrdenesBD);
+    collectionData(q).subscribe((ordenesSnap) => {
+      this.ListaOrdenes = [];  // Reiniciar la lista de ordenes
+      ordenesSnap.forEach((item) => {
+        let orden = new OrdenesDeProduccion();
+        orden.setData(item);
+        this.ListaOrdenes.push(orden);
+      });
     });
-
   }
 
   CrearOrdenProduccion() {
-    const nuevaOrden: OrdenProduccion = {
-      id: '', // Firestore generará el ID
-      fechaInicio: this.fechaInicio ? this.formatDateForStorage(this.fechaInicio) : '', // Corregir formato de fecha
-      fechaFin: this.fechaFin ? this.formatDateForStorage(this.fechaFin) : '', // Corregir formato de fecha
-      cantidad: this.cantidad,
-      descripcion: this.descripcion,
-      responsable: this.responsable,
-      status: 'Pending',
-      fechaCreacion: new Date().toISOString()  // Guardamos la fecha de creación actual
-    };
+    //Validar que todos los campos esten llenos
 
-    const ordenesCollection = collection(this.firebase, 'ordenes');
-    addDoc(ordenesCollection, nuevaOrden)
-      .then(() => {
-        console.log("Orden creada correctamente:", nuevaOrden);
-        this.resetForm();
-        this.closeModal();
-      })
-      .catch((error) => {
-        console.error('Error al crear la orden:', error);
-      });
+    if (!this.OrdenProduccion.Fecha_Elaboracion || !this.OrdenProduccion.Fecha_Finalizacion || !this.OrdenProduccion.Usuario_Elabroacion
+      ||!this.OrdenProduccion.Producto_Elaborado ) {
+      // Guardar en Firestore
+      this.OrdenProduccion.Id_Orden = this.GenerateRandomString(20);
+
+      let NuevaOrdenDoc = doc(this.firebase, "OrdenesProduccion", this.OrdenProduccion.Id_Orden);
+
+      setDoc(NuevaOrdenDoc, JSON.parse(JSON.stringify(this.OrdenProduccion)))
+        .then(() => {
+          Swal.fire('Éxito', 'Orden creada correctamente', 'success');
+        })
+        .catch((error) => {
+          Swal.fire('Error', 'Ocurrió un error al guardar el producto', 'error');
+          console.error("Error guardando producto: ", error);
+        });
+    } else {
+      Swal.fire('Error', 'Complete todos los campos', 'warning');
+    }
+
   }
 
-  EditarOrdenProduccion(orden: OrdenProduccion) {
-    this.selectedOrden = orden;
-    this.creatingNew = false;
-    this.fechaInicio = this.formatDateForDisplay(orden.fechaInicio);
-    this.fechaFin = orden.fechaFin ? this.formatDateForDisplay(orden.fechaFin) : '';  // Asegurar que la fecha final esté presente si existe
-    this.cantidad = orden.cantidad;
-    this.descripcion = orden.descripcion;
-    this.responsable = orden.responsable;
+  CerrarModalCrear() {
+    let btnCerrar = document.getElementById('btnCerrarModalElemento');
+    btnCerrar?.click();
+  }
+
+
+  EditarOrdenProduccion(orden: OrdenesDeProduccion) {
   }
 
   AgregarProductoProduccion(producto: Producto) {
+    let ExisteProductoAgregado = this.ProductosAgregadosOrdenProduccion.Producto_Elaborado.find(m => m.Id_Producto === producto.Id_Producto)
 
+    if (!ExisteProductoAgregado) {
+      // Agregar la materia prima al array de producto en Recetas
+      this.ProductosAgregadosOrdenProduccion.Producto_Elaborado.push(producto);
+      this.OrdenProduccion.Producto_Elaborado.push(producto);
+      console.log(this.ProductosAgregadosOrdenProduccion.Producto_Elaborado)
+    } else {
+      Swal.fire('Error', 'Este produco ya ha sido agregado.', 'error');
+    }
   }
 
-  EliminarProductoOrden(elemento:any){
+  EliminarProductoOrden(elemento: any) {
 
   }
 
   GuardarCambios() {
-    if (this.selectedOrden) {
-      const ordenRef = doc(this.firebase, 'ordenes', this.selectedOrden.id);
-      updateDoc(ordenRef, {
-        fechaInicio: this.formatDateForStorage(this.fechaInicio),
-        fechaFin: this.fechaFin ? this.formatDateForStorage(this.fechaFin) : '',
-        cantidad: this.cantidad,
-        descripcion: this.descripcion,
-        responsable: this.responsable
-      })
-        .then(() => {
-          this.resetForm();
-          this.closeModal();
-        })
-        .catch((error) => {
-          console.error('Error al actualizar la orden: ', error);
-        });
-    }
+
   }
 
   EliminarOrdenProduccion(id: string) {
@@ -168,27 +160,12 @@ export class OrdenesProduccionComponent implements OnInit {
     });
   }
 
-  MostrarDetalles(orden: OrdenProduccion) {
-    const formattedDate = orden.fechaInicio ? this.formatDateForDisplay(orden.fechaInicio) : "Fecha no disponible";
-    Swal.fire({
-      title: 'Detalles de la Orden',
-      html: `<b>Fecha de Inicio:</b> ${formattedDate}<br>
-             <b>Cantidad:</b> ${orden.cantidad}<br>
-             <b>Descripción:</b> ${orden.descripcion}<br>
-             <b>Responsable:</b> ${orden.responsable}`,
-      icon: 'info',
-      confirmButtonText: 'Cerrar'
-    });
+  MostrarDetalles(orden: OrdenesDeProduccion) {
+
   }
 
   resetForm() {
-    this.fechaInicio = '';
-    this.fechaFin = '';  // Restablecemos también la fecha de finalización
-    this.cantidad = 0;
-    this.descripcion = '';
-    this.responsable = '';
-    this.selectedOrden = null;
-    this.creatingNew = true;
+
   }
 
   closeModal() {
@@ -197,32 +174,7 @@ export class OrdenesProduccionComponent implements OnInit {
   }
 
   BuscarProduccion() {
-    const startDateInput = (document.getElementById('start') as HTMLInputElement).value;
-    const endDateInput = (document.getElementById('end') as HTMLInputElement).value;
 
-    if (!startDateInput || !endDateInput) {
-      // Si no se seleccionan fechas, mostramos todas las órdenes
-      this.RestablecerListaCompleta();
-      return;
-    }
-
-    const startDate = new Date(startDateInput);
-    const endDate = new Date(endDateInput);
-    endDate.setHours(23, 59, 59, 999); // Incluimos todo el día de la fecha final
-
-    // Filtramos por la fecha de creación que esté dentro del rango
-    const filteredOrders = this.ordenesOriginales.filter(order => {
-      const creationDate = new Date(order.fechaCreacion!);
-      return creationDate >= startDate && creationDate <= endDate;
-    });
-
-    console.log('Órdenes filtradas:', filteredOrders);
-
-    // Actualizamos el observable con las órdenes filtradas
-    this.ordenes = new Observable<OrdenProduccion[]>(subscriber => {
-      subscriber.next(filteredOrders);
-      subscriber.complete();
-    });
   }
 
   validarNombre(event: KeyboardEvent) {
@@ -250,9 +202,16 @@ export class OrdenesProduccionComponent implements OnInit {
   }
 
   RestablecerListaCompleta() {
-    this.ordenes = new Observable<OrdenProduccion[]>(subscriber => {
-      subscriber.next(this.ordenesOriginales);
-      subscriber.complete();
-    });
+
   }
+
+  GenerateRandomString(length: number): string {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+  }
+
 }

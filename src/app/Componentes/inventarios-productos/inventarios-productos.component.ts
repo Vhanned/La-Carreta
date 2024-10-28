@@ -28,8 +28,10 @@ export class InventariosProductosComponent {
   materiasPrimasBD = collection(this.firebase, "MateriasPrimas");
 
   constructor(private firebase: Firestore) {
+    
     this.cargarProductos();
     this.obtenerMateriasPrimas();
+
     let q = query(this.materiasPrimasBD);
     collectionData(q).subscribe((materiaPrimaSnap) => {
       this.ModalverMateriasPrimasAgregar = [];
@@ -126,6 +128,7 @@ export class InventariosProductosComponent {
 
 
   insertarProducto() {
+    //Verifica que todos los campos sean llenados antes de proceder
     if (!this.nuevoProducto.Codigo || !this.nuevoProducto.Nombre || !this.nuevoProducto.Elaboracion || this.nuevoProducto.Materias_Primas.length === 0) {
       Swal.fire('Error', 'Todos los campos son obligatorios y debe agregar al menos una materia prima', 'error');
       return;
@@ -165,8 +168,8 @@ export class InventariosProductosComponent {
         Swal.fire('Error', 'Ocurrió un error al actualizar el producto', 'error');
         console.error("Error actualizando producto: ", error);
       });
-      let CerrarEditarModalProducto = document.getElementById("CerrarEditarProducto");
-      CerrarEditarModalProducto?.click();
+    let CerrarEditarModalProducto = document.getElementById("CerrarEditarProducto");
+    CerrarEditarModalProducto?.click();
   }
 
   verModalDetalles(producto: Producto) {
