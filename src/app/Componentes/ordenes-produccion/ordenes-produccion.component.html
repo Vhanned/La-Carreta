@@ -48,7 +48,6 @@
           </tr>
         </tbody>
       </table>
-
     </div>
   </div>
 </div>
@@ -278,6 +277,33 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        <div *ngFor="let producto of VerDetallesProduccion.Producto_Elaborado">
+          <h3>{{ producto.Nombre }}</h3>
+          
+          <!-- Tabla dinámica para mostrar detalles del producto -->
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Materia Prima</th>
+                <th>Cantidad Necesaria</th>
+                <th>Costo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Filas dinámicas para mostrar materias primas y costos -->
+              <tr *ngFor="let materia of producto.Materias_Primas; let i = index">
+                <td>{{ materia.Nombre }}</td>
+                <td>{{ calcularCantidadMateria(producto, i) }} unidades</td>
+                <td>{{ calcularCostoMateria(producto, i) | currency }}</td>
+              </tr>
+              <tr>
+                <td><strong>Total</strong></td>
+                <td></td>
+                <td><strong>{{ calcularCostoTotal(producto) | currency }}</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         
       </div>
       <div class="modal-footer">

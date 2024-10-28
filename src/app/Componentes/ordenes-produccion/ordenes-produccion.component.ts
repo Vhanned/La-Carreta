@@ -17,6 +17,9 @@ export class OrdenesProduccionComponent {
   //Variable para la edicion de la produccion
   EditarProduccionModal = new OrdenesDeProduccion();
 
+  //Variable temporal para ver los detalles y modificar costos
+  VerDetallesProduccion = new OrdenesDeProduccion();
+
   //Lista de los productos activos disponibles para su elaboracion
   ListaProductos: Producto[] = [];
 
@@ -166,7 +169,8 @@ export class OrdenesProduccionComponent {
   }
 
   MostrarDetalles(orden: OrdenesDeProduccion) {
-
+    this.VerDetallesProduccion = orden;
+    console.log(orden);
   }
 
   resetForm() {
@@ -221,6 +225,24 @@ export class OrdenesProduccionComponent {
 
   trackByIndex(index: number, item: any): number {
     return index;
+  }
+
+  calcularCantidadMateria(producto: Producto, index: number): number {
+    const cantidadProducto = this.OrdenProduccion.Cantidad_Producto[index] || 0;
+    const materiaPrimaRatio = producto.Materias_Primas[index].Existencias || 1; // Ajusta según tu estructura
+    return cantidadProducto * materiaPrimaRatio;
+  }
+
+  calcularCostoMateria(producto: Producto, index: number): number {
+    const cantidadMateria = this.calcularCantidadMateria(producto, index);
+    const costoUnitario = producto.Materias_Primas[index].Costo_promedio || 0; // Ajusta según tu estructura
+    return cantidadMateria * costoUnitario;
+  }
+
+  calcularCostoTotal(producto: Producto): number {
+    return producto.Materias_Primas.reduce((total, materia, index) => {
+      return total + this.calcularCostoMateria(producto, index);
+    }, 0);
   }
 
 }
