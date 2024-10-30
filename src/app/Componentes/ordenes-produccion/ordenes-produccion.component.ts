@@ -9,41 +9,45 @@ import Swal from 'sweetalert2'; // Importamos SweetAlert
   templateUrl: './ordenes-produccion.component.html',
   styleUrls: ['./ordenes-produccion.component.css']
 })
-export class OrdenesProduccionComponent {
+export class OrdenesProduccionComponent implements OnInit {
 
-  //Lista de ordenes de producccion traida de la base de datos
-  ListaOrdenes: OrdenesDeProduccion[]=[];
+  cantidadesMaterias: number[] = [];
+  costosMaterias: number[] = [];
+  costoTotal: number = 0;
 
-  //Variable para la edicion de la produccion
+  // Lista de ordenes de producción traida de la base de datos
+  ListaOrdenes: OrdenesDeProduccion[] = [];
+
+  // Variable para la edición de la producción
   EditarProduccionModal = new OrdenesDeProduccion();
 
-  //Variable temporal para ver los detalles y modificar costos
+  // Variable temporal para ver los detalles y modificar costos
   VerDetallesProduccion = new OrdenesDeProduccion();
 
-  //Lista de los productos activos disponibles para su elaboracion
+  // Lista de los productos activos disponibles para su elaboración
   ListaProductos: Producto[] = [];
 
-  //Lista de productos agregados a la orden de produccion
+  // Lista de productos agregados a la orden de producción
   ProductosAgregadosOrdenProduccion = new OrdenesDeProduccion();
 
   OrdenProduccion = new OrdenesDeProduccion();
 
-
-  //Direccion de la coleccion en firestore de la que se consultan los productos
+  // Dirección de la colección en Firestore de la que se consultan los productos
   ProductosBD = collection(this.firebase, "Productos");
 
-  //Direccion de la coleccion de las ordenes de produccion
+  // Dirección de la colección de las órdenes de producción
   OrdenesBD = collection(this.firebase, 'OrdenesProduccion');
 
   constructor(private firebase: Firestore) {
-
     this.CargarProductos();
     this.CargarListaOrdenesProduccion();
-    
-
   }
 
-  CargarProductos(){
+  ngOnInit() {
+    console.log('Valor inicial de VerDetallesProduccion.Cantidad_Producto[0]:', this.VerDetallesProduccion.Cantidad_Producto[0]);
+  }
+
+  CargarProductos() {
     let q = query(this.ProductosBD);
     collectionData(q).subscribe((productoSnap) => {
       this.ListaProductos = [];  // Reiniciar la lista de productos
@@ -66,10 +70,10 @@ export class OrdenesProduccionComponent {
     });
   }
 
-  CargarListaOrdenesProduccion(){
+  CargarListaOrdenesProduccion() {
     let q = query(this.OrdenesBD);
     collectionData(q).subscribe((ordenesSnap) => {
-      this.ListaOrdenes = [];  // Reiniciar la lista de ordenes
+      this.ListaOrdenes = [];  // Reiniciar la lista de órdenes
       ordenesSnap.forEach((item) => {
         let orden = new OrdenesDeProduccion();
         orden.setData(item);
@@ -79,13 +83,14 @@ export class OrdenesProduccionComponent {
   }
 
   CrearOrdenProduccion() {
-    //Validar que todos los campos esten llenos
-    if (!this.OrdenProduccion.Fecha_Elaboracion || !this.OrdenProduccion.Fecha_Finalizacion || !this.OrdenProduccion.Usuario_Elabroacion ||!this.OrdenProduccion.Producto_Elaborado ) {
+    // Validar que todos los campos estén llenos
+    if (!this.OrdenProduccion.Fecha_Elaboracion || !this.OrdenProduccion.Fecha_Finalizacion || !this.OrdenProduccion.Solicitante || !this.OrdenProduccion.Producto_Elaborado || !this.OrdenProduccion.Cantidad_Producto) {
       Swal.fire('Error', 'Complete todos los campos', 'error');
       return;
     }
     // Guardar en Firestore
     this.OrdenProduccion.Id_Orden = this.GenerateRandomString(20);
+    this.OrdenProduccion.Estado = 'Pendiente';
 
     let NuevaOrdenDoc = doc(this.firebase, "OrdenesProduccion", this.OrdenProduccion.Id_Orden);
 
@@ -98,11 +103,10 @@ export class OrdenesProduccionComponent {
         console.error("Error guardando producto: ", error);
       });
     console.log(this.OrdenProduccion)
-    
+
     let btnCerrar = document.getElementById('btnCerrarModalCrear');
     btnCerrar?.click();
   }
-
 
   EditarOrdenProduccion(orden: OrdenesDeProduccion) {
     this.EditarProduccionModal = orden;
@@ -113,30 +117,42 @@ export class OrdenesProduccionComponent {
     let ExisteProductoAgregado = this.ProductosAgregadosOrdenProduccion.Producto_Elaborado.find(m => m.Id_Producto === producto.Id_Producto)
 
     if (!ExisteProductoAgregado) {
-      // Agregar la materia prima al array de producto en Recetas
+      // Agregar el producto al array de Producto_Elaborado
       this.ProductosAgregadosOrdenProduccion.Producto_Elaborado.push(producto);
       this.OrdenProduccion.Producto_Elaborado.push(producto);
-      //this.OrdenProduccion.Cantidad_Producto.push()
       console.log(this.ProductosAgregadosOrdenProduccion.Producto_Elaborado)
     } else {
       Swal.fire('Error', 'Este producto ya ha sido agregado.', 'error');
     }
   }
 
-  EliminarProductoOrden(index:number) {
-    // Eliminar el elemento de Producto_Elaborado usando el índice
+  EliminarProductoOrden(index: number) {
     this.ProductosAgregadosOrdenProduccion.Producto_Elaborado.splice(index, 1);
-
-    // También eliminar la cantidad correspondiente del array Cantidad_Producto
     this.ProductosAgregadosOrdenProduccion.Cantidad_Producto.splice(index, 1);
     console.log(this.ProductosAgregadosOrdenProduccion.Producto_Elaborado)
   }
 
-  GuardarCambios() {
+  GuardarCambiosProduccion() {
+    if (!this.EditarProduccionModal.Fecha_Elaboracion || !this.EditarProduccionModal.Fecha_Finalizacion || !this.EditarProduccionModal.Solicitante || !this.EditarProduccionModal.Producto_Elaborado || !this.EditarProduccionModal.Cantidad_Producto) {
+      Swal.fire('Error', 'Complete todos los campos', 'error');
+      return;
+    }
 
+    let productoDoc = doc(this.firebase, "OrdenesProduccion", this.EditarProduccionModal.Id_Orden);
+    setDoc(productoDoc, JSON.parse(JSON.stringify(this.EditarProduccionModal)))
+      .then(() => {
+        Swal.fire('Éxito', 'Orden actualizada correctamente', 'success');
+        this.CargarProductos(); // Refrescar lista de productos
+      })
+      .catch((error) => {
+        Swal.fire('Error', 'Ocurrió un error al actualizar la orden', 'error');
+        console.error("Error actualizando orden: ", error);
+      });
+    let CerrarEditarModalProducto = document.getElementById("btnCerrarModalElementoEditar");
+    CerrarEditarModalProducto?.click();
   }
 
-  EliminarOrdenProduccion(id: string) {
+  EliminarOrdenProduccion(orden: OrdenesDeProduccion) {
     Swal.fire({
       title: '¿Estás seguro?',
       text: "No podrás revertir esta acción",
@@ -148,7 +164,7 @@ export class OrdenesProduccionComponent {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        const ordenRef = doc(this.firebase, 'ordenes', id);
+        const ordenRef = doc(this.firebase, 'OrdenesProduccion', orden.Id_Orden);
         deleteDoc(ordenRef)
           .then(() => {
             Swal.fire(
@@ -173,45 +189,26 @@ export class OrdenesProduccionComponent {
     console.log(orden);
   }
 
-  resetForm() {
-
+  trackByIndex(index: number, item: any): number {
+    return index;
   }
 
-  closeModal() {
-    const btnCerrar = document.getElementById('btnCerrarModalElemento');
-    btnCerrar?.click();
-  }
+  calcularCantidadMateria(producto: Producto, index: number, cantidadProducto: number): number {
+    const materiaPrimaRatio = producto.Cantidad_MateriasPrimas[index] || 1; // Ajusta según tu estructura
+    console.log(`Índice ${index} - Cantidad producto: ${cantidadProducto} - Cantidad de materias primas: ${materiaPrimaRatio}`);
+    return cantidadProducto * materiaPrimaRatio; // Ahora utiliza la cantidad del índice específico
+}
 
-  BuscarProduccion() {
+calcularCostoMateria(producto: Producto, index: number, cantidadProducto: number): number {
+  const cantidadMateria = this.calcularCantidadMateria(producto, index, cantidadProducto);
+  const costoUnitario = producto.Materias_Primas[index].Precio_unitario || 0; // Ajusta según tu estructura
+  return cantidadMateria * costoUnitario; // Utiliza la cantidad de materia calculada
+}
 
-  }
-
-  validarNombre(event: KeyboardEvent) {
-    const pattern = /[a-zA-Z\s]/;
-    const inputChar = String.fromCharCode(event.charCode);
-
-    if (!pattern.test(inputChar)) {
-      event.preventDefault(); // Prevenir la entrada de caracteres inválidos
-    }
-  }
-
-  convertToComparableDate(dateString: string): Date | null {
-    const [day, month, year] = dateString.split('/').map(Number);
-    return !isNaN(day) && !isNaN(month) && !isNaN(year) ? new Date(year, month - 1, day) : null;
-  }
-
-  formatDateForDisplay(dateString: string): string {
-    const date = new Date(dateString);
-    return `${('0' + date.getDate()).slice(-2)}/${('0' + (date.getMonth() + 1)).slice(-2)}/${date.getFullYear()}`;
-  }
-
-  formatDateForStorage(dateString: string): string {
-    const [year, month, day] = dateString.split('-');
-    return `${year}-${month}-${day}T00:00:00.000Z`;
-  }
-
-  RestablecerListaCompleta() {
-
+  calcularCostoTotal(producto: Producto, cantidadProducto: number): number {
+    return producto.Materias_Primas.reduce((total, _, indexMateria) => {
+      return total + this.calcularCostoMateria(producto, indexMateria, cantidadProducto);
+    }, 0);
   }
 
   GenerateRandomString(length: number): string {
@@ -223,26 +220,10 @@ export class OrdenesProduccionComponent {
     return result;
   }
 
-  trackByIndex(index: number, item: any): number {
-    return index;
+  resetForm() {
   }
 
-  calcularCantidadMateria(producto: Producto, index: number): number {
-    const cantidadProducto = this.OrdenProduccion.Cantidad_Producto[index] || 0;
-    const materiaPrimaRatio = producto.Materias_Primas[index].Existencias || 1; // Ajusta según tu estructura
-    return cantidadProducto * materiaPrimaRatio;
-  }
+  BuscarProduccion() {
 
-  calcularCostoMateria(producto: Producto, index: number): number {
-    const cantidadMateria = this.calcularCantidadMateria(producto, index);
-    const costoUnitario = producto.Materias_Primas[index].Costo_promedio || 0; // Ajusta según tu estructura
-    return cantidadMateria * costoUnitario;
   }
-
-  calcularCostoTotal(producto: Producto): number {
-    return producto.Materias_Primas.reduce((total, materia, index) => {
-      return total + this.calcularCostoMateria(producto, index);
-    }, 0);
-  }
-
 }

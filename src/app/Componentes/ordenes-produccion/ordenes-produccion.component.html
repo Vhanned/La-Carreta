@@ -42,7 +42,7 @@
             <td>
               <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
                 data-bs-target="#staticBackdropEditarProduccion" (click)="EditarOrdenProduccion(orden)">Editar</button>
-              <button class="btn btn-danger btn-sm">Eliminar</button>
+              <button class="btn btn-danger btn-sm" (click)="EliminarOrdenProduccion(orden)">Eliminar</button>
               <button class="btn btn-info btn-sm" data-bs-target="#staticBackdropDetalles" data-bs-toggle="modal" (click)="MostrarDetalles(orden)">Detalles</button>
             </td>
           </tr>
@@ -257,10 +257,10 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarModalElemento"
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarModalElementoEditar"
           (click)="resetForm()">Cerrar</button>
-        <button type="button" class="btn btn-primary" (click)="CrearOrdenProduccion()">
-          Crear
+        <button type="button" class="btn btn-primary" (click)="GuardarCambiosProduccion()">
+          Guardar cambios
         </button>
       </div>
     </div>
@@ -277,33 +277,38 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div *ngFor="let producto of VerDetallesProduccion.Producto_Elaborado">
+        <div *ngFor="let producto of VerDetallesProduccion.Producto_Elaborado; let i = index; trackBy: trackByIndex">
           <h3>{{ producto.Nombre }}</h3>
+          <h3>{{ VerDetallesProduccion.Cantidad_Producto[i] }} litros a producir</h3>
           
           <!-- Tabla dinámica para mostrar detalles del producto -->
           <table class="table">
-            <thead>
-              <tr>
-                <th>Materia Prima</th>
-                <th>Cantidad Necesaria</th>
-                <th>Costo</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Filas dinámicas para mostrar materias primas y costos -->
-              <tr *ngFor="let materia of producto.Materias_Primas; let i = index">
-                <td>{{ materia.Nombre }}</td>
-                <td>{{ calcularCantidadMateria(producto, i) }} unidades</td>
-                <td>{{ calcularCostoMateria(producto, i) | currency }}</td>
-              </tr>
-              <tr>
-                <td><strong>Total</strong></td>
-                <td></td>
-                <td><strong>{{ calcularCostoTotal(producto) | currency }}</strong></td>
-              </tr>
-            </tbody>
+              <thead>
+                  <tr>
+                      <th>Materia Prima</th>
+                      <th>Cantidad Necesaria</th>
+                      <th>Unidades</th>
+                      <th>Costo</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <!-- Filas dinámicas para mostrar materias primas y costos -->
+                  <tr *ngFor="let materia of producto.Materias_Primas; let j = index; trackBy: trackByIndex">
+                      <td>{{ materia.Nombre }}</td>
+                      <td>{{ calcularCantidadMateria(producto, j, VerDetallesProduccion.Cantidad_Producto[i]) }}</td> <!-- Cambia VerDetallesProduccion.Cantidad_Producto[0] por VerDetallesProduccion.Cantidad_Producto[i] -->
+                      <td>{{ materia.Unidad_Medida }}</td>
+                      <td>{{ calcularCostoMateria(producto, j, VerDetallesProduccion.Cantidad_Producto[i]) | currency }}</td> <!-- Cambia aquí también -->
+                  </tr>
+                  <tr>
+                      <td><strong>Total</strong></td>
+                      <td></td>
+                      <td></td>
+                      <td><strong>{{ calcularCostoTotal(producto, VerDetallesProduccion.Cantidad_Producto[i]) | currency }}</strong></td> <!-- Cambia aquí también -->
+                  </tr>
+              </tbody>
           </table>
-        </div>
+      </div>
+      
         
       </div>
       <div class="modal-footer">

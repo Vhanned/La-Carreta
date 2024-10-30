@@ -30,7 +30,7 @@ export class Producto {
   Tamano_Lote: number | undefined = undefined;
   Estado: string=''; // Indica si el producto está disponible para producción
   Materias_Primas: MateriaPrima[] = []; // Lista de materias primas necesarias para producir este producto
-  Cantidad_MateriasPrimas: Number[] = []; //Que tanto se va a usar de cada materia prima
+  Cantidad_MateriasPrimas: number[] = []; //Que tanto se va a usar de cada materia prima
   Litros: number | undefined = undefined; //litros necesarios para la elaboracion de cada lote
   Tiempo_Elaboracion: string = '';
 
@@ -61,12 +61,11 @@ export class MateriaPrima {
   Id_Materia: string = ''; // ID único de la materia prima
   Codigo: string = '';
   Nombre: string = ''; // Nombre de la materia prima (ej. "Caseína", "Leche Fluida")
-  Costo_promedio: number | undefined = undefined; //Costo de la materia prima, sera un valor por defecto el cual podran editar en el reporte del dia en caso de ser necesario
   Unidad_Medida: string = ''; // Unidad de medida (litros, kilogramos, etc.)
   Existencias: number | undefined = undefined; //Registro de cuando se agrega, en dado caso seria en una nueva coleccion
   Marca: string = '';
   Tipo: string = '';
-  Precio_unitario: number | undefined = undefined;
+  Precio_unitario: number | undefined = undefined;//Costo de la materia prima, sera un valor por defecto el cual podran editar en el reporte del dia en caso de ser necesario
   Punto_Reorden: number | undefined = undefined; //Cuando el inventario es menor que el punto de reorden, aparece una alerta
 
   setData(data: any) {
