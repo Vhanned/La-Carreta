@@ -242,3 +242,32 @@ export class Usuarios {
   }
 
 }
+
+export interface MateriaPrimaInfo {
+  id: string;
+  nombre: string;
+  cantidadausar: number;
+  precio: number; // Se llenará después de la consulta a Firestore
+  existencias?: number; // Se llenará después de la consulta a Firestore
+}
+
+export class MateriaPrimaInfoClase {
+  
+  id: string='';
+  nombre: string='';
+  cantidadausar: number|undefined;
+  precio: number|undefined;
+  existencias?: number|undefined; // Se llenará después de la consulta a Firestore
+
+  constructor(){
+
+  }
+
+  setData(data: any) {
+    this.id = data.id;
+    this.nombre = data.nombre;
+    this.cantidadausar=data.cantidadausar;
+    this.precio=data.precio;
+    this.existencias=data.existencias;
+  }
+}

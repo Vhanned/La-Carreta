@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Firestore, collectionData, collection, addDoc, doc, updateDoc, deleteDoc, query, setDoc } from '@angular/fire/firestore';
-import { Producto, OrdenesDeProduccion, MateriaPrima } from 'src/app/clases/clases.component';
+import { where } from 'firebase/firestore';
+import { find } from 'rxjs/operators';
+import { Producto, OrdenesDeProduccion, MateriaPrima, MateriaPrimaInfo, InventarioMateriasPrimas, MateriaPrimaInfoClase } from 'src/app/clases/clases.component';
 import Swal from 'sweetalert2'; // Importamos SweetAlert
 
 
@@ -15,10 +17,6 @@ export class OrdenesProduccionComponent implements OnInit {
   costosMaterias: number[] = [];
   costoTotal: number = 0;
 
-  existenciasInventario: { [nombreMateria: string]: number } = {};  // Almacena existencias por nombre de materia
-  totalCantidadesMaterias: { [nombreMateria: string]: number } = {};  // Almacena total de materia prima requerida
-
-
   // Lista de ordenes de producción traida de la base de datos
   ListaOrdenes: OrdenesDeProduccion[] = [];
 
@@ -31,7 +29,8 @@ export class OrdenesProduccionComponent implements OnInit {
   // Lista de los productos activos disponibles para su elaboración
   ListaProductos: Producto[] = [];
   //Lista de materias primas usadas en la fabricacion
-  ListaMateriasEditar: MateriaPrima[] = [];
+  ListaMateriasEditar:MateriaPrimaInfo[]=[];
+  ListaTemporalMaterias:MateriaPrimaInfoClase[]=[]
   MateriasBD = collection(this.firebase, "MateriasPrimas");
 
   // Lista de productos agregados a la orden de producción
@@ -48,12 +47,10 @@ export class OrdenesProduccionComponent implements OnInit {
   constructor(private firebase: Firestore) {
     this.CargarProductos();
     this.CargarListaOrdenesProduccion();
-    this.cargarInventarioMateriasPrimas();
-    this.CargarListaMateriasEditar();
   }
 
   ngOnInit() {
-    this.calcularCantidadesTotales();
+
   }
 
   CargarProductos() {
@@ -91,18 +88,6 @@ export class OrdenesProduccionComponent implements OnInit {
     });
   }
 
-  CargarListaMateriasEditar() {
-    let q = query(this.MateriasBD);
-    collectionData(q).subscribe((materiasSnap) => {
-      this.ListaMateriasEditar = [];
-      materiasSnap.forEach((item) => {
-        let materia = new MateriaPrima();
-        materia.setData(item);
-        this.ListaMateriasEditar.push(materia);
-      })
-    })
-    console.log(this.ListaMateriasEditar)
-  }
 
   CrearOrdenProduccion() {
     // Validar que todos los campos estén llenos
@@ -137,10 +122,38 @@ export class OrdenesProduccionComponent implements OnInit {
   }
 
   EditarTablaProduccionEditar(orden: OrdenesDeProduccion) {
-    for (let i = 0; i < this.ListaMateriasEditar.length; i++) {
-      //this.ListaMateriasEditar.push(orden.Producto_Elaborado[i].Materias_Primas[i].Nombre)
+    this.ListaMateriasEditar=[];
+    for (let index = 0; index < orden.Producto_Elaborado.length; index++) {
+      let cantidadProducto = orden.Cantidad_Producto[index];
+  
+      for (let j = 0; j < orden.Producto_Elaborado[index].Materias_Primas.length; j++) {
+        let materia = orden.Producto_Elaborado[index].Materias_Primas[j];
+        let cantidadMateria = orden.Producto_Elaborado[index].Cantidad_MateriasPrimas[j];
+        let cantidadTotalMateria = cantidadMateria * cantidadProducto;
+  
+        // Revisa si ya existe en el arreglo acumulado
+        let materiaExistente = this.ListaMateriasEditar.find(m => m.id === materia.Id_Materia);
+  
+        if (materiaExistente) {
+          // Si ya existe, suma la cantidad
+          materiaExistente.cantidadausar += cantidadTotalMateria;
+        } else {
+          // Si no existe, crea una nueva entrada
+          this.ListaMateriasEditar.push({
+            id: materia.Id_Materia,
+            nombre: materia.Nombre,
+            cantidadausar: cantidadTotalMateria,
+            precio: 0,         // Temporal, se actualizará con el valor de Firestore
+            existencias: 0     // Temporal, se actualizará con el valor de Firestore
+          });
+        }
+      }
     }
+    console.log(this.ListaMateriasEditar);
+    // Una vez que tienes todas las materias acumuladas, haces la consulta a Firestore:
+    this.actualizarDatosFirestore(this.ListaMateriasEditar);
   }
+  
 
   AgregarProductoProduccion(producto: Producto) {
     let ExisteProductoAgregado = this.ProductosAgregadosOrdenProduccion.Producto_Elaborado.find(m => m.Id_Producto === producto.Id_Producto)
@@ -259,31 +272,6 @@ export class OrdenesProduccionComponent implements OnInit {
     }, 0);
   }
 
-  calcularCantidadesTotales() {
-    this.totalCantidadesMaterias = {};  // Reiniciar totales
-    this.EditarProduccionModal.Producto_Elaborado.forEach((producto) => {
-      producto.Materias_Primas.forEach((materia, index) => {
-        const nombreMateria = materia.Nombre;
-        const cantidadUsar = producto.Cantidad_MateriasPrimas[index];
-
-        if (!this.totalCantidadesMaterias[nombreMateria]) {
-          this.totalCantidadesMaterias[nombreMateria] = 0;
-        }
-
-        this.totalCantidadesMaterias[nombreMateria] += cantidadUsar;  // Sumar cantidades necesarias
-      });
-    });
-  }
-
-  cargarInventarioMateriasPrimas() {
-    const inventarioRef = collection(this.firebase, "InventarioMateriasPrimas");
-    collectionData(inventarioRef).subscribe((inventarioSnap) => {
-      inventarioSnap.forEach((item: any) => {
-        this.existenciasInventario[item.Nombre] = item.Existencia || 0;
-      });
-    });
-  }
-
   getKeys(obj: any): string[] {
     return Object.keys(obj);
   }
@@ -303,6 +291,28 @@ export class OrdenesProduccionComponent implements OnInit {
     }
     return result;
   }
+
+  async actualizarDatosFirestoreTodos(materias: MateriaPrimaInfo[]) {
+    const materiaIds = materias.map(m => m.id);
+    try {
+      const snapshot = await this.firebase.firestore().collection('Materias_Primas').where('id', 'in', materiaIds).get();
+  
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const materia = materias.find(m => m.id === doc.id);
+        if (materia) {
+          materia.precio = data.Precio_unitario;
+          materia.existencias = data.Existencia;
+        }
+      });
+      console.log("Datos de materias actualizados con una sola consulta.");
+    } catch (error) {
+      console.error("Error obteniendo datos de Firestore:", error);
+    }
+  }
+  
+  
+  
 
   resetForm() {
   }

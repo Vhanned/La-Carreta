@@ -190,11 +190,7 @@
               </div>
               <div>
                 Para la informacion completa de costos revise los detalles
-              </div>
-            </div>
-
-            <div class="tabla ms-s w-100">
-              <h3 style="color: black;">Informacion de las materias usadas para estos productos</h3>
+                <h3 style="color: black;">Informacion de las materias usadas para estos productos</h3>
               <!--Lista de productos disponibles para su fabricacion-->
               <table class="inventory-table">
                 <thead>
@@ -207,12 +203,11 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let materiaNombre of ListaMateriasEditar;let i=index">
-                    <td>{{ materiaNombre.Nombre }}</td>
-                    <td>{{ materiaNombre.Precio_unitario }}</td>
-                    <td>{{materiaNombre.Existencias}}</td>
-                    <td>{{ materiaNombre.Punto_Reorden }}</td>
-                    <td></td>
+                  <tr *ngFor="let materia of ListaMateriasEditar;let i=index">
+                    <td>{{ materia.nombre }}</td>
+                    <td>{{ materia.precio }}</td>
+                    <td>{{materia.cantidadausar }}</td>
+                    <td>{{ materia.existencias }}</td>
                     <td>
                       <button id="BotonAgregarProducto" class="btn btn-outline-danger">
                         Agregar
@@ -221,6 +216,11 @@
                   </tr>
                 </tbody>
               </table>
+              </div>
+            </div>
+
+            <div class="tabla ms-s w-100">
+              
 
               <!--Tabla de productos agregados a la orden de produccion-->
               <h3 style="color: black;">Lista de productos a producir</h3>
