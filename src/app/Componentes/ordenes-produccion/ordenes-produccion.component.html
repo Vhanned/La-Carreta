@@ -41,9 +41,9 @@
             <td>{{ orden.Solicitante}}</td>
             <td>
               <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                data-bs-target="#staticBackdropEditarProduccion" (click)="EditarOrdenProduccion(orden)">Editar</button>
+                data-bs-target="#staticBackdropEditarProduccion" (click)="EditarOrdenProduccion(orden)" (click)="EditarTablaProduccionEditar(orden)">Editar</button>
+                <button class="btn btn-info btn-sm" data-bs-target="#staticBackdropDetalles" data-bs-toggle="modal" (click)="MostrarDetalles(orden)">Detalles</button>
               <button class="btn btn-danger btn-sm" (click)="EliminarOrdenProduccion(orden)">Eliminar</button>
-              <button class="btn btn-info btn-sm" data-bs-target="#staticBackdropDetalles" data-bs-toggle="modal" (click)="MostrarDetalles(orden)">Detalles</button>
             </td>
           </tr>
         </tbody>
@@ -123,7 +123,7 @@
                 <thead>
                   <tr>
                     <th>Producto</th>
-                    <th>Cantidad a producir (Lts)</th>
+                    <th>Tinas a usar (1200lts)</th>
                     <th>Accion</th>
                   </tr>
                 </thead>
@@ -176,7 +176,7 @@
               <div class="mb-3">
                 <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
                 <input type="date" class="form-control" id="fechaInicio"
-                  [(ngModel)]="EditarProduccionModal.Fecha_Elaboracion" name="fechaInicio" required>
+                  [(ngModel)]="EditarProduccionModal.Fecha_Elaboracion" name="fechaInicio" disabled required>
               </div>
               <div class="mb-3">
                 <label for="fechaFin" class="form-label">Fecha de Finalización</label>
@@ -186,7 +186,7 @@
               <div class="mb-3">
                 <label for="responsable" class="form-label">Responsable</label>
                 <input type="text" class="form-control" id="responsable" [(ngModel)]="EditarProduccionModal.Solicitante"
-                  name="responsable" placeholder="Nombre del responsable" required>
+                  name="responsable" placeholder="Nombre del responsable" disabled required>
               </div>
               <div>
                 Para la informacion completa de costos revise los detalles
@@ -194,30 +194,27 @@
             </div>
 
             <div class="tabla ms-s w-100">
-              <h3 style="color: black;">Lista de productos disponibles para su
-                fabricacion</h3>
+              <h3 style="color: black;">Informacion de las materias usadas para estos productos</h3>
               <!--Lista de productos disponibles para su fabricacion-->
               <table class="inventory-table">
                 <thead>
                   <tr>
-                    <th>Codigo</th>
                     <th>Nombre</th>
-                    <th>Tipo de empaquetado</th>
-                    <th>Tiempo de elaboracion (Hrs)</th>
-                    <th>Estado</th>
+                    <th>Precio</th>
+                    <th>Cantidad a usar</th>
+                    <th>Existencia en inventario</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let producto of ListaProductos">
-                    <td>{{ producto.Codigo }}</td>
-                    <td>{{ producto.Nombre }}</td>
-                    <td>{{ producto.Tipo_Empaquetado }}</td>
-                    <td>{{ producto.Tiempo_Elaboracion}}</td>
-                    <td>{{ producto.Estado }}</td>
+                  <tr *ngFor="let materiaNombre of ListaMateriasEditar;let i=index">
+                    <td>{{ materiaNombre.Nombre }}</td>
+                    <td>{{ materiaNombre.Precio_unitario }}</td>
+                    <td>{{materiaNombre.Existencias}}</td>
+                    <td>{{ materiaNombre.Punto_Reorden }}</td>
+                    <td></td>
                     <td>
-                      <button id="BotonAgregarProducto" class="btn btn-outline-danger"
-                        (click)="AgregarProductoProduccion(producto)">
+                      <button id="BotonAgregarProducto" class="btn btn-outline-danger">
                         Agregar
                       </button>
                     </td>
@@ -231,7 +228,7 @@
                 <thead>
                   <tr>
                     <th>Producto</th>
-                    <th>Cantidad a producir (Lts)</th>
+                    <th>Tinas a usar (1200lts)</th>
                     <th>Accion</th>
                   </tr>
                 </thead>
@@ -245,7 +242,7 @@
                     </td>
                     <td>{{EditarProduccionModal.Estado}}</td>
                     <td>
-                      <button id="BotonEditarMateia" class="btn btn-outline-danger">
+                      <button id="BotonEditarMateia" class="btn btn-outline-danger" (click)="EliminarProductoEditarOrden(i)">
                         Eliminar
                       </button>
                     </td>
@@ -279,8 +276,7 @@
       <div class="modal-body">
         <div *ngFor="let producto of VerDetallesProduccion.Producto_Elaborado; let i = index; trackBy: trackByIndex">
           <h3>{{ producto.Nombre }}</h3>
-          <h3>{{ VerDetallesProduccion.Cantidad_Producto[i] }} litros a producir</h3>
-          
+          <h5 style="text-align: center;">Tinas a usar: {{ VerDetallesProduccion.Cantidad_Producto[i] }}</h5>
           <!-- Tabla dinámica para mostrar detalles del producto -->
           <table class="table">
               <thead>
@@ -307,13 +303,11 @@
                   </tr>
               </tbody>
           </table>
-      </div>
-      
-        
+      </div>  
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Understood</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Understood</button>
       </div>
     </div>
   </div>
