@@ -96,7 +96,6 @@ export class OrdenesProduccionComponent implements OnInit {
     });
   }
 
-<<<<<<< HEAD
   FiltrarOrdenesPorFecha(fechaInicio: string, fechaFin: string) {
     const inicio = new Date(fechaInicio);
     const fin = new Date(fechaFin);
@@ -121,8 +120,6 @@ export class OrdenesProduccionComponent implements OnInit {
 
     console.log("Lista de órdenes filtrada:", this.ListaOrdenes);
   }
-=======
->>>>>>> 3ef095d77a4fa0ba3a351c805a30b30d4e966b09
 
   CrearOrdenProduccion() {
     this.OrdenProduccion.Fecha_Creacion = new Date().toISOString().split('T')[0];
@@ -293,22 +290,13 @@ export class OrdenesProduccionComponent implements OnInit {
   calcularCantidadMateria(producto: Producto, index: number, cantidadProducto: number): number {
     const materiaPrimaRatio = producto.Cantidad_MateriasPrimas[index] || 1;
     console.log(`Índice ${index} - Cantidad producto: ${cantidadProducto} - Cantidad de materias primas: ${materiaPrimaRatio}`);
-<<<<<<< HEAD
-    return cantidadProducto * materiaPrimaRatio;
-=======
     return cantidadProducto * materiaPrimaRatio; // Ahora utiliza la cantidad del índice específico
->>>>>>> 3ef095d77a4fa0ba3a351c805a30b30d4e966b09
   }
 
   calcularCostoMateria(producto: Producto, index: number, cantidadProducto: number): number {
     const cantidadMateria = this.calcularCantidadMateria(producto, index, cantidadProducto);
-<<<<<<< HEAD
-    const costoUnitario = producto.Materias_Primas[index].Precio_unitario || 0;
-    return cantidadMateria * costoUnitario;
-=======
     const costoUnitario = producto.Materias_Primas[index].Precio_unitario || 0; // Ajusta según tu estructura
     return cantidadMateria * costoUnitario; // Utiliza la cantidad de materia calculada
->>>>>>> 3ef095d77a4fa0ba3a351c805a30b30d4e966b09
   }
 
   calcularCostoTotal(producto: Producto, cantidadProducto: number): number {
