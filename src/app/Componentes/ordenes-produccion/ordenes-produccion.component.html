@@ -43,9 +43,9 @@
             <td>{{ orden.Solicitante }}</td>
             <td>
               <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                data-bs-target="#staticBackdropEditarProduccion" (click)="EditarOrdenProduccion(orden)">Editar</button>
+                data-bs-target="#staticBackdropEditarProduccion" (click)="EditarOrdenProduccion(orden)" (click)="EditarTablaProduccionEditar(orden)">Editar</button>
+                <button class="btn btn-info btn-sm" data-bs-target="#staticBackdropDetalles" data-bs-toggle="modal" (click)="MostrarDetalles(orden)">Detalles</button>
               <button class="btn btn-danger btn-sm" (click)="EliminarOrdenProduccion(orden)">Eliminar</button>
-              <button class="btn btn-info btn-sm" data-bs-target="#staticBackdropDetalles" data-bs-toggle="modal" (click)="MostrarDetalles(orden)">Detalles</button>
             </td>
           </tr>
         </tbody>
@@ -113,7 +113,7 @@
                 <thead>
                   <tr>
                     <th>Producto</th>
-                    <th>Cantidad a producir (Lts)</th>
+                    <th>Tinas a usar (1200lts)</th>
                     <th>Accion</th>
                   </tr>
                 </thead>
@@ -160,7 +160,12 @@
             <div class="formulario w-100">
               <div class="mb-3">
                 <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
+<<<<<<< HEAD
                 <input type="date" class="form-control" id="fechaInicio" [(ngModel)]="EditarProduccionModal.Fecha_Elaboracion" name="fechaInicio" required>
+=======
+                <input type="date" class="form-control" id="fechaInicio"
+                  [(ngModel)]="EditarProduccionModal.Fecha_Elaboracion" name="fechaInicio" disabled required>
+>>>>>>> 3ef095d77a4fa0ba3a351c805a30b30d4e966b09
               </div>
               <div class="mb-3">
                 <label for="fechaFin" class="form-label">Fecha de Finalización</label>
@@ -168,23 +173,39 @@
               </div>
               <div class="mb-3">
                 <label for="responsable" class="form-label">Responsable</label>
+<<<<<<< HEAD
                 <input type="text" class="form-control" id="responsable" [(ngModel)]="EditarProduccionModal.Solicitante" name="responsable" placeholder="Nombre del responsable" required>
               </div>
             </div>
             <div class="tabla ms-s w-100">
               <h3 style="color: black;">Lista de productos disponibles para su fabricación</h3>
+=======
+                <input type="text" class="form-control" id="responsable" [(ngModel)]="EditarProduccionModal.Solicitante"
+                  name="responsable" placeholder="Nombre del responsable" disabled required>
+              </div>
+              <div>
+                Para la informacion completa de costos revise los detalles
+                <h3 style="color: black;">Informacion de las materias usadas para estos productos</h3>
+              <!--Lista de productos disponibles para su fabricacion-->
+>>>>>>> 3ef095d77a4fa0ba3a351c805a30b30d4e966b09
               <table class="inventory-table">
                 <thead>
                   <tr>
-                    <th>Codigo</th>
                     <th>Nombre</th>
+<<<<<<< HEAD
                     <th>Tipo de empaquetado</th>
                     <th>Tiempo de elaboración (Hrs)</th>
                     <th>Estado</th>
+=======
+                    <th>Precio</th>
+                    <th>Cantidad a usar</th>
+                    <th>Existencia en inventario</th>
+>>>>>>> 3ef095d77a4fa0ba3a351c805a30b30d4e966b09
                     <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
+<<<<<<< HEAD
                   <tr *ngFor="let producto of ListaProductos">
                     <td>{{ producto.Codigo }}</td>
                     <td>{{ producto.Nombre }}</td>
@@ -193,18 +214,37 @@
                     <td>{{ producto.Estado }}</td>
                     <td>
                       <button id="BotonAgregarProducto" class="btn btn-outline-danger" (click)="AgregarProductoProduccion(producto)">
+=======
+                  <tr *ngFor="let materia of ListaMateriasEditar;let i=index">
+                    <td>{{ materia.nombre }}</td>
+                    <td>{{ materia.precio }}</td>
+                    <td>{{materia.cantidadausar }}</td>
+                    <td>{{ materia.existencias }}</td>
+                    <td>
+                      <button id="BotonAgregarProducto" class="btn btn-outline-danger">
+>>>>>>> 3ef095d77a4fa0ba3a351c805a30b30d4e966b09
                         Agregar
                       </button>
                     </td>
                   </tr>
                 </tbody>
               </table>
+<<<<<<< HEAD
+=======
+              </div>
+            </div>
+
+            <div class="tabla ms-s w-100">
+              
+
+              <!--Tabla de productos agregados a la orden de produccion-->
+>>>>>>> 3ef095d77a4fa0ba3a351c805a30b30d4e966b09
               <h3 style="color: black;">Lista de productos a producir</h3>
               <table id="MateriasAgregadas" class="table mt-3">
                 <thead>
                   <tr>
                     <th>Producto</th>
-                    <th>Cantidad a producir (Lts)</th>
+                    <th>Tinas a usar (1200lts)</th>
                     <th>Accion</th>
                   </tr>
                 </thead>
@@ -215,7 +255,11 @@
                       <input type="number" min="0" name="editarCantidadProducto{{i}}" id="editarCantidadProducto" [(ngModel)]="EditarProduccionModal.Cantidad_Producto[i]">
                     </td>
                     <td>
+<<<<<<< HEAD
                       <button id="BotonEditarMateia" class="btn btn-outline-danger" (click)="EliminarProductoOrden(i)">
+=======
+                      <button id="BotonEditarMateia" class="btn btn-outline-danger" (click)="EliminarProductoEditarOrden(i)">
+>>>>>>> 3ef095d77a4fa0ba3a351c805a30b30d4e966b09
                         Eliminar
                       </button>
                     </td>
@@ -248,8 +292,7 @@
       <div class="modal-body">
         <div *ngFor="let producto of VerDetallesProduccion.Producto_Elaborado; let i = index; trackBy: trackByIndex">
           <h3>{{ producto.Nombre }}</h3>
-          <h3>{{ VerDetallesProduccion.Cantidad_Producto[i] }} litros a producir</h3>
-          
+          <h5 style="text-align: center;">Tinas a usar: {{ VerDetallesProduccion.Cantidad_Producto[i] }}</h5>
           <!-- Tabla dinámica para mostrar detalles del producto -->
           <table class="table">
               <thead>
@@ -275,12 +318,20 @@
                   </tr>
               </tbody>
           </table>
+<<<<<<< HEAD
       </div>
         
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
         <button type="button" class="btn btn-primary">Entendido</button>
+=======
+      </div>  
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Understood</button>
+>>>>>>> 3ef095d77a4fa0ba3a351c805a30b30d4e966b09
       </div>
     </div>
   </div>

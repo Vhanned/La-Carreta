@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'nav-bar',
@@ -8,24 +9,21 @@ import { Router } from '@angular/router';
 })
 export class NavBarComponent {
 
-  constructor(private routing:Router) {
+  constructor(private routing: Router, private authService: AuthService) { } // Inyecta el servicio
 
-   }
-
-   IrInventario(){
+  IrInventario(){
     this.routing.navigate(['inventarios']);
-   }
+  }
 
-   IrLogin(){
-    this.routing.navigate(['login']);
-   }
+  IrLogin(){
+    this.authService.logout(); // Llama al método de cierre de sesión
+  }
 
-   IrOrdenesProduccion(){
+  IrOrdenesProduccion(){
     this.routing.navigate(['ordenes-produccion']);
-   }
+  }
 
-   IrProductos(){
+  IrProductos(){
     this.routing.navigate(['inventarios-productos']);
-   }
-
+  }
 }
