@@ -11,17 +11,21 @@
         <p>Fecha del día del reporte</p>
         <input type="date" class="input-field date" [(ngModel)]="nuevaVenta.fecha" placeholder="Seleccionar fecha" />
   
-        <p>Ingrese el dato1</p>
-        <input type="text" class="input-field" [(ngModel)]="nuevaVenta.dato1" placeholder="Dato1" />
+        <p>Cuentas por pagar </p>
+        <input type="text" class="input-field" [(ngModel)]="nuevaVenta.dato1" placeholder="Escribe aqui" />
   
-        <p>Ingrese el dato2</p>
-        <input type="text" class="input-field" [(ngModel)]="nuevaVenta.dato2" placeholder="Dato2" />
+        <p>Cobranza</p>
+        <input type="text" class="input-field" [(ngModel)]="nuevaVenta.dato2" placeholder="Escribe aqui" />
   
-        <p>Ingrese el dato3</p>
-        <input type="text" class="input-field" [(ngModel)]="nuevaVenta.dato3" placeholder="Dato3" />
-  
+        <p>Venta de productos</p>
+        <input type="text" class="input-field" [(ngModel)]="nuevaVenta.dato3" placeholder="Escribe aqui" />
+
+        <p>Inventario de productos terminados</p>
+        <input type="text" class="input-field" [(ngModel)]="nuevaVenta.dato4" placeholder="Escribe aqui" />
+  <!--
         <p>Descripción detallada del día</p>
         <textarea class="input-field textarea" [(ngModel)]="nuevaVenta.descripcion" placeholder="Descripción"></textarea>
+-->
       </div>
       <div class="button-group">
         <button class="submit-btn" (click)="insertarVenta()">Enviar</button>

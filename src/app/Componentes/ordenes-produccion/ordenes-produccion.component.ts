@@ -149,9 +149,18 @@ export class OrdenesProduccionComponent implements OnInit {
         }
       }
     }
-    console.log(this.ListaMateriasEditar);
+    if(this.ListaMateriasEditar.length > 0){
+      this.ListaMateriasEditar.forEach(x => {
+        let q = query(this.MateriasBD, where("Id_Materia","==",x.id));
+        collectionData(q).subscribe((materiSnap) => {
+          console.log(materiSnap)
+           x.precio = materiSnap[0].Precio_unitario;
+           x.existencias = materiSnap[0].Existencias
+        });
+      })
+    }
     // Una vez que tienes todas las materias acumuladas, haces la consulta a Firestore:
-    this.actualizarDatosFirestore(this.ListaMateriasEditar);
+    //this.actualizarDatosFirestore(this.ListaMateriasEditar);
   }
   
 
@@ -292,25 +301,6 @@ export class OrdenesProduccionComponent implements OnInit {
     return result;
   }
 
-  async actualizarDatosFirestoreTodos(materias: MateriaPrimaInfo[]) {
-    const materiaIds = materias.map(m => m.id);
-    try {
-      const snapshot = await this.firebase.firestore().collection('Materias_Primas').where('id', 'in', materiaIds).get();
-  
-      snapshot.forEach(doc => {
-        const data = doc.data();
-        const materia = materias.find(m => m.id === doc.id);
-        if (materia) {
-          materia.precio = data.Precio_unitario;
-          materia.existencias = data.Existencia;
-        }
-      });
-      console.log("Datos de materias actualizados con una sola consulta.");
-    } catch (error) {
-      console.error("Error obteniendo datos de Firestore:", error);
-    }
-  }
-  
   
   
 

@@ -17,6 +17,7 @@ export class VentasComponent implements OnInit {
     dato1: '',
     dato2: '',
     dato3: '',
+    dato4:'',
     descripcion: ''
   };
 
@@ -27,7 +28,7 @@ export class VentasComponent implements OnInit {
   ngOnInit(): void {}
 
   insertarVenta() {
-    if (!this.nuevaVenta.fecha || !this.nuevaVenta.dato1 || !this.nuevaVenta.dato2 || !this.nuevaVenta.dato3 || !this.nuevaVenta.descripcion) {
+    if (!this.nuevaVenta.fecha || !this.nuevaVenta.dato1 || !this.nuevaVenta.dato2 || !this.nuevaVenta.dato3 || !this.nuevaVenta.dato4) {
       Swal.fire('Error', 'Todos los campos son obligatorios', 'error');
       return;
     }
@@ -53,6 +54,7 @@ export class VentasComponent implements OnInit {
       dato1: '',
       dato2: '',
       dato3: '',
+      dato4:'',
       descripcion: ''
     };
   }
