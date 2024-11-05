@@ -89,31 +89,30 @@ export class OrdenesDeProduccion {
 
   }
   Id_Orden: string = ''; // ID único de la solicitud
-  Producto_Elaborado: Producto[] = []; //Lista de productos agregados, se cargara la informaacion comppleta de cadaa producto
-  Cantidad_Producto: number[] = []; //Cantidad del producto que se va a elaborar, se agrega como arreglo para despues hacer el calculo de costos
-  Fecha_Elaboracion: string = ''; // Fecha cuando se genero la receta
-  Fecha_Elabroacion: number | undefined = undefined;
-  Fecha_Entrega_Materia: string = ''; //
+  Producto_Elaborado: Producto[] = []; // Lista de productos agregados
+  Cantidad_Producto: number[] = []; // Cantidad del producto que se va a elaborar
+  Fecha_Elaboracion: string = ''; // Fecha cuando se generó la receta
+  Fecha_Entrega_Materia: string = ''; 
   Fecha_Entrega_Materia_Number: number | undefined = undefined;
-  Fecha_Finalizacion: string = ''; //Cuando se termino la orden de produccion
+  Fecha_Finalizacion: string = ''; // Fecha cuando se terminó la orden de producción
   Solicitante: string = '';
-  Estado: string = ''; // Estado de la receta generada, materia prima entregada, en proceso, finalizado
-  Usuario_Elabroacion: string = '';
+  Estado: string = ''; // Estado de la receta
+  Usuario_Elaboracion: string = ''; // Cambiado a la ortografía correcta
   Tiempo_elaboracion_total: string = '';
   Clave_Lote: string = '';
+  Fecha_Creacion: string = '';
 
   setData(data: any) {
     this.Id_Orden = data.Id_Orden || '';
     this.Producto_Elaborado = data.Producto_Elaborado || [];
     this.Cantidad_Producto = data.Cantidad_Producto || [];
-    this.Fecha_Elaboracion = data.Fecha_Elaboracion || '';
-    this.Fecha_Elabroacion = data.Fecha_Elabroacion || undefined;
+    this.Fecha_Elaboracion = data.Fecha_Elaboracion || ''; // Cambiado a la ortografía correcta
     this.Fecha_Entrega_Materia = data.Fecha_Entrega_Materia || '';
     this.Fecha_Entrega_Materia_Number = data.Fecha_Entrega_Materia_Number || undefined;
     this.Fecha_Finalizacion = data.Fecha_Finalizacion || '';
     this.Solicitante = data.Solicitante || '';
     this.Estado = data.Estado || '';
-    this.Usuario_Elabroacion = data.Usuario_Elabroacion || '';
+    this.Usuario_Elaboracion = data.Usuario_Elaboracion || ''; // Cambiado a la ortografía correcta
     this.Tiempo_elaboracion_total = data.Tiempo_elaboracion_total || '';
     this.Clave_Lote = data.Clave_Lote || '';
   }

@@ -5,7 +5,6 @@ import { find } from 'rxjs/operators';
 import { Producto, OrdenesDeProduccion, MateriaPrima, MateriaPrimaInfo, InventarioMateriasPrimas, MateriaPrimaInfoClase } from 'src/app/clases/clases.component';
 import Swal from 'sweetalert2'; // Importamos SweetAlert
 
-
 @Component({
   selector: 'ordenes-produccion',
   templateUrl: './ordenes-produccion.component.html',
@@ -19,6 +18,7 @@ export class OrdenesProduccionComponent implements OnInit {
 
   // Lista de ordenes de producción traida de la base de datos
   ListaOrdenes: OrdenesDeProduccion[] = [];
+  ListaOrdenesOriginales: OrdenesDeProduccion[] = []; // Lista original de órdenes
 
   // Variable para la edición de la producción
   EditarProduccionModal = new OrdenesDeProduccion();
@@ -44,6 +44,10 @@ export class OrdenesProduccionComponent implements OnInit {
   // Dirección de la colección de las órdenes de producción
   OrdenesBD = collection(this.firebase, 'OrdenesProduccion');
 
+  // Variables para almacenar las fechas de búsqueda
+  fechaInicio: string = '';
+  fechaFin: string = '';
+
   constructor(private firebase: Firestore) {
     this.CargarProductos();
     this.CargarListaOrdenesProduccion();
@@ -63,39 +67,70 @@ export class OrdenesProduccionComponent implements OnInit {
 
         // Verificar si el producto está en estado "Activo"
         if (producto.Estado === "Activo") {
-
-          // Asegurar que la cantidad de materias primas esté correctamente inicializada
           if (!producto.Cantidad_MateriasPrimas || producto.Cantidad_MateriasPrimas.length !== producto.Materias_Primas.length) {
             producto.Cantidad_MateriasPrimas = Array(producto.Materias_Primas.length).fill(0);
           }
-
-          // Agregar el producto a la lista si está activo
           this.ListaProductos.push(producto);
         }
-      });
+      }); 
     });
   }
 
   CargarListaOrdenesProduccion() {
     let q = query(this.OrdenesBD);
     collectionData(q).subscribe((ordenesSnap) => {
-      this.ListaOrdenes = [];  // Reiniciar la lista de órdenes
+      this.ListaOrdenes = [];
+      this.ListaOrdenesOriginales = []; // Guardamos la lista original
       ordenesSnap.forEach((item) => {
         let orden = new OrdenesDeProduccion();
         orden.setData(item);
+  
+        // Asegurarse de que Fecha_Creacion esté definida
+        if (!orden.Fecha_Creacion) {
+          orden.Fecha_Creacion = new Date().toISOString().split('T')[0];
+        }
+  
         this.ListaOrdenes.push(orden);
+        this.ListaOrdenesOriginales.push(orden); // Almacenar en la lista original
       });
     });
   }
 
+  FiltrarOrdenesPorFecha(fechaInicio: string, fechaFin: string) {
+    const inicio = new Date(fechaInicio);
+    const fin = new Date(fechaFin);
+    fin.setHours(23, 59, 59, 999); // Incluye el último segundo del día final
+
+    console.log("Fecha de inicio (formateada):", inicio);
+    console.log("Fecha de fin (formateada):", fin);
+
+    // Filtra las órdenes de producción en base a la lista original
+    this.ListaOrdenes = this.ListaOrdenesOriginales.filter(orden => {
+      if (!orden.Fecha_Creacion) {
+        console.log("Orden sin fecha de creación:", orden);
+        return false; // Excluye órdenes sin `Fecha_Creacion`
+      }
+
+      const fechaCreacion = new Date(orden.Fecha_Creacion);
+      const isWithinRange = fechaCreacion >= inicio && fechaCreacion <= fin;
+      console.log("Fecha de creación de la orden (formateada):", fechaCreacion);
+      console.log("¿Está dentro del rango?", isWithinRange);
+      return isWithinRange;
+    });
+
+    console.log("Lista de órdenes filtrada:", this.ListaOrdenes);
+  }
 
   CrearOrdenProduccion() {
-    // Validar que todos los campos estén llenos
-    if (!this.OrdenProduccion.Fecha_Elaboracion || !this.OrdenProduccion.Fecha_Finalizacion || !this.OrdenProduccion.Solicitante || !this.OrdenProduccion.Producto_Elaborado || !this.OrdenProduccion.Cantidad_Producto) {
-      Swal.fire('Error', 'Complete todos los campos', 'error');
-      return;
+    this.OrdenProduccion.Fecha_Creacion = new Date().toISOString().split('T')[0];
+
+    if (!this.OrdenProduccion.Fecha_Elaboracion || !this.OrdenProduccion.Fecha_Finalizacion || 
+        !this.OrdenProduccion.Solicitante || !this.OrdenProduccion.Producto_Elaborado || 
+        !this.OrdenProduccion.Cantidad_Producto) {
+        Swal.fire('Error', 'Complete todos los campos', 'error');
+        return;
     }
-    // Guardar en Firestore
+
     this.OrdenProduccion.Id_Orden = this.GenerateRandomString(20);
     this.OrdenProduccion.Estado = 'Pendiente';
 
@@ -109,7 +144,6 @@ export class OrdenesProduccionComponent implements OnInit {
         Swal.fire('Error', 'Ocurrió un error al guardar el producto', 'error');
         console.error("Error guardando producto: ", error);
       });
-    console.log(this.OrdenProduccion)
 
     let btnCerrar = document.getElementById('btnCerrarModalCrear');
     btnCerrar?.click();
@@ -160,7 +194,11 @@ export class OrdenesProduccionComponent implements OnInit {
       })
     }
     // Una vez que tienes todas las materias acumuladas, haces la consulta a Firestore:
+<<<<<<< HEAD
     //this.actualizarDatosFirestore(this.ListaMateriasEditar);
+=======
+    
+>>>>>>> e758c93b98455276ee6bd6193da9a161c86bdbb0
   }
   
 
@@ -168,7 +206,6 @@ export class OrdenesProduccionComponent implements OnInit {
     let ExisteProductoAgregado = this.ProductosAgregadosOrdenProduccion.Producto_Elaborado.find(m => m.Id_Producto === producto.Id_Producto)
 
     if (!ExisteProductoAgregado) {
-      // Agregar el producto al array de Producto_Elaborado
       this.ProductosAgregadosOrdenProduccion.Producto_Elaborado.push(producto);
       this.OrdenProduccion.Producto_Elaborado.push(producto);
       console.log(this.ProductosAgregadosOrdenProduccion.Producto_Elaborado)
@@ -212,7 +249,7 @@ export class OrdenesProduccionComponent implements OnInit {
     setDoc(productoDoc, JSON.parse(JSON.stringify(this.EditarProduccionModal)))
       .then(() => {
         Swal.fire('Éxito', 'Orden actualizada correctamente', 'success');
-        this.CargarProductos(); // Refrescar lista de productos
+        this.CargarProductos();
       })
       .catch((error) => {
         Swal.fire('Error', 'Ocurrió un error al actualizar la orden', 'error');
@@ -264,7 +301,7 @@ export class OrdenesProduccionComponent implements OnInit {
   }
 
   calcularCantidadMateria(producto: Producto, index: number, cantidadProducto: number): number {
-    const materiaPrimaRatio = producto.Cantidad_MateriasPrimas[index] || 1; // Ajusta según tu estructura
+    const materiaPrimaRatio = producto.Cantidad_MateriasPrimas[index] || 1;
     console.log(`Índice ${index} - Cantidad producto: ${cantidadProducto} - Cantidad de materias primas: ${materiaPrimaRatio}`);
     return cantidadProducto * materiaPrimaRatio; // Ahora utiliza la cantidad del índice específico
   }
@@ -301,13 +338,28 @@ export class OrdenesProduccionComponent implements OnInit {
     return result;
   }
 
+<<<<<<< HEAD
+=======
+  
+  
+  
+>>>>>>> e758c93b98455276ee6bd6193da9a161c86bdbb0
   
   
 
   resetForm() {
+    this.OrdenProduccion = new OrdenesDeProduccion();
+  }
+
+  RestablecerListaCompleta() {
+    this.ListaOrdenes = [...this.ListaOrdenesOriginales];
   }
 
   BuscarProduccion() {
-
+    if (!this.fechaInicio || !this.fechaFin) {
+      this.RestablecerListaCompleta();
+    } else {
+      this.FiltrarOrdenesPorFecha(this.fechaInicio, this.fechaFin);
+    }
   }
 }
