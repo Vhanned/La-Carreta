@@ -12,13 +12,13 @@
         <input type="date" class="input-field date" [(ngModel)]="nuevaVenta.fecha" placeholder="Seleccionar fecha" />
   
         <p>Ingrese el dato1</p>
-        <input type="text" class="input-field" [(ngModel)]="nuevaVenta.dato1" placeholder="Dato1" />
+        <input type="number" min=0 class="input-field" [(ngModel)]="nuevaVenta.dato1" placeholder="Dato1" />
   
         <p>Ingrese el dato2</p>
-        <input type="text" class="input-field" [(ngModel)]="nuevaVenta.dato2" placeholder="Dato2" />
+        <input type="number" min=0 class="input-field" [(ngModel)]="nuevaVenta.dato2" placeholder="Dato2" />
   
         <p>Ingrese el dato3</p>
-        <input type="text" class="input-field" [(ngModel)]="nuevaVenta.dato3" placeholder="Dato3" />
+        <input type="number" min=0 class="input-field" [(ngModel)]="nuevaVenta.dato3" placeholder="Dato3" />
   
         <p>Descripción detallada del día</p>
         <textarea class="input-field textarea" [(ngModel)]="nuevaVenta.descripcion" placeholder="Descripción"></textarea>
