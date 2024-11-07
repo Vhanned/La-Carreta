@@ -7,7 +7,7 @@
 
       <!-- Botón para activar el modal, centrado -->
       <button id="BtnCrearOrden" type="button" class="btn btn-primary mb-4" data-bs-toggle="modal"
-        data-bs-target="#staticBackdropCrear">
+        data-bs-target="#staticBackdropCrear" (click)="LimpiarListaMaterias()">
         Crear Orden
       </button>
 
@@ -43,7 +43,7 @@
             <td>{{ orden.Solicitante }}</td>
             <td>
               <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                data-bs-target="#staticBackdropEditarProduccion" (click)="EditarOrdenProduccion(orden)" (click)="EditarTablaProduccionEditar(orden)">Editar</button>
+                data-bs-target="#staticBackdropEditarProduccion" (click)="EditarOrdenProduccion(orden)">Editar</button>
                 <button class="btn btn-info btn-sm" data-bs-target="#staticBackdropDetalles" data-bs-toggle="modal" (click)="MostrarDetalles(orden)">Detalles</button>
               <button class="btn btn-danger btn-sm" (click)="EliminarOrdenProduccion(orden)">Eliminar</button>
             </td>
@@ -79,6 +79,36 @@
                 <label for="responsable" class="form-label">Responsable</label>
                 <input type="text" class="form-control" id="responsable" [(ngModel)]="OrdenProduccion.Solicitante" name="responsable" placeholder="Nombre del responsable" required>
               </div>
+              <div>
+                <h3 style="color: black;">Informacion de las materias usadas para estos productos</h3>
+              <!--Lista de productos disponibles para su fabricacion-->
+              <table class="inventory-table">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Precio unitario</th>
+                    <th>Unidad de medida</th>
+                    <th>Cantidad a usar</th> 
+                    <th>Existencia en inventario</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let materia of ListaMateriasEditar;let i=index">
+                    <td>{{ materia.nombre }}</td>
+                    <td>{{ materia.precio }}</td>
+                    <td>{{materia.unidadmedida}}</td>
+                    <td>{{materia.cantidadausar }}</td>
+                    <td>{{ materia.existencias }}</td>
+                    <td>
+                      <button id="BotonAgregarProducto" class="btn btn-outline-danger"> 
+                        Agregar
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
             </div>
             <div class="tabla ms-s w-100">
               <h3 style="color: black;">Lista de productos disponibles para su fabricación</h3>
@@ -94,7 +124,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let producto of ListaProductos">
+                  <tr *ngFor="let producto of ListaProductos;let i=index">
                     <td>{{ producto.Codigo }}</td>
                     <td>{{ producto.Nombre }}</td>
                     <td>{{ producto.Tipo_Empaquetado }}</td>
@@ -113,7 +143,7 @@
                 <thead>
                   <tr>
                     <th>Producto</th>
-                    <th>Tinas a usar (1200lts)</th>
+                    <th>Cantidad a producir (lts)</th>
                     <th>Accion</th>
                   </tr>
                 </thead>
@@ -121,7 +151,7 @@
                   <tr *ngFor="let ProductoAgregado of ProductosAgregadosOrdenProduccion.Producto_Elaborado; let i=index">
                     <td>{{ ProductoAgregado.Nombre }}</td>
                     <td>
-                      <input type="number" min="0" name="CantidadProducto" id="CantidadProducto" [(ngModel)]="OrdenProduccion.Cantidad_Producto[i]">
+                      <input type="number" min="0" max="1200" name="CantidadProducto" id="CantidadProductoCrear" [(ngModel)]="OrdenProduccion.Cantidad_Producto[i]" (input)="EditarTablaProduccionEditar()">
                     </td>
                     <td>
                       <button id="BotonEditarMateia" class="btn btn-outline-danger" (click)="EliminarProductoOrden(i)">
@@ -172,35 +202,6 @@
                 <input type="text" class="form-control" id="responsable" [(ngModel)]="EditarProduccionModal.Solicitante"
                   name="responsable" placeholder="Nombre del responsable" disabled required>
               </div>
-              <div>
-                Para la informacion completa de costos revise los detalles
-                <h3 style="color: black;">Informacion de las materias usadas para estos productos</h3>
-              <!--Lista de productos disponibles para su fabricacion-->
-              <table class="inventory-table">
-                <thead>
-                  <tr>
-                    <th>Nombre</th>
-                    <th>Precio</th>
-                    <th>Cantidad a usar</th>
-                    <th>Existencia en inventario</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let materia of ListaMateriasEditar;let i=index">
-                    <td>{{ materia.nombre }}</td>
-                    <td>{{ materia.precio }}</td>
-                    <td>{{materia.cantidadausar }}</td>
-                    <td>{{ materia.existencias }}</td>
-                    <td>
-                      <button id="BotonAgregarProducto" class="btn btn-outline-danger">
-                        Agregar
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              </div>
             </div>
 
             <div class="tabla ms-s w-100">
@@ -212,7 +213,7 @@
                 <thead>
                   <tr>
                     <th>Producto</th>
-                    <th>Tinas a usar (1200lts)</th>
+                    <th>Lts a producir</th>
                     <th>Accion</th>
                   </tr>
                 </thead>
@@ -256,7 +257,7 @@
       <div class="modal-body">
         <div *ngFor="let producto of VerDetallesProduccion.Producto_Elaborado; let i = index; trackBy: trackByIndex">
           <h3>{{ producto.Nombre }}</h3>
-          <h5 style="text-align: center;">Tinas a usar: {{ VerDetallesProduccion.Cantidad_Producto[i] }}</h5>
+          <h5 style="text-align: center;">Litros a producir: {{ VerDetallesProduccion.Cantidad_Producto[i] }}</h5>
           <!-- Tabla dinámica para mostrar detalles del producto -->
           <table class="table">
               <thead>

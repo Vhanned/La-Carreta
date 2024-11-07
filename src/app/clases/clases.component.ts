@@ -246,6 +246,7 @@ export interface MateriaPrimaInfo {
   id: string;
   nombre: string;
   cantidadausar: number;
+  unidadmedida:string;
   precio: number; // Se llenará después de la consulta a Firestore
   existencias?: number; // Se llenará después de la consulta a Firestore
 }
