@@ -28,7 +28,7 @@ export class Producto {
   Tipo_Empaquetado: string = ''; // Tipo de producto (por ejemplo, queso fresco, queso madurado)
   Costo: number | undefined = undefined; // Costo de producción del producto por lote
   Tamano_Lote: number | undefined = undefined;
-  Estado: string=''; // Indica si el producto está disponible para producción
+  Estado: string = ''; // Indica si el producto está disponible para producción
   Materias_Primas: MateriaPrima[] = []; // Lista de materias primas necesarias para producir este producto
   Cantidad_MateriasPrimas: number[] = []; //Que tanto se va a usar de cada materia prima
   Litros: number | undefined = undefined; //litros necesarios para la elaboracion de cada lote
@@ -92,7 +92,7 @@ export class OrdenesDeProduccion {
   Producto_Elaborado: Producto[] = []; // Lista de productos agregados
   Cantidad_Producto: number[] = []; // Cantidad del producto que se va a elaborar
   Fecha_Elaboracion: string = ''; // Fecha cuando se generó la receta
-  Fecha_Entrega_Materia: string = ''; 
+  Fecha_Entrega_Materia: string = '';
   Fecha_Entrega_Materia_Number: number | undefined = undefined;
   Fecha_Finalizacion: string = ''; // Fecha cuando se terminó la orden de producción
   Solicitante: string = '';
@@ -246,28 +246,8 @@ export interface MateriaPrimaInfo {
   id: string;
   nombre: string;
   cantidadausar: number;
-  unidadmedida:string;
+  unidadmedida: string;
   precio: number; // Se llenará después de la consulta a Firestore
-  existencias?: number; // Se llenará después de la consulta a Firestore
+  existencias: number; // Se llenará después de la consulta a Firestore
 }
 
-export class MateriaPrimaInfoClase {
-  
-  id: string='';
-  nombre: string='';
-  cantidadausar: number|undefined;
-  precio: number|undefined;
-  existencias?: number|undefined; // Se llenará después de la consulta a Firestore
-
-  constructor(){
-
-  }
-
-  setData(data: any) {
-    this.id = data.id;
-    this.nombre = data.nombre;
-    this.cantidadausar=data.cantidadausar;
-    this.precio=data.precio;
-    this.existencias=data.existencias;
-  }
-}

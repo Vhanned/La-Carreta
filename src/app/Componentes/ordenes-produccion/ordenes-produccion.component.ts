@@ -3,7 +3,7 @@ import { Firestore, collectionData, collection, addDoc, doc, updateDoc, deleteDo
 import { ReactiveFormsModule } from '@angular/forms';
 import { where } from 'firebase/firestore';
 import { find } from 'rxjs/operators';
-import { Producto, OrdenesDeProduccion, MateriaPrima, MateriaPrimaInfo, InventarioMateriasPrimas, MateriaPrimaInfoClase } from 'src/app/clases/clases.component';
+import { Producto, OrdenesDeProduccion, MateriaPrimaInfo } from 'src/app/clases/clases.component';
 import Swal from 'sweetalert2'; // Importamos SweetAlert
 
 @Component({
@@ -30,7 +30,7 @@ export class OrdenesProduccionComponent implements OnInit {
   // Lista de los productos activos disponibles para su elaboración
   ListaProductos: Producto[] = [];
   //Lista de materias primas usadas en la fabricacion
-  ListaMateriasEditar:MateriaPrimaInfo[]=[];
+  ListaMateriasEditar: MateriaPrimaInfo[] = [];
   MateriasBD = collection(this.firebase, "MateriasPrimas");
 
   // Lista de productos agregados a la orden de producción
@@ -72,7 +72,7 @@ export class OrdenesProduccionComponent implements OnInit {
           }
           this.ListaProductos.push(producto);
         }
-      }); 
+      });
     });
   }
 
@@ -84,12 +84,12 @@ export class OrdenesProduccionComponent implements OnInit {
       ordenesSnap.forEach((item) => {
         let orden = new OrdenesDeProduccion();
         orden.setData(item);
-  
+
         // Asegurarse de que Fecha_Creacion esté definida
         if (!orden.Fecha_Creacion) {
           orden.Fecha_Creacion = new Date().toISOString().split('T')[0];
         }
-  
+
         this.ListaOrdenes.push(orden);
         this.ListaOrdenesOriginales.push(orden); // Almacenar en la lista original
       });
@@ -123,45 +123,55 @@ export class OrdenesProduccionComponent implements OnInit {
 
   CrearOrdenProduccion() {
 
-    this.OrdenProduccion.Fecha_Creacion = new Date().toISOString().split('T')[0];
-  
-    if (!this.OrdenProduccion.Fecha_Elaboracion || 
-        !this.OrdenProduccion.Fecha_Finalizacion || 
-        !this.OrdenProduccion.Solicitante || 
-        !this.OrdenProduccion.Producto_Elaborado || 
-        !this.OrdenProduccion.Cantidad_Producto || 
+    this.ListaMateriasEditar.forEach((materia) => {
+      if (materia.cantidadausar > materia.existencias) {
+        Swal.fire('Error', 'No tiene materia suficiente para prodecer con la produccion', 'error');
+        return; // Si se encuentra alguna materia insuficiente, detener la validación
+      }
+
+      this.OrdenProduccion.Fecha_Creacion = new Date().toISOString().split('T')[0];
+
+      if (!this.OrdenProduccion.Fecha_Elaboracion ||
+        !this.OrdenProduccion.Fecha_Finalizacion ||
+        !this.OrdenProduccion.Solicitante ||
+        !this.OrdenProduccion.Producto_Elaborado ||
+        !this.OrdenProduccion.Cantidad_Producto ||
         !this.OrdenProduccion.Fecha_Creacion) {
-        
+
         Swal.fire('Error', 'Complete todos los campos', 'error');
         return;
-    }
-  
-    const fechaElaboracion = new Date(this.OrdenProduccion.Fecha_Elaboracion);
-    const fechaFinalizacion = new Date(this.OrdenProduccion.Fecha_Finalizacion);
-  
-    if (fechaFinalizacion < fechaElaboracion) {
+      }
+
+      const fechaElaboracion = new Date(this.OrdenProduccion.Fecha_Elaboracion);
+      const fechaFinalizacion = new Date(this.OrdenProduccion.Fecha_Finalizacion);
+
+      if (fechaFinalizacion < fechaElaboracion) {
         Swal.fire('Error', 'La fecha de finalización no puede ser anterior a la fecha de inicio', 'error');
         return;
-    }
+      }
 
-    this.OrdenProduccion.Id_Orden = this.GenerateRandomString(20);
-    this.OrdenProduccion.Estado = 'Pendiente';
-  
-    let NuevaOrdenDoc = doc(this.firebase, "OrdenesProduccion", this.OrdenProduccion.Id_Orden);
-  
-    setDoc(NuevaOrdenDoc, JSON.parse(JSON.stringify(this.OrdenProduccion)))
-      .then(() => {
-        Swal.fire('Éxito', 'Orden creada correctamente', 'success');
-      })
-      .catch((error) => {
-        Swal.fire('Error', 'Ocurrió un error al guardar el producto', 'error');
-        console.error("Error guardando producto: ", error);
-      });
-  
-    let btnCerrar = document.getElementById('btnCerrarModalCrear');
-    btnCerrar?.click();
+
+
+      this.OrdenProduccion.Id_Orden = this.GenerateRandomString(20);
+      this.OrdenProduccion.Estado = 'Pendiente';
+
+      let NuevaOrdenDoc = doc(this.firebase, "OrdenesProduccion", this.OrdenProduccion.Id_Orden);
+
+      setDoc(NuevaOrdenDoc, JSON.parse(JSON.stringify(this.OrdenProduccion)))
+        .then(() => {
+          Swal.fire('Éxito', 'Orden creada correctamente', 'success');
+        })
+        .catch((error) => {
+          Swal.fire('Error', 'Ocurrió un error al guardar el producto', 'error');
+          console.error("Error guardando producto: ", error);
+        });
+
+      let btnCerrar = document.getElementById('btnCerrarModalCrear');
+      btnCerrar?.click();
+    });
+
   }
-  
+
 
   EditarOrdenProduccion(orden: OrdenesDeProduccion) {
     this.EditarProduccionModal = orden;
@@ -169,53 +179,52 @@ export class OrdenesProduccionComponent implements OnInit {
 
 
   EditarTablaProduccionEditar() {
-    this.ListaMateriasEditar=[];
+    this.ListaMateriasEditar = [];
     for (let i = 0; i < this.ProductosAgregadosOrdenProduccion.Producto_Elaborado.length; i++) {
       let cantidadProducto = this.OrdenProduccion.Cantidad_Producto[i];
-      //var cantidadProducto = document.getElementById('CantidadProductoCrear').value;
-  
+
       for (let j = 0; j < this.ProductosAgregadosOrdenProduccion.Producto_Elaborado[i].Materias_Primas.length; j++) {
         let materia = this.ProductosAgregadosOrdenProduccion.Producto_Elaborado[i].Materias_Primas[j];
         let cantidadMateria = this.ProductosAgregadosOrdenProduccion.Producto_Elaborado[i].Cantidad_MateriasPrimas[j];
         let cantidadTotalMateria = cantidadMateria * cantidadProducto;
-  
-         // Revisa si ya existe en el arreglo acumulado
-         let materiaExistente = this.ListaMateriasEditar.find(m => m.id === materia.Id_Materia);
-  
-         if (materiaExistente) {
-           // Si ya existe, suma la cantidad
-           materiaExistente.cantidadausar += cantidadTotalMateria;
-         } else {
-           // Si no existe, crea una nueva entrada
-           this.ListaMateriasEditar.push({
+
+        // Revisa si ya existe en el arreglo acumulado
+        let materiaExistente = this.ListaMateriasEditar.find(m => m.id === materia.Id_Materia);
+
+        if (materiaExistente) {
+          // Si ya existe, suma la cantidad
+          materiaExistente.cantidadausar += cantidadTotalMateria;
+        } else {
+          // Si no existe, crea una nueva entrada
+          this.ListaMateriasEditar.push({
             id: materia.Id_Materia,
             nombre: materia.Nombre,
             cantidadausar: cantidadTotalMateria,
-            unidadmedida:'',
+            unidadmedida: '',
             precio: 0,         // Temporal, se actualizará con el valor de Firestore
             existencias: 0     // Temporal, se actualizará con el valor de Firestore
           });
-         }
-       
+        }
+
       }
     }
 
-    if(this.ListaMateriasEditar.length > 0){
+    if (this.ListaMateriasEditar.length > 0) {
       this.ListaMateriasEditar.forEach(x => {
-        let q = query(this.MateriasBD, where("Id_Materia","==",x.id));
+        let q = query(this.MateriasBD, where("Id_Materia", "==", x.id));
         collectionData(q).subscribe((materiSnap) => {
-           x.precio = materiSnap[0].Precio_unitario;
-           x.existencias = materiSnap[0].Existencias
-           x.unidadmedida = materiSnap[0].Unidad_Medida
+          x.precio = materiSnap[0].Precio_unitario;
+          x.existencias = materiSnap[0].Existencias
+          x.unidadmedida = materiSnap[0].Unidad_Medida
         });
       })
     }
-    console.log('Materias en tabla: ',this.ListaMateriasEditar)
+    console.log('Materias en tabla: ', this.ListaMateriasEditar)
   }
 
 
-  LimpiarListaMaterias(){
-    this.ListaMateriasEditar=[];
+  LimpiarListaMaterias() {
+    this.ListaMateriasEditar = [];
   }
 
   AgregarProductoProduccion(producto: Producto) {
@@ -250,6 +259,8 @@ export class OrdenesProduccionComponent implements OnInit {
   EliminarProductoOrden(index: number) {
     this.ProductosAgregadosOrdenProduccion.Producto_Elaborado.splice(index, 1);
     this.ProductosAgregadosOrdenProduccion.Cantidad_Producto.splice(index, 1);
+    this.ListaMateriasEditar = [];
+    this.OrdenProduccion.Cantidad_Producto.splice(index, 1);
   }
 
   GuardarCambiosProduccion() {
@@ -350,7 +361,7 @@ export class OrdenesProduccionComponent implements OnInit {
     }
     return result;
   }
-  
+
 
   resetForm() {
     this.OrdenProduccion = new OrdenesDeProduccion();
