@@ -224,7 +224,6 @@ export class OrdenesProduccionComponent implements OnInit {
             }
           });
         }
-        console.log('Precio en ciclos for: ',this.OrdenProduccion.Producto_Elaborado[i].Materias_Primas[j].Precio_unitario)
       }
     }
   }
@@ -238,9 +237,6 @@ export class OrdenesProduccionComponent implements OnInit {
             // Actualiza el precio en OrdenProduccion
             materiaPrima.Precio_unitario = nuevoPrecio;
         }
-        console.log('Precio: ',this.OrdenProduccion.Producto_Elaborado[0].Materias_Primas[0].Precio_unitario)
-        
-        console.log('Precio: ',this.OrdenProduccion.Producto_Elaborado[0].Materias_Primas[1].Precio_unitario)
     });
     
 }
@@ -370,10 +366,6 @@ export class OrdenesProduccionComponent implements OnInit {
     return producto.Materias_Primas.reduce((total, _, indexMateria) => {
       return total + this.calcularCostoMateria(producto, indexMateria, cantidadProducto);
     }, 0);
-  }
-
-  getKeys(obj: any): string[] {
-    return Object.keys(obj);
   }
 
   getPrecioUnitario(materiaNombre: string): number {

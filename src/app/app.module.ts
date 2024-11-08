@@ -12,7 +12,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './Componentes/login/login.component';
 
 import { environment } from '../environments/environment';
-import { MenuprincipalComponent } from './Componentes/menuprincipal/menuprincipal.component';
+import { SubproductosComonent } from './Componentes/Subproductos/subproductos.component';
 import { NavBarComponent } from './Componentes/nav-bar/nav-bar.component';
 import { InventariosComponent } from './Componentes/inventarios/inventarios.component';
 import { OrdenesProduccionComponent } from './Componentes/ordenes-produccion/ordenes-produccion.component';
@@ -20,13 +20,13 @@ import { InventariosProductosComponent } from './Componentes/inventarios-product
 import { AlmacenComponent } from './Componentes/almacen/almacen.component';
 import { AdmContComponent } from './Componentes/adm-cont/adm-cont.component';
 import { VentasComponent } from './Componentes/ventas/ventas.component';
-import { ProduccionComponent } from './Componentes/produccion/produccion.component';
+import { ProduccionComponent } from './Componentes/produccion-reportes/produccion.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    MenuprincipalComponent,
+    SubproductosComonent,
     NavBarComponent,
     InventariosComponent,
     OrdenesProduccionComponent,
