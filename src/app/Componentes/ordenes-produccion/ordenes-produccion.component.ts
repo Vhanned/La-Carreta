@@ -142,20 +142,20 @@ export class OrdenesProduccionComponent implements OnInit {
     if (fechaFinalizacion < fechaCreacion) {
       Swal.fire('Error', 'La fecha de finalización no puede ser anterior a la fecha de creación', 'error');
       return;
-  }
+    }
 
-      // Revisa si alguna materia no tiene suficiente inventario
-      this.ListaMateriasEditar.forEach((materia) => {
-        if (materia.cantidadausar > materia.existencias) {
-          inventarioSuficiente = false;
-        }
-      });
-  
-      // Si no hay inventario suficiente, muestra el mensaje y detén la función
-      if (!inventarioSuficiente) {
-        Swal.fire('Error', 'No tiene materia suficiente para proceder con la producción', 'error');
-        return;
+    // Revisa si alguna materia no tiene suficiente inventario
+    this.ListaMateriasEditar.forEach((materia) => {
+      if (materia.cantidadausar > materia.existencias) {
+        inventarioSuficiente = false;
       }
+    });
+
+    // Si no hay inventario suficiente, muestra el mensaje y detén la función
+    if (!inventarioSuficiente) {
+      Swal.fire('Error', 'No tiene materia suficiente para proceder con la producción', 'error');
+      return;
+    }
 
     this.OrdenProduccion.Id_Orden = this.GenerateRandomString(20);
     this.OrdenProduccion.Estado = 'Pendiente'
@@ -171,7 +171,7 @@ export class OrdenesProduccionComponent implements OnInit {
         console.error("Error guardando producto: ", error);
       });
 
-      console.log(this.OrdenProduccion)
+    console.log(this.OrdenProduccion)
     let btnCerrar = document.getElementById('btnCerrarModalCrear');
     btnCerrar?.click();
   }
@@ -224,11 +224,27 @@ export class OrdenesProduccionComponent implements OnInit {
             }
           });
         }
-        this.OrdenProduccion.Producto_Elaborado[i].Materias_Primas[i].Precio_unitario=materia.Precio_unitario;
-        console.log('Precio editable: ',this.OrdenProduccion.Producto_Elaborado[i].Materias_Primas[i].Precio_unitario)
-      }  
+        console.log('Precio en ciclos for: ',this.OrdenProduccion.Producto_Elaborado[i].Materias_Primas[j].Precio_unitario)
+      }
     }
   }
+
+  actualizarPrecioEnOrdenProduccion(idMateria: string, nuevoPrecio: number) {
+    // Recorre los productos en OrdenProduccion
+    this.OrdenProduccion.Producto_Elaborado.forEach((producto) => {
+        // Busca la materia prima que coincida por ID
+        let materiaPrima = producto.Materias_Primas.find(materia => materia.Id_Materia === idMateria);
+        if (materiaPrima) {
+            // Actualiza el precio en OrdenProduccion
+            materiaPrima.Precio_unitario = nuevoPrecio;
+        }
+        console.log('Precio: ',this.OrdenProduccion.Producto_Elaborado[0].Materias_Primas[0].Precio_unitario)
+        
+        console.log('Precio: ',this.OrdenProduccion.Producto_Elaborado[0].Materias_Primas[1].Precio_unitario)
+    });
+    
+}
+
 
 
   LimpiarListaMaterias() {
@@ -244,7 +260,6 @@ export class OrdenesProduccionComponent implements OnInit {
     let ExisteProductoAgregado = this.ProductosAgregadosOrdenProduccion.Producto_Elaborado.find(m => m.Id_Producto === producto.Id_Producto)
 
     if (!ExisteProductoAgregado) {
-      this.OrdenProduccion.Cantidad_Producto.push(1)
       this.ProductosAgregadosOrdenProduccion.Producto_Elaborado.push(producto);
       this.OrdenProduccion.Producto_Elaborado.push(producto);
     } else {

@@ -104,7 +104,9 @@
                       <td>{{ materia.nombre }}</td>
                       <td>
                         <input type="number" min="0" name="PrecioMateria{{i}}" id="PrecioMateria"
-                          [(ngModel)]="materia.precio" style="max-width: 35%;border: none;background-color: ffffff;">
+                          [(ngModel)]="materia.precio"
+                          (ngModelChange)="actualizarPrecioEnOrdenProduccion(materia.id, materia.precio)"
+                          style="max-width: 35%;border: none;background-color: ffffff;">
                       </td>
                       <td>{{materia.unidadmedida}}</td>
                       <td>{{materia.cantidadausar }}</td>

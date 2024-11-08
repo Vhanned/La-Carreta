@@ -92,8 +92,6 @@ export class OrdenesDeProduccion {
   Producto_Elaborado: Producto[] = []; // Lista de productos agregados
   Cantidad_Producto: number[] = []; // Cantidad del producto que se va a elaborar
   Fecha_Elaboracion: string = ''; // Fecha cuando se generó la receta
-  Fecha_Entrega_Materia: string = '';
-  Fecha_Entrega_Materia_Number: number | undefined = undefined;
   Fecha_Finalizacion: string = ''; // Fecha cuando se terminó la orden de producción
   Solicitante: string = '';
   Estado: string = ''; // Estado de la receta
@@ -106,8 +104,6 @@ export class OrdenesDeProduccion {
     this.Producto_Elaborado = data.Producto_Elaborado || [];
     this.Cantidad_Producto = data.Cantidad_Producto || [];
     this.Fecha_Elaboracion = data.Fecha_Elaboracion || ''; // Cambiado a la ortografía correcta
-    this.Fecha_Entrega_Materia = data.Fecha_Entrega_Materia || '';
-    this.Fecha_Entrega_Materia_Number = data.Fecha_Entrega_Materia_Number || undefined;
     this.Fecha_Finalizacion = data.Fecha_Finalizacion || '';
     this.Solicitante = data.Solicitante || '';
     this.Estado = data.Estado || '';
