@@ -9,46 +9,42 @@ import { collectionData } from 'rxfire/firestore';
   templateUrl: './reportes-produccion.component.html',
   styleUrls: ['./reportes-produccion.component.css']
 })
-export class ReportesProduccionComponent {
+export class ReportesProduccionComponent implements OnInit {
 
   //Lista en la que se guardaran las ordenes del dia
-  CostosDiarios: OrdenesDeProduccion[]=[];
+  CostosDiarios: OrdenesDeProduccion[] = [];
 
   //Ruta de la coleccion ordenes
-  OrdenesBD = collection(this.firebase,"OrdenesProduccion")
+  OrdenesBD = collection(this.firebase, "OrdenesProduccion")
 
   //Fecha de hoy para la consulta a firebase
   FechaHoy = new Date().toISOString().split('T')[0];
 
 
-  constructor(private firebase:Firestore) { 
+  constructor(private firebase: Firestore) {
     this.CargarOrdenesDiarias();
 
-<<<<<<< HEAD
-=======
+  }
+
+
   ngOnInit() {
     history.pushState(null, '', location.href);
     window.onpopstate = () => {
       history.pushState(null, '', location.href);
     };
->>>>>>> ca075e59a352dc7293477538e3a0ba524a16793a
   }
-  
 
-  
 
-  CargarOrdenesDiarias(){
-    let q = query(this.OrdenesBD, where("Fecha_Elaboracion","==",this.FechaHoy));
-    collectionData(q).subscribe((ordenSnap) => {
-      this.CostosDiarios = [];  // Reiniciar la lista de productos
-      ordenSnap.forEach((item) => {
-        let ordenDiaria = new OrdenesDeProduccion();
-        ordenDiaria.setData(item);
-        this.CostosDiarios.push(ordenDiaria)
+    CargarOrdenesDiarias(){
+      let q = query(this.OrdenesBD, where("Fecha_Elaboracion", "==", this.FechaHoy));
+      collectionData(q).subscribe((ordenSnap) => {
+        this.CostosDiarios = [];  // Reiniciar la lista de productos
+        ordenSnap.forEach((item) => {
+          let ordenDiaria = new OrdenesDeProduccion();
+          ordenDiaria.setData(item);
+          this.CostosDiarios.push(ordenDiaria)
+        });
       });
-    });
-
+    }
   }
-
-
 }
