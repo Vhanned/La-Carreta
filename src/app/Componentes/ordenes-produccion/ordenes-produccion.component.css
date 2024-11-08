@@ -132,3 +132,7 @@ h3 {
 .inventory-table .btn-edit:hover {
   background: linear-gradient(45deg, #c5a173, #cf0015);
 }
+
+.modal-xl{
+  max-width: 1500px;
+}

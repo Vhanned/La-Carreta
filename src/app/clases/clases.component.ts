@@ -97,7 +97,6 @@ export class OrdenesDeProduccion {
   Fecha_Finalizacion: string = ''; // Fecha cuando se terminó la orden de producción
   Solicitante: string = '';
   Estado: string = ''; // Estado de la receta
-  Usuario_Elaboracion: string = ''; // Cambiado a la ortografía correcta
   Tiempo_elaboracion_total: string = '';
   Clave_Lote: string = '';
   Fecha_Creacion: string = '';
@@ -112,7 +111,6 @@ export class OrdenesDeProduccion {
     this.Fecha_Finalizacion = data.Fecha_Finalizacion || '';
     this.Solicitante = data.Solicitante || '';
     this.Estado = data.Estado || '';
-    this.Usuario_Elaboracion = data.Usuario_Elaboracion || ''; // Cambiado a la ortografía correcta
     this.Tiempo_elaboracion_total = data.Tiempo_elaboracion_total || '';
     this.Clave_Lote = data.Clave_Lote || '';
   }
