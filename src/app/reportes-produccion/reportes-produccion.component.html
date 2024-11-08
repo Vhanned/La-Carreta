@@ -6,7 +6,25 @@
     </div>
     
     <div class="subtitulo">
-        Ingresar datos
+        Tabla de costos diarios
+        <div>
+            <table class="table table-striped">
+                <thead>
+                    <th>Fecha</th>
+                    <th>Costo de la orden</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let Diario of CostosDiarios;let i=index">
+                        <td>{{Diario.Fecha_Elaboracion}}</td>
+                        <td>{{Diario.Estado}}</td>
+                    </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+
+    <div class="subtitulo">
+        Tabla de costos semanales
     </div>
     
     <div class="txtbox">

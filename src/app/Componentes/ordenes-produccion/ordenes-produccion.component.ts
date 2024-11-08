@@ -137,10 +137,16 @@ export class OrdenesProduccionComponent implements OnInit {
     }
 
     const fechaCreacion = (this.OrdenProduccion.Fecha_Creacion);
+    const fechaElaboracion = (this.OrdenProduccion.Fecha_Elaboracion)
     const fechaFinalizacion = (this.OrdenProduccion.Fecha_Finalizacion);
 
     if (fechaFinalizacion < fechaCreacion) {
       Swal.fire('Error', 'La fecha de finalización no puede ser anterior a la fecha de creación', 'error');
+      return;
+    }
+
+    if(fechaElaboracion<fechaCreacion){
+      Swal.fire('Error', 'La fecha de inicio no puede ser anterior a la fecha de creación', 'error');
       return;
     }
 
