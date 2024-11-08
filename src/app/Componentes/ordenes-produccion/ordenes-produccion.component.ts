@@ -194,11 +194,7 @@ export class OrdenesProduccionComponent implements OnInit {
       })
     }
     // Una vez que tienes todas las materias acumuladas, haces la consulta a Firestore:
-<<<<<<< HEAD
-    //this.actualizarDatosFirestore(this.ListaMateriasEditar);
-=======
     
->>>>>>> e758c93b98455276ee6bd6193da9a161c86bdbb0
   }
   
 
@@ -338,12 +334,9 @@ export class OrdenesProduccionComponent implements OnInit {
     return result;
   }
 
-<<<<<<< HEAD
-=======
   
   
   
->>>>>>> e758c93b98455276ee6bd6193da9a161c86bdbb0
   
   
 

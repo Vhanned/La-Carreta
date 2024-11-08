@@ -3,37 +3,31 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    min-height: 100vh;
     background-color: #874014;
-    padding: 20px;
+    padding: 2vw; /* Unidades relativas */
     box-sizing: border-box;
-    max-width: 100%;
+    width: 100%;
 }
-
 
 /* Contenedor interno (blanco) */
 .inner-container {
     background-color: white;
-    border-radius: 10px;
-    padding: 40px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 800px; 
-    width: 100%;       
-    height: auto;    
+    border-radius: 0.625rem; /* 10px */
+    padding: 2.5vw; /* Unidades relativas para padding */
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1); /* Ajuste en px a rem */
+    max-width: 50rem; /* Limitar el ancho máximo */
+    width: 100%;      
     text-align: center;
-    border: 2px solid #2A3A50; 
+    border: 2px solid #2A3A50;
 }
 
 /* Título */
 .Titulo h1 {
     font-family: Arial, sans-serif;
     font-size: 2.5rem;
-    color: #2A3A50;   
-    margin-bottom: 20px;
+    color: #2A3A50;
+    margin-bottom: 1.25rem;
 }
 
 /* Subtítulo */
@@ -41,17 +35,17 @@
     font-family: Arial, sans-serif;
     font-size: 1.5rem;
     color: #666;
-    margin-bottom: 30px;
+    margin-bottom: 2rem;
 }
 
 /* Estilo general para inputs */
 .input-field {
     width: 90%;
-    padding: 15px;
-    margin-bottom: 20px;
+    padding: 1rem; /* Ajuste en px a rem */
+    margin-bottom: 1.25rem;
     font-size: 1.1rem;
     border: 2px solid #2A3A50;
-    border-radius: 8px;
+    border-radius: 0.5rem;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -60,18 +54,18 @@
 
 /* Input de texto más alto para descripciones */
 .input-field.textarea {
-    height: 150px;
+    height: 9.375rem; /* Ajuste de altura */
     resize: none;
 }
 
 /* Input de fecha */
 .input-field.date {
     width: 90%;
-    padding: 10px;
-    margin-bottom: 20px;
+    padding: 0.625rem; /* Ajuste en px a rem */
+    margin-bottom: 1.25rem;
     font-size: 1.1rem;
     border: 2px solid #2A3A50;
-    border-radius: 8px;
+    border-radius: 0.5rem;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -79,16 +73,16 @@
 
 /* Estilo del input al enfocar */
 .input-field:focus {
-    border-color: #FFD369;  /* Amarillo suave cuando se selecciona */
-    box-shadow: 0 0 8px rgba(255, 211, 105, 0.5);
+    border-color: #FFD369;
+    box-shadow: 0 0 0.5rem rgba(255, 211, 105, 0.5);
 }
 
 /* Contenedor de botones */
 .button-group {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
+    gap: 0.625rem; /* Ajuste en px a rem */
+    margin-top: 1.25rem;
 }
 
 /* Botones */
@@ -96,9 +90,9 @@
     background-color: #2A3A50;
     color: white;
     border: none;
-    padding: 15px 30px;
+    padding: 0.75rem 1.875rem;
     font-size: 1.2rem;
-    border-radius: 8px;
+    border-radius: 0.5rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -113,7 +107,7 @@
     font-family: Arial, sans-serif;
     font-size: 1rem;
     color: #2A3A50;
-    margin-bottom: 5px;
+    margin-bottom: 0.3125rem;
     text-align: left;
     padding-left: 4%;
 }
@@ -121,7 +115,7 @@
 /* Responsividad */
 @media (max-width: 768px) {
     .inner-container {
-        padding: 20px;
+        padding: 5vw;
     }
 
     .Titulo h1 {
@@ -137,23 +131,24 @@
     }
 
     .submit-btn, .edit-btn {
-        padding: 12px 25px;
+        padding: 0.75rem 1.5rem;
         font-size: 1rem;
     }
 }
 
+/* Botón de cierre de sesión */
 .logout-btn {
     background-color: #f44336;
     color: white;
-    padding: 10px 20px;
+    padding: 0.625rem 1.25rem;
     border: none;
     cursor: pointer;
-    font-size: 16px;
-    border-radius: 4px;
+    font-size: 1rem;
+    border-radius: 0.25rem;
     margin-left: auto;
     display: block;
-  }
+}
   
-  .logout-btn:hover {
+.logout-btn:hover {
     background-color: #d32f2f;
-  }
+}
