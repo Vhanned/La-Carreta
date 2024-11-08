@@ -3,6 +3,8 @@ import { Firestore, collection, collectionData, doc, setDoc, deleteDoc } from '@
 import { MateriaPrima } from 'src/app/clases/clases.component';
 import { arrayRemove, query } from 'firebase/firestore';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
+import {Location} from '@angular/common'
 
 
 @Component({
@@ -26,19 +28,8 @@ export class InventariosComponent {
   // Referencia a la colección en Firestore
   MateriasBD = collection(this.firebase, "MateriasPrimas");
 
-  constructor(private firebase: Firestore) {
-    // Cargar las materias primas desde Firestore al iniciar el componente
-    let q = query(this.MateriasBD);
-    collectionData(q).subscribe((materiaPrimaSnap) => {
-      this.materias = [];
-      materiaPrimaSnap.forEach((item) => {
-        let materiaPrima = new MateriaPrima();
-        materiaPrima.setData(item);
-        console.log(item);
-        this.materias.push(materiaPrima);
-      });
-      this.filtrarMaterias(); // Aplicar el filtro después de cargar los datos
-    });
+  constructor(private firebase: Firestore,private router:Router,private location:Location) {
+    this.CargarMaterias();
   }
 
   // Método para aplicar el filtro según el texto de búsqueda
@@ -144,6 +135,21 @@ export class InventariosComponent {
   limpiarFormulario() {
     this.nuevaMateria = new MateriaPrima(); // Resetea la nueva materia
     this.materiaAEditar = new MateriaPrima(); // Resetea la materia a editar
+  }
+
+  CargarMaterias(){
+    // Cargar las materias primas desde Firestore al iniciar el componente
+    let q = query(this.MateriasBD);
+    collectionData(q).subscribe((materiaPrimaSnap) => {
+      this.materias = [];
+      materiaPrimaSnap.forEach((item) => {
+        let materiaPrima = new MateriaPrima();
+        materiaPrima.setData(item);
+        console.log(item);
+        this.materias.push(materiaPrima);
+      });
+      this.filtrarMaterias(); // Aplicar el filtro después de cargar los datos
+    });
   }
 
   // Generar un string aleatorio de longitud 'num' (usado para generar IDs únicos)

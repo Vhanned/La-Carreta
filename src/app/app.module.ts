@@ -20,7 +20,7 @@ import { InventariosProductosComponent } from './Componentes/inventarios-product
 import { AlmacenComponent } from './Componentes/almacen/almacen.component';
 import { AdmContComponent } from './Componentes/adm-cont/adm-cont.component';
 import { VentasComponent } from './Componentes/ventas/ventas.component';
-import { ProduccionComponent } from './Componentes/produccion-reportes/produccion.component';
+import { ReportesProduccionComponent } from './reportes-produccion/reportes-produccion.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +34,7 @@ import { ProduccionComponent } from './Componentes/produccion-reportes/produccio
     AlmacenComponent,
     AdmContComponent,
     VentasComponent,
-    ProduccionComponent
+    ReportesProduccionComponent
   ],
   imports: [
     BrowserModule,

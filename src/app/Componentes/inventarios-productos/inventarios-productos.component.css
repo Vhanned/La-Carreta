@@ -140,6 +140,10 @@ h2 {
     justify-content: space-evenly;
 }
 
+.modal-xl{
+   max-width: 1300px; 
+}
+
 .formulario {
     padding-right: 15px; /* Espacio entre el formulario y la tabla */
 }

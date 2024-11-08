@@ -7,7 +7,7 @@ import { OrdenesProduccionComponent } from './Componentes/ordenes-produccion/ord
 import { InventariosProductosComponent } from './Componentes/inventarios-productos/inventarios-productos.component';
 import { AlmacenComponent } from './Componentes/almacen/almacen.component';
 import { AdmContComponent } from './Componentes/adm-cont/adm-cont.component';
-import { ProduccionComponent } from './Componentes/produccion-reportes/produccion.component';
+import { ReportesProduccionComponent } from './reportes-produccion/reportes-produccion.component';
 import { VentasComponent } from './Componentes/ventas/ventas.component';
 
 const routes: Routes = [
@@ -19,7 +19,7 @@ const routes: Routes = [
 {path: 'inventarios-productos', component:InventariosProductosComponent},
 {path: 'c',component:AlmacenComponent},
 {path: 's', component:AdmContComponent},
-{path: 'reportes-produccion', component:ProduccionComponent},
+{path: 'reportes-produccion', component:ReportesProduccionComponent},
 {path: 'ventas', component:VentasComponent}
 ];
 
