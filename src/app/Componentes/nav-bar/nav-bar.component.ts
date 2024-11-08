@@ -34,4 +34,12 @@ export class NavBarComponent {
   IrSubproductos(){
     this.routing.navigate(['subproductos']);
   }
+
+  ngOnInit() {
+    history.pushState(null, '', location.href);
+    window.onpopstate = () => {
+      history.pushState(null, '', location.href);
+    };
+  }
+  
 }

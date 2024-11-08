@@ -9,5 +9,11 @@ export class SubproductosComonent {
 
   constructor() { }
 
-
+  ngOnInit() {
+    history.pushState(null, '', location.href);
+    window.onpopstate = () => {
+      history.pushState(null, '', location.href);
+    };
+  }
+  
 }

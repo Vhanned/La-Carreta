@@ -24,7 +24,18 @@ export class ReportesProduccionComponent {
   constructor(private firebase:Firestore) { 
     this.CargarOrdenesDiarias();
 
+<<<<<<< HEAD
+=======
+  ngOnInit() {
+    history.pushState(null, '', location.href);
+    window.onpopstate = () => {
+      history.pushState(null, '', location.href);
+    };
+>>>>>>> ca075e59a352dc7293477538e3a0ba524a16793a
   }
+  
+
+  
 
   CargarOrdenesDiarias(){
     let q = query(this.OrdenesBD, where("Fecha_Elaboracion","==",this.FechaHoy));
