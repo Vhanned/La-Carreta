@@ -1,151 +1,199 @@
+/* Ajustes generales */
 .body {
     font-family: Arial, sans-serif;
-    background-color: #181c16; 
-    color: #b9bbbe; 
+    background-color: #181c16;
+    color: #b9bbbe;
 }
 
 .container {
     width: 90%;
     margin: 0 auto;
     padding-top: 20px;
-    background-color: #edeae6; 
+    background-color: #edeae6;
     padding: 20px;
-    border-radius: 10px; 
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 h2 {
     margin-bottom: 10px;
-    color: #cf0015; 
-    font-size: 28px; 
-    text-align: center; 
-    font-weight: bold; 
-    text-transform: uppercase; 
-    cursor:default;
-}
-
-.actions-bar {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 10px;
-}
-
-.actions-bar button {
-    background: linear-gradient(45deg, #cf0015, #c5a173);
-    color: #ffffff; 
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
-    margin-left: 10px;
-    cursor: pointer;
+    color: #cf0015;
+    font-size: 28px;
+    text-align: center;
     font-weight: bold;
-    transition: background 0.3s ease;
+    text-transform: uppercase;
+    cursor: default;
 }
 
-.actions-bar button:hover {
-    background: linear-gradient(45deg, #c5a173, #cf0015);
-}
-
-.btn-add {
-    background: linear-gradient(45deg, #c5a173, #cf0015);
-}
-
-.search-bar {
-    margin-bottom: 15px;
-}
-
-.search-bar input {
-    width: calc(100% - 20px); 
-    padding: 10px;
-    border: 1px solid #ccc; 
-    border-radius: 5px;
-    background-color: #4a4f57; 
-    color: #b9bbbe; 
-}
-
-.inventory-table {
-    width: 100%;
-    border-collapse: collapse;
+/* Botón de agregar producto */
+.container > div {
     margin-bottom: 20px;
-    background-color: #ffffff; 
-    color: #333; 
-    border-radius: 20px; 
-    overflow: hidden;
+    display: flex;
+    justify-content: flex-start;
 }
 
-.inventory-table thead {
-    background-color: #cf0015; 
-    color: #ffffff; 
-}
-
-.inventory-table th, .inventory-table td {
-    padding: 10px;
-    border: 1px solid #ddd; 
-    text-align: center;
-}
-
-.inventory-table tr:nth-child(even) {
-    background-color: #edeae6; 
-}
-
-.inventory-table .btn-edit {
-    background: linear-gradient(45deg, #cf0015, #c5a173);
-    color: #ffffff; 
+.btn-success {
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    color: white;
+    padding: 10px 20px;
     border: none;
-    padding: 5px 10px;
-    border-radius: 3px;
-    cursor: pointer;
-    margin: 0 auto;
-    display: block;
+    border-radius: 5px;
     font-weight: bold;
     transition: background 0.3s ease;
 }
 
-.inventory-table .btn-edit:hover {
-    background: linear-gradient(45deg, #c5a173, #cf0015);
+.btn-success:hover {
+    background: linear-gradient(to right, #ff4b2b, #ff416c);
 }
 
-.pagination {
+/* Estilo de la tabla principal */
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    color: #333;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table thead {
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    color: #ffffff;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.table th, .table td {
+    padding: 12px 15px;
     text-align: center;
-    margin-top: 10px;
+    border-bottom: 1px solid #ddd;
 }
 
-.pagination button {
-    background: linear-gradient(45deg, #cf0015, #c5a173);
+.table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.table tbody tr:hover {
+    background-color: #ffe0e6;
+}
+
+.table .btn-primary {
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
     color: white;
     border: none;
-    padding: 8px 16px;
-    margin: 0 2px;
-    cursor: pointer;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-weight: bold;
     transition: background 0.3s ease;
 }
 
-.pagination button:hover {
-    background: linear-gradient(45deg, #c5a173, #cf0015);
+.table .btn-primary:hover {
+    background: linear-gradient(to right, #ff4b2b, #ff416c);
 }
 
-
-.form-control{
-    max-width: 50vh;
+/* Contenedor del modal */
+.modal-content {
+    background-color: #f9f9f9;
+    color: #333;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
     display: flex;
-}
-
-#MateriasAgregadas{
-    max-width: 90vh;
-    justify-content: flex-end;
-}
-
-.modal-body {
     flex-direction: column;
-    justify-content: space-evenly;
+    gap: 25px; /* Espacio entre secciones */
 }
 
-.modal-xl{
-   max-width: 1300px; 
+/* Encabezado del modal */
+.modal-header {
+    background-color: #ff416c;
+    color: white;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    padding: 15px;
+    font-size: 1.2em;
 }
 
-.formulario {
-    padding-right: 15px; /* Espacio entre el formulario y la tabla */
+/* Footer del modal */
+.modal-footer .btn-secondary {
+    background-color: #cccccc;
+    border: none;
+    padding: 8px 15px;
+    font-weight: bold;
 }
 
+.modal-footer .btn-primary {
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
 
+.modal-footer .btn-primary:hover {
+    background: linear-gradient(to right, #ff4b2b, #ff416c);
+}
+
+/* Contenedor de contenido en el cuerpo del modal */
+.modal-body {
+    display: flex;
+    flex-direction: row;
+    gap: 30px; /* Espacio entre formulario y tablas */
+    align-items: flex-start;
+}
+
+/* Estilo del formulario */
+.form-container {
+    flex: 1;
+    max-width: 35%; /* Ancho máximo del formulario */
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espacio entre los campos del formulario */
+}
+
+/* Campos del formulario */
+.form-control {
+    max-width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Contenedor de las tablas */
+.tables-container {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Espacio entre ambas tablas */
+    max-width: 60%; /* Limita el ancho máximo de las tablas */
+}
+
+/* Estilos para ambas tablas */
+table {
+    width: 100%; /* Asegura que las tablas ocupen todo el ancho disponible */
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+thead {
+    background-color: #ff416c;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+th, td {
+    padding: 10px 15px;
+    border: 1px solid #ddd; /* Agrega separación entre celdas */
+    text-align: center;
+}
+
+/* Ajuste del ancho para la tabla de "Materias Agregadas" */
+#MateriasAgregadas {
+    width: 100%; /* Se asegura que ambas tablas tengan el mismo ancho */
+}
