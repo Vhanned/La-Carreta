@@ -26,4 +26,12 @@ export class NavBarComponent {
   IrProductos(){
     this.routing.navigate(['inventarios-productos']);
   }
+
+  IrReportes(){
+    this.routing.navigate(['reportes-produccion']);
+  }
+
+  IrSubproductos(){
+    this.routing.navigate(['subproductos']);
+  }
 }
