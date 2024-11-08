@@ -1,8 +1,11 @@
+/* Contenedor principal responsivo */
 #OrdenesProduccionContainer {
-  max-width: 800px;
+  max-width: 100%;
   margin: 0 auto;
+  padding: 10px;
 }
 
+/* Ajuste de encabezados en diferentes tamaños de pantalla */
 h1 {
   font-size: 2.5rem;
   color: #333;
@@ -10,22 +13,47 @@ h1 {
 
 h3 {
   margin-bottom: 10px;
-  color: #cf0015; 
-  font-size: 20px; 
-  text-align: center; 
-  font-weight: bold; 
-  text-transform: uppercase; 
-  cursor:default;
+  color: #cf0015;
+  font-size: 1.5rem;
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: default;
 }
 
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+  
+  h3 {
+    font-size: 1.25rem;
+  }
+}
+
+/* Ajuste de tamaño de botón */
 #BtnCrearOrden {
   font-size: 1.25rem;
   padding: 10px 20px;
 }
 
+@media (max-width: 768px) {
+  #BtnCrearOrden {
+    font-size: 1rem;
+    padding: 8px 16px;
+  }
+}
+
+/* Búsqueda Producción */
 #BusquedaProduccion h5 {
   font-size: 1.5rem;
   margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  #BusquedaProduccion h5 {
+    font-size: 1.25rem;
+  }
 }
 
 #BusquedaProduccion .form-label {
@@ -33,97 +61,125 @@ h3 {
   color: #555;
 }
 
-.table {
+/* Ajuste del ancho completo de las tablas */
+.table, .inventory-table, #MateriasAgregadas {
   width: 100%;
+  max-width: none;
   margin-top: 20px;
+  border-radius: 8px;
 }
 
-.table th, .table td {
+.table th, .table td, .inventory-table th, .inventory-table td {
   text-align: center;
+  padding: 10px;
+  word-wrap: break-word;
 }
 
-.table thead {
+.table thead, .inventory-table thead {
   background-color: #007bff;
   color: white;
 }
 
-.modal-header {
-  background-color: #f8f9fa;
-  border-bottom: 1px solid #e9ecef;
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 768px) {
+  .table, .inventory-table, #MateriasAgregadas {
+    font-size: 0.9rem;
+  }
+  
+  .table th, .table td, .inventory-table th, .inventory-table td {
+    padding: 5px;
+  }
+  
+  .modal-title {
+    font-size: 1.5rem;
+  }
 }
 
-.modal-title {
-  font-size: 1.75rem;
-}
-
-.modal-body label {
-  font-weight: bold;
-}
-
+/* Estilo para los botones */
 .btn-primary {
-  background-color: #007bff;
+  background: linear-gradient(45deg, #ff416c, #ff4b2b);
   border: none;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(45deg, #ff4b2b, #ff416c);
 }
 
 .btn-secondary {
   background-color: #6c757d;
   border: none;
+  color: #ffffff;
 }
 
-.form-control{
-  max-width: 50vh;
-  display: flex;
+.btn-warning {
+  background-color: #ffaa00;
+  border: none;
+  color: #ffffff;
 }
 
-#MateriasAgregadas{
-  max-width: 90vh;
-  justify-content: flex-end;
+.btn-info {
+  background-color: #00aaff;
+  border: none;
+  color: #ffffff;
 }
 
-.modal-body {
-  flex-direction: column;
-  justify-content: space-evenly;
+.btn-danger {
+  background-color: #ff4b2b;
+  border: none;
+  color: #ffffff;
 }
 
-.formulario {
-  padding-right: 15px; /* Espacio entre el formulario y la tabla */
+/* Ajuste de botones en pantallas pequeñas */
+.btn-group .btn {
+  margin-right: 10px;
 }
 
+.btn-group .btn:last-child {
+  margin-right: 0;
+}
 
+@media (max-width: 768px) {
+  .btn-group .btn {
+    margin-bottom: 10px;
+    margin-right: 0;
+    width: 100%;
+  }
+}
 
+/* Tablas de inventario */
 .inventory-table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
-  background-color: #ffffff; 
-  color: #333; 
-  border-radius: 20px; 
+  background-color: #ffffff;
+  color: #333;
+  border-radius: 8px;
   overflow: hidden;
 }
 
 .inventory-table thead {
-  background-color: #cf0015; 
-  color: #ffffff; 
+  background-color: #cf0015;
+  color: #ffffff;
 }
 
 .inventory-table th, .inventory-table td {
   padding: 10px;
-  border: 1px solid #ddd; 
+  border: 1px solid #ddd;
   text-align: center;
 }
 
 .inventory-table tr:nth-child(even) {
-  background-color: #edeae6; 
+  background-color: #edeae6;
 }
 
 .inventory-table .btn-edit {
   background: linear-gradient(45deg, #cf0015, #c5a173);
-  color: #ffffff; 
+  color: #ffffff;
   border: none;
   padding: 5px 10px;
   border-radius: 3px;
   cursor: pointer;
-  margin: 0 auto;
   display: block;
   font-weight: bold;
   transition: background 0.3s ease;
@@ -131,4 +187,24 @@ h3 {
 
 .inventory-table .btn-edit:hover {
   background: linear-gradient(45deg, #c5a173, #cf0015);
+}
+
+/* Ajustes específicos de espaciado */
+#BusquedaProduccion .form-label {
+  margin-right: 10px;
+}
+
+#FechaInicial, #FechaFinal {
+  margin-right: 20px;
+}
+
+/* Ajustes responsivos en formularios */
+.form-control {
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .form-control {
+    width: 100%;
+  }
 }

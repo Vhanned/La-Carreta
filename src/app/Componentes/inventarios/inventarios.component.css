@@ -21,56 +21,53 @@ h2 {
     text-align: center;
     font-weight: bold;
     text-transform: uppercase;
-    cursor:default;
+    cursor: default;
 }
 
-.actions-bar {
+/* Contenedor de búsqueda y botón de agregar */
+#ContenedorBusqueda {
     display: flex;
-    justify-content: flex-end;
-    margin-bottom: 10px;
-}
-
-.actions-bar button {
-    background: linear-gradient(45deg, #cf0015, #c5a173);
-    color: #ffffff;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
-    margin-left: 10px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background 0.3s ease;
-}
-
-.actions-bar button:hover {
-    background: linear-gradient(45deg, #c5a173, #cf0015);
-}
-
-.btn-add {
-    background: linear-gradient(45deg, #c5a173, #cf0015);
-}
-
-.search-bar {
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 15px;
-    margin-right: 40vh;
 }
 
-.search-bar input {
-    width: calc(100% - 20px);
+/* Barra de búsqueda */
+.search-bar {
+    flex: 1;
+    max-width: 600px;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    background-color: #4a4f57;
+    background-color: #b6b6b6;
     color: #b9bbbe;
+    margin-right: 15px;
 }
 
+/* Botón agregar materia prima */
+.btn-add {
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-add:hover {
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+}
+
+/* Tabla de inventario */
 .inventory-table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
+    margin-top: 10px;
     background-color: #ffffff;
     color: #333;
-    border-radius: 20px;
+    border-radius: 10px;
     overflow: hidden;
 }
 
@@ -79,32 +76,30 @@ h2 {
     color: #ffffff;
 }
 
-.inventory-table th,
-.inventory-table td {
-    padding: 10px;
+.inventory-table th, .inventory-table td {
+    padding: 12px;
     border: 1px solid #ddd;
     text-align: center;
 }
 
 .inventory-table tr:nth-child(even) {
-    background-color: #edeae6;
+    background-color: #f7f7f7;
 }
 
+/* Botón editar */
 .inventory-table .btn-edit {
-    background: linear-gradient(45deg, #cf0015, #c5a173);
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
     color: #ffffff;
     border: none;
     padding: 5px 10px;
     border-radius: 3px;
     cursor: pointer;
-    margin: 0 auto;
-    display: block;
     font-weight: bold;
     transition: background 0.3s ease;
 }
 
 .inventory-table .btn-edit:hover {
-    background: linear-gradient(45deg, #c5a173, #cf0015);
+    background: linear-gradient(45deg,#ff416c, #ff4b2b);
 }
 
 .pagination {
@@ -113,7 +108,7 @@ h2 {
 }
 
 .pagination button {
-    background: linear-gradient(45deg, #cf0015, #c5a173);
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
     color: white;
     border: none;
     padding: 8px 16px;
@@ -123,16 +118,124 @@ h2 {
 }
 
 .pagination button:hover {
-    background: linear-gradient(45deg, #c5a173, #cf0015);
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
 }
 
-
-.btn-outline-danger{
+.btn-outline-danger {
     background: linear-gradient(to right, #ff416c, #ff4b2b);
-    color:white; 
+    color: white;
 }
 
-#ContenedorBusqueda{
+/*ancho de los modales */
+#agregarModal .modal-dialog,
+#editarModal .modal-dialog {
+    max-width: 80%; 
+    margin: 1.75rem auto; 
+}
+
+/*contenido del modal */
+#agregarModal .modal-content,
+#editarModal .modal-content {
+    background-color: #edeae6; 
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    color: #333;
+}
+
+/*cabecera del modal */
+#agregarModal .modal-header,
+#editarModal .modal-header {
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    color: #ffffff;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+/*cuerpo del modal */
+#agregarModal .modal-body,
+#editarModal .modal-body {
+    background-color: #f7f7f7;
+    padding: 20px;
+}
+
+/*pie del modal */
+#agregarModal .modal-footer,
+#editarModal .modal-footer {
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+#agregarModal .btn,
+#editarModal .btn {
+
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+#agregarModal .btn-secondary,
+#editarModal .btn-secondary {
+    background-color: #6c757d; 
+    color: #ffffff;
+}
+
+#agregarModal .btn-secondary:hover,
+#editarModal .btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+#agregarModal .btn-primary,
+#editarModal .btn-primary {
+    background-color: #cf0015;
+    color: #ffffff;
+}
+
+#agregarModal .btn-primary:hover,
+#editarModal .btn-primary:hover {
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+}
+
+
+#agregarModal .modal-body input,
+#agregarModal .modal-body select,
+#editarModal .modal-body input,
+#editarModal .modal-body select {
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 8px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    #agregarModal .modal-dialog,
+    #editarModal .modal-dialog {
+        max-width: 95%;
+        margin: 1rem auto;
+    }
+}
+/* Coloca los primeros 4 campos en la izquierda y los otros 4 en la derecha */
+#agregarModal .modal-body .form-group,
+#editarModal .modal-body .form-group {
     display: flex;
-    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 20px; /* espacio entre campos */
+}
+
+#agregarModal .modal-body .form-group .col-left,
+#editarModal .modal-body .form-group .col-left {
+    flex: 1;
+    min-width: 45%;
+}
+
+#agregarModal .modal-body .form-group .col-right,
+#editarModal .modal-body .form-group .col-right {
+    flex: 1;
+    min-width: 45%;
 }
