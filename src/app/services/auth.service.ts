@@ -8,31 +8,40 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class AuthService {
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
+  private userRole = new BehaviorSubject<string>(this.getUserRole());
 
   constructor(private router: Router) {}
 
-  // Método para iniciar sesión
-  login() {
-    localStorage.setItem('user', 'true'); // Puedes almacenar información relevante del usuario si es necesario
+  login(role: string) {
+    localStorage.setItem('user', 'true');
+    localStorage.setItem('role', role);
     this.loggedIn.next(true);
+    this.userRole.next(role);
   }
 
-  // Método para cerrar sesión
   logout() {
     this.loggedIn.next(false);
+    this.userRole.next('');
     localStorage.removeItem('user');
+    localStorage.removeItem('role');
     this.router.navigate(['login'], { replaceUrl: true }).then(() => {
-      window.location.reload(); // Forzar recarga de la página
+      window.location.reload();
     });
   }
 
-  // Método para verificar si el usuario está logueado
   isLoggedIn() {
     return this.loggedIn.asObservable();
   }
 
-  // Verificar si existe un token de sesión
-  private hasToken(): boolean {
+  getUserRole() {
+    return localStorage.getItem('role') || '';
+  }
+
+  hasToken(): boolean {
     return !!localStorage.getItem('user');
+  }
+
+  getRoleObservable() {
+    return this.userRole.asObservable();
   }
 }
