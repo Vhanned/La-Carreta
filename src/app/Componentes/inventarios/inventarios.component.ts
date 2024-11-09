@@ -152,6 +152,10 @@ export class InventariosComponent {
     });
   }
 
+  LimpiarFormulario(){
+    this.nuevaMateria = new MateriaPrima();
+  }
+
   // Generar un string aleatorio de longitud 'num' (usado para generar IDs únicos)
   GenerateRandomString(num: number): string {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
