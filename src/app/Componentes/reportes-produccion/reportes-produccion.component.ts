@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { OrdenesDeProduccion } from '../clases/clases.component';
+import { OrdenesDeProduccion } from 'src/app/clases/clases.component';
 import { Firestore } from '@angular/fire/firestore';
 import { collection, query, where } from 'firebase/firestore';
 import { collectionData } from 'rxfire/firestore';

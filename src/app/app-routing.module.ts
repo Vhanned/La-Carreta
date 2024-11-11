@@ -7,7 +7,7 @@ import { OrdenesProduccionComponent } from './Componentes/ordenes-produccion/ord
 import { InventariosProductosComponent } from './Componentes/inventarios-productos/inventarios-productos.component';
 import { AlmacenComponent } from './Componentes/almacen/almacen.component';
 import { AdmContComponent } from './Componentes/adm-cont/adm-cont.component';
-import { ReportesProduccionComponent } from './reportes-produccion/reportes-produccion.component';
+import { ReportesProduccionComponent } from './Componentes/reportes-produccion/reportes-produccion.component';
 import { VentasComponent } from './Componentes/ventas/ventas.component';
 import { AuthGuard } from './services/au.guard';
 import { RoleGuard } from './services/role.guard';
