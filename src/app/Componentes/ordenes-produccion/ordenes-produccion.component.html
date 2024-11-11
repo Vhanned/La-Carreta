@@ -87,61 +87,62 @@
                   name="responsable" placeholder="Nombre del responsable" required>
               </div>
               <div>
-                <h3 style="color: black;">Informacion de las materias usadas para estos productos</h3>
-                <!--Lista de productos disponibles para su fabricacion-->
+                <h3 style="color: black;">Lista de productos disponibles para su fabricación</h3>
                 <table class="inventory-table">
                   <thead>
                     <tr>
+                      <th>Codigo</th>
                       <th>Nombre</th>
-                      <th>Precio unitario</th>
-                      <th>Unidad de medida</th>
-                      <th>Cantidad a usar</th>
-                      <th>Existencia en inventario</th>
+                      <th>Tipo de empaquetado</th>
+                      <th>Tiempo de elaboración (Hrs)</th>
+                      <th>Estado</th>
+                      <th>Acciones</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let materia of ListaMateriasEditar;let i=index;trackBy: trackByIndex">
-                      <td>{{ materia.nombre }}</td>
+                    <tr *ngFor="let producto of ListaProductos;let i=index">
+                      <td>{{ producto.Codigo }}</td>
+                      <td>{{ producto.Nombre }}</td>
+                      <td>{{ producto.Tipo_Empaquetado }}</td>
+                      <td>{{ producto.Tiempo_Elaboracion }}</td>
+                      <td>{{ producto.Estado }}</td>
                       <td>
-                        <input type="number" min="0" name="PrecioMateria{{i}}" id="PrecioMateria"
-                          [(ngModel)]="materia.precio"
-                          (ngModelChange)="actualizarPrecioEnOrdenProduccion(materia.id, materia.precio)"
-                          style="max-width: 35%;border: none;background-color: ffffff;">
+                        <button id="BotonAgregarProducto" class="btn btn-outline-danger"
+                          (click)="AgregarProductoProduccion(producto)">
+                          Agregar
+                        </button>
                       </td>
-                      <td>{{materia.unidadmedida}}</td>
-                      <td>{{materia.cantidadausar }}</td>
-                      <td>{{ materia.existencias }}</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
             </div>
             <div class="tabla ms-s w-100">
-              <h3 style="color: black;">Lista de productos disponibles para su fabricación</h3>
+
+              <h3 style="color: black;">Informacion de las materias usadas para estos productos</h3>
+              <!--Lista de productos disponibles para su fabricacion-->
               <table class="inventory-table">
                 <thead>
                   <tr>
-                    <th>Codigo</th>
                     <th>Nombre</th>
-                    <th>Tipo de empaquetado</th>
-                    <th>Tiempo de elaboración (Hrs)</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
+                    <th>Precio unitario</th>
+                    <th>Unidad de medida</th>
+                    <th>Cantidad a usar</th>
+                    <th>Existencia en inventario</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let producto of ListaProductos;let i=index">
-                    <td>{{ producto.Codigo }}</td>
-                    <td>{{ producto.Nombre }}</td>
-                    <td>{{ producto.Tipo_Empaquetado }}</td>
-                    <td>{{ producto.Tiempo_Elaboracion }}</td>
-                    <td>{{ producto.Estado }}</td>
+                  <tr *ngFor="let materia of ListaMateriasEditar;let i=index;trackBy: trackByIndex">
+                    <td>{{ materia.nombre }}</td>
                     <td>
-                      <button id="BotonAgregarProducto" class="btn btn-outline-danger"
-                        (click)="AgregarProductoProduccion(producto)">
-                        Agregar
-                      </button>
+                      <input type="number" min="0" name="PrecioMateria{{i}}" id="PrecioMateria"
+                        [(ngModel)]="materia.precio"
+                        (ngModelChange)="actualizarPrecioEnOrdenProduccion(materia.id, materia.precio)"
+                        style="max-width: 35%;border: none;background-color: ffffff;">
                     </td>
+                    <td>{{materia.unidadmedida}}</td>
+                    <td>{{materia.cantidadausar }}</td>
+                    <td>{{ materia.existencias }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -159,7 +160,7 @@
                     *ngFor="let ProductoAgregado of ProductosAgregadosOrdenProduccion.Producto_Elaborado; let i=index">
                     <td>{{ ProductoAgregado.Nombre }}</td>
                     <td>
-                      <input type="number" min="0" max="1200" name="CantidadProducto" id="CantidadProductoCrear"
+                      <input type="number" min="1" max="1200" name="CantidadProducto{{i}}" id="CantidadProductoCrear"
                         [(ngModel)]="OrdenProduccion.Cantidad_Producto[i]" (input)="EditarTablaProduccionEditar()">
                     </td>
                     <td>

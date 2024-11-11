@@ -130,8 +130,8 @@ export class OrdenesProduccionComponent implements OnInit {
     this.OrdenProduccion.Fecha_Creacion = new Date().toISOString().split('T')[0];
 
     if (!this.OrdenProduccion.Fecha_Elaboracion || !this.OrdenProduccion.Fecha_Finalizacion ||
-      !this.OrdenProduccion.Solicitante || !this.OrdenProduccion.Producto_Elaborado ||
-      !this.OrdenProduccion.Cantidad_Producto || !this.OrdenProduccion.Fecha_Creacion) {
+      !this.OrdenProduccion.Solicitante || this.OrdenProduccion.Producto_Elaborado.length === 0 ||
+      !this.OrdenProduccion.Cantidad_Producto || !this.OrdenProduccion.Fecha_Creacion || this.ProductosAgregadosOrdenProduccion.Producto_Elaborado.length === 0) {
       Swal.fire('Error', 'Complete todos los campos', 'error');
       return;
     }
@@ -145,7 +145,7 @@ export class OrdenesProduccionComponent implements OnInit {
       return;
     }
 
-    if(fechaElaboracion<fechaCreacion){
+    if (fechaElaboracion < fechaCreacion) {
       Swal.fire('Error', 'La fecha de inicio no puede ser anterior a la fecha de creación', 'error');
       return;
     }
@@ -237,15 +237,15 @@ export class OrdenesProduccionComponent implements OnInit {
   actualizarPrecioEnOrdenProduccion(idMateria: string, nuevoPrecio: number) {
     // Recorre los productos en OrdenProduccion
     this.OrdenProduccion.Producto_Elaborado.forEach((producto) => {
-        // Busca la materia prima que coincida por ID
-        let materiaPrima = producto.Materias_Primas.find(materia => materia.Id_Materia === idMateria);
-        if (materiaPrima) {
-            // Actualiza el precio en OrdenProduccion
-            materiaPrima.Precio_unitario = nuevoPrecio;
-        }
+      // Busca la materia prima que coincida por ID
+      let materiaPrima = producto.Materias_Primas.find(materia => materia.Id_Materia === idMateria);
+      if (materiaPrima) {
+        // Actualiza el precio en OrdenProduccion
+        materiaPrima.Precio_unitario = nuevoPrecio;
+      }
     });
-    
-}
+
+  }
 
 
 
@@ -263,6 +263,7 @@ export class OrdenesProduccionComponent implements OnInit {
 
     if (!ExisteProductoAgregado) {
       this.ProductosAgregadosOrdenProduccion.Producto_Elaborado.push(producto);
+      this.OrdenProduccion.Cantidad_Producto.push(1);
       this.OrdenProduccion.Producto_Elaborado.push(producto);
     } else {
       Swal.fire('Error', 'Este producto ya ha sido agregado.', 'error');
@@ -275,7 +276,7 @@ export class OrdenesProduccionComponent implements OnInit {
     let ExisteProductoAgregado = this.EditarProduccionModal.Producto_Elaborado.find(m => m.Id_Producto === producto.Id_Producto)
 
     if (!ExisteProductoAgregado) {
-      // Agregar el producto al array de Producto_Elaborado
+      // Agregar el producto a Producto_Elaborado
       this.EditarProduccionModal.Producto_Elaborado.push(producto);
       this.OrdenProduccion.Producto_Elaborado.push(producto);
     } else {
@@ -289,11 +290,48 @@ export class OrdenesProduccionComponent implements OnInit {
   }
 
   EliminarProductoOrden(index: number) {
+    // Obtener el producto que se va a eliminar
+    const productoEliminado = this.ProductosAgregadosOrdenProduccion.Producto_Elaborado[index];
+
+    // Eliminar el producto y la cantidad de las listas correspondientes
     this.ProductosAgregadosOrdenProduccion.Producto_Elaborado.splice(index, 1);
     this.ProductosAgregadosOrdenProduccion.Cantidad_Producto.splice(index, 1);
-    this.ListaMateriasEditar = [];
     this.OrdenProduccion.Cantidad_Producto.splice(index, 1);
+    this.OrdenProduccion.Producto_Elaborado.splice(index, 1);
+
+    // Actualizar ListaMateriasEditar restando la cantidad de las materias correspondientes a este producto
+    productoEliminado.Materias_Primas.forEach((materia, materiaIndex) => {
+      const cantidadMateria = productoEliminado.Cantidad_MateriasPrimas[materiaIndex];
+      const cantidadProducto = this.OrdenProduccion.Cantidad_Producto[index];
+
+      // Encontrar la materia correspondiente en ListaMateriasEditar
+      const materiaExistente = this.ListaMateriasEditar.find(m => m.id === materia.Id_Materia);
+      console.log('Lista de materias', this.ListaMateriasEditar)
+
+      if (materiaExistente) {
+        // Restar la cantidad usada por este producto del total en ListaMateriasEditar
+        materiaExistente.cantidadausar -= cantidadMateria * cantidadProducto;
+
+        // Verificar si la cantidad llega a 0 y eliminar la materia si es el caso
+        if (materiaExistente.cantidadausar <= 0) {
+          this.ListaMateriasEditar = this.ListaMateriasEditar.filter(m => m.id !== materia.Id_Materia);
+        }
+      }
+      // Reiniciar ListaMateriasEditar si queda vacía
+      if (this.ListaMateriasEditar.length === 0) {
+        this.ListaMateriasEditar = [];
+      }
+      else {
+        this.ListaMateriasEditar.forEach(element => {
+          if (element.cantidadausar === 0) {
+            this.ListaMateriasEditar = [];
+          }
+        });
+      }
+      this.EditarTablaProduccionEditar();
+    });
   }
+
 
   GuardarCambiosProduccion() {
     if (!this.EditarProduccionModal.Fecha_Elaboracion || !this.EditarProduccionModal.Fecha_Finalizacion || !this.EditarProduccionModal.Solicitante || !this.EditarProduccionModal.Producto_Elaborado || !this.EditarProduccionModal.Cantidad_Producto) {
