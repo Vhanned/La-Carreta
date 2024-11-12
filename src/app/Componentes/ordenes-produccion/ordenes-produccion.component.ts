@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Firestore, collectionData, collection, addDoc, doc, updateDoc, deleteDoc, query, setDoc } from '@angular/fire/firestore';
 import { ReactiveFormsModule } from '@angular/forms';
-import { where } from 'firebase/firestore';
+import { orderBy, where } from 'firebase/firestore';
 import { find } from 'rxjs/operators';
 import { Producto, OrdenesDeProduccion, MateriaPrimaInfo } from 'src/app/clases/clases.component';
 import Swal from 'sweetalert2'; // Importamos SweetAlert
@@ -64,7 +64,6 @@ export class OrdenesProduccionComponent implements OnInit {
       productoSnap.forEach((item) => {
         let producto = new Producto();
         producto.setData(item);
-
         // Verificar si el producto está en estado "Activo"
         if (producto.Estado === "Activo") {
           if (!producto.Cantidad_MateriasPrimas || producto.Cantidad_MateriasPrimas.length !== producto.Materias_Primas.length) {
@@ -74,60 +73,100 @@ export class OrdenesProduccionComponent implements OnInit {
         }
       });
     });
+
   }
 
   CargarListaOrdenesProduccion() {
-    let q = query(this.OrdenesBD);
+    let q = query(this.OrdenesBD, orderBy('Fecha_Creacion', 'desc'));
     collectionData(q).subscribe((ordenesSnap) => {
       this.ListaOrdenes = [];
       this.ListaOrdenesOriginales = []; // Guardamos la lista original
       ordenesSnap.forEach((item) => {
         let orden = new OrdenesDeProduccion();
         orden.setData(item);
-
-        // Asegurarse de que Fecha_Creacion esté definida
-        if (!orden.Fecha_Creacion) {
-          orden.Fecha_Creacion = new Date().toISOString().split('T')[0];
-        }
-
         this.ListaOrdenes.push(orden);
         this.ListaOrdenesOriginales.push(orden); // Almacenar en la lista original
+        console.log('Creacion', this.ListaOrdenes)
       });
     });
   }
 
+
+
   FiltrarOrdenesPorFecha(fechaInicio: string, fechaFin: string) {
-    const inicio = new Date(fechaInicio);
-    const fin = new Date(fechaFin);
-    fin.setHours(23, 59, 59, 999); // Incluye el último segundo del día final
 
-    console.log("Fecha de inicio (formateada):", inicio);
-    console.log("Fecha de fin (formateada):", fin);
+    /* Al traer la fecha del input date esta es obtenida con el formato
+    año 4 digitos / mes 2 digitos / dia 2 digitos  
+          [0]            [1]            [2]
 
-    // Filtra las órdenes de producción en base a la lista original
+    Al convertir la fecha en objeto Date.toLocaleDateString esta es devuelta con 
+    formato de 
+    
+    dia 2 digitos / mes 2 digitos / año 4 digitos
+          [0]             [1]           [2]
+
+    pero por alguna razon el dia es devuelto -1, si en el input tengo
+    7 en mi Date tendre 6 por alguna razon.
+
+    La fecha almacenada del input siempre es separada por "-" y 
+    la fehca almacenada del Date siempre es separada por "/"
+
+
+    El formato me quedaria como (reacomodando los datos del input al formato de Date)
+
+    dia 2 digitos / mes 2 digitoas / año 4 digitos 
+          [1]              [2]            [0]  
+
+    (la manera en la que opera date.tolocaledatestring sigue siendo un misterio
+    incluso para los profesionales)
+     */
+
+    const inicio = fechaInicio.split('-');
+    console.log(inicio);
+    const InicioFormatoDate = `${inicio[1]}-${inicio[2]}-${inicio[0]}`;
+    console.log('Formato nuevo inicio: ', InicioFormatoDate)
+
+    const final = fechaFin.split('-');
+    console.log(final);
+    const FinFormatoDate = `${final[1]}-${final[2]}-${final[0]}`;
+    console.log('Fomrato nuevo final: ', FinFormatoDate);
+
+    const inicioDate = new Date(InicioFormatoDate).toLocaleDateString();
+    console.log('FechaFormateada inicio:', inicioDate)
+
+    const finalDate = new Date(FinFormatoDate).toLocaleDateString();
+    console.log('FechaFormateada final:', finalDate)
+
+     
+
     this.ListaOrdenes = this.ListaOrdenesOriginales.filter(orden => {
       if (!orden.Fecha_Creacion) {
-        console.log("Orden sin fecha de creación:", orden);
-        return false; // Excluye órdenes sin `Fecha_Creacion`
+        return false;
       }
 
-      const fechaCreacion = new Date(orden.Fecha_Creacion);
-      const isWithinRange = fechaCreacion >= inicio && fechaCreacion <= fin;
-      console.log("Fecha de creación de la orden (formateada):", fechaCreacion);
+      const creacion = new Date (orden.Fecha_Creacion).toLocaleDateString();
+      console.log(creacion);
+      const isWithinRange = creacion >= inicioDate && creacion <= finalDate;
+      console.log("Fecha de creación de la orden (formateada):", creacion);
       console.log("¿Está dentro del rango?", isWithinRange);
       return isWithinRange;
-    });
+    })
 
-    console.log("Lista de órdenes filtrada:", this.ListaOrdenes);
+
+
+  }
+
+  ResetOrdenes() {
+    this.CargarListaOrdenesProduccion();
   }
 
   CrearOrdenProduccion() {
     // Valida la cantidad de materia antes de proceder
     let inventarioSuficiente = true;
 
-
     // Continúa con la creación de la orden si hay suficiente inventario
-    this.OrdenProduccion.Fecha_Creacion = new Date().toISOString().split('T')[0];
+    this.OrdenProduccion.Fecha_Creacion = new Date().toLocaleString();
+    console.log('Fehca de creacion Orden', this.OrdenProduccion.Fecha_Creacion)
 
     if (!this.OrdenProduccion.Fecha_Elaboracion || !this.OrdenProduccion.Fecha_Finalizacion ||
       !this.OrdenProduccion.Solicitante || this.OrdenProduccion.Producto_Elaborado.length === 0 ||
@@ -137,16 +176,10 @@ export class OrdenesProduccionComponent implements OnInit {
     }
 
     const fechaCreacion = (this.OrdenProduccion.Fecha_Creacion);
-    const fechaElaboracion = (this.OrdenProduccion.Fecha_Elaboracion)
     const fechaFinalizacion = (this.OrdenProduccion.Fecha_Finalizacion);
 
     if (fechaFinalizacion < fechaCreacion) {
       Swal.fire('Error', 'La fecha de finalización no puede ser anterior a la fecha de creación', 'error');
-      return;
-    }
-
-    if (fechaElaboracion < fechaCreacion) {
-      Swal.fire('Error', 'La fecha de inicio no puede ser anterior a la fecha de creación', 'error');
       return;
     }
 
