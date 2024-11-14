@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Firestore, collection, collectionData, doc, setDoc, deleteDoc } from '@angular/fire/firestore';
 import { MateriaPrima } from 'src/app/clases/clases.component';
-import { arrayRemove, query } from 'firebase/firestore';
+import { arrayRemove, orderBy, query } from 'firebase/firestore';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import {Location} from '@angular/common'
@@ -139,7 +139,7 @@ export class InventariosComponent {
 
   CargarMaterias(){
     // Cargar las materias primas desde Firestore al iniciar el componente
-    let q = query(this.MateriasBD);
+    let q = query(this.MateriasBD,orderBy('Codigo','asc'));
     collectionData(q).subscribe((materiaPrimaSnap) => {
       this.materias = [];
       materiaPrimaSnap.forEach((item) => {

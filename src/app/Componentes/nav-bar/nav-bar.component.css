@@ -3,7 +3,7 @@
     display: flex;
     justify-content: center;
     align-items: start;
-    height: 9vh;
+    height: 15vh;
     background-color: #bb405a;
     background: linear-gradient(to right, #ff416c, #ff4b2b);
     background-blend-mode: soft-light,screen;
@@ -76,4 +76,12 @@
 .nav-link:hover::before{
     visibility: visible;
     width: 100%;
+}
+
+.ImagenLogo{
+    margin-top: 1vh;
+    max-width: 120px;
+    max-height: 120px;
+    border-radius: 100%;
+    cursor: default;
 }

@@ -222,7 +222,7 @@ export class OrdenesProduccionComponent implements OnInit {
 
   FinalizarProduccion(orden: OrdenesDeProduccion) {
     let ordenDoc = doc(this.firebase, "OrdenesProduccion", orden.Id_Orden);
-    updateDoc(ordenDoc, { Estado: 'Finalizado' }).then(() => {
+    updateDoc(ordenDoc, { Estado: 'Finalizada' }).then(() => {
       Swal.fire('Success', 'Orden finalizada', 'success')
     }).catch((error) => {
       Swal.fire('Error', 'Error al actualizar estado', 'error');
