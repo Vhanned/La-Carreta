@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Firestore, collectionData, collection, addDoc, doc, updateDoc, deleteDoc, query, setDoc } from '@angular/fire/firestore';
+import { Firestore, collectionData, collection, addDoc, doc, updateDoc, deleteDoc, query, setDoc, increment } from '@angular/fire/firestore';
 import { ReactiveFormsModule } from '@angular/forms';
 import { orderBy, where } from 'firebase/firestore';
 import { find } from 'rxjs/operators';
-import { Producto, OrdenesDeProduccion, MateriaPrimaInfo } from 'src/app/clases/clases.component';
+import { Producto, OrdenesDeProduccion, MateriaPrimaInfo, MateriaPrimaUsadaOrden } from 'src/app/clases/clases.component';
 import Swal from 'sweetalert2'; // Importamos SweetAlert
 
 @Component({
@@ -37,6 +37,9 @@ export class OrdenesProduccionComponent implements OnInit {
   ProductosAgregadosOrdenProduccion = new OrdenesDeProduccion();
 
   OrdenProduccion = new OrdenesDeProduccion();
+
+  //Cantidad de materias devueltas si la orden se elimina
+  MateriasUsadasDevueltas: MateriaPrimaUsadaOrden[] = [];
 
   // Dirección de la colección en Firestore de la que se consultan los productos
   ProductosBD = collection(this.firebase, "Productos");
@@ -86,7 +89,6 @@ export class OrdenesProduccionComponent implements OnInit {
         orden.setData(item);
         this.ListaOrdenes.push(orden);
         this.ListaOrdenesOriginales.push(orden); // Almacenar en la lista original
-        console.log('Creacion', this.ListaOrdenes)
       });
     });
   }
@@ -122,42 +124,32 @@ export class OrdenesProduccionComponent implements OnInit {
      */
 
     const inicio = fechaInicio.split('-');
-    console.log(inicio);
     const InicioFormatoDate = `${inicio[1]}-${inicio[2]}-${inicio[0]}`;
-    console.log('Formato nuevo inicio: ', InicioFormatoDate)
 
     const final = fechaFin.split('-');
-    console.log(final);
     const FinFormatoDate = `${final[1]}-${final[2]}-${final[0]}`;
-    console.log('Fomrato nuevo final: ', FinFormatoDate);
 
     const inicioDate = new Date(InicioFormatoDate).toLocaleDateString();
-    console.log('FechaFormateada inicio:', inicioDate)
 
     const finalDate = new Date(FinFormatoDate).toLocaleDateString();
-    console.log('FechaFormateada final:', finalDate)
 
-     
+
 
     this.ListaOrdenes = this.ListaOrdenesOriginales.filter(orden => {
       if (!orden.Fecha_Creacion) {
         return false;
       }
 
-      const creacion = new Date (orden.Fecha_Creacion).toLocaleDateString();
-      console.log(creacion);
+      const creacion = new Date(orden.Fecha_Creacion).toLocaleDateString();
       const isWithinRange = creacion >= inicioDate && creacion <= finalDate;
-      console.log("Fecha de creación de la orden (formateada):", creacion);
-      console.log("¿Está dentro del rango?", isWithinRange);
       return isWithinRange;
     })
-
-
-
   }
 
   ResetOrdenes() {
     this.CargarListaOrdenesProduccion();
+    this.fechaInicio = '';
+    this.fechaFin = '';
   }
 
   CrearOrdenProduccion() {
@@ -166,7 +158,6 @@ export class OrdenesProduccionComponent implements OnInit {
 
     // Continúa con la creación de la orden si hay suficiente inventario
     this.OrdenProduccion.Fecha_Creacion = new Date().toLocaleString();
-    console.log('Fehca de creacion Orden', this.OrdenProduccion.Fecha_Creacion)
 
     if (!this.OrdenProduccion.Fecha_Elaboracion || !this.OrdenProduccion.Fecha_Finalizacion ||
       !this.OrdenProduccion.Solicitante || this.OrdenProduccion.Producto_Elaborado.length === 0 ||
@@ -184,6 +175,7 @@ export class OrdenesProduccionComponent implements OnInit {
     }
 
     // Revisa si alguna materia no tiene suficiente inventario
+    console.log(this.ListaMateriasEditar)
     this.ListaMateriasEditar.forEach((materia) => {
       if (materia.cantidadausar > materia.existencias) {
         inventarioSuficiente = false;
@@ -204,21 +196,37 @@ export class OrdenesProduccionComponent implements OnInit {
     setDoc(NuevaOrdenDoc, JSON.parse(JSON.stringify(this.OrdenProduccion)))
       .then(() => {
         Swal.fire('Éxito', 'Orden creada correctamente', 'success');
+
+        this.ListaMateriasEditar.forEach((materia) => {
+          let materiaDoc = doc(this.firebase, "MateriasPrimas", materia.id);
+          const nuevaCantidad = materia.existencias - materia.cantidadausar
+
+          updateDoc(materiaDoc, { Existencias: nuevaCantidad }).then(() => {
+            console.log('Inventario actualizado en: ', materia.nombre)
+          }).catch((error) => {
+            Swal.fire('Error', 'Error al actualizar inventario', 'error');
+            console.error('Error al actualizar inventario', error)
+          })
+        })
       })
       .catch((error) => {
         Swal.fire('Error', 'Ocurrió un error al guardar el producto', 'error');
         console.error("Error guardando producto: ", error);
       });
 
-    console.log(this.OrdenProduccion)
     let btnCerrar = document.getElementById('btnCerrarModalCrear');
     btnCerrar?.click();
   }
 
 
 
-  EditarOrdenProduccion(orden: OrdenesDeProduccion) {
-    this.EditarProduccionModal = orden;
+  FinalizarProduccion(orden: OrdenesDeProduccion) {
+    let ordenDoc = doc(this.firebase, "OrdenesProduccion", orden.Id_Orden);
+    updateDoc(ordenDoc, { Estado: 'Finalizado' }).then(() => {
+      Swal.fire('Success', 'Orden finalizada', 'success')
+    }).catch((error) => {
+      Swal.fire('Error', 'Error al actualizar estado', 'error');
+    })
   }
 
 
@@ -280,8 +288,6 @@ export class OrdenesProduccionComponent implements OnInit {
 
   }
 
-
-
   LimpiarListaMaterias() {
     this.ListaMateriasEditar = [];
   }
@@ -339,7 +345,6 @@ export class OrdenesProduccionComponent implements OnInit {
 
       // Encontrar la materia correspondiente en ListaMateriasEditar
       const materiaExistente = this.ListaMateriasEditar.find(m => m.id === materia.Id_Materia);
-      console.log('Lista de materias', this.ListaMateriasEditar)
 
       if (materiaExistente) {
         // Restar la cantidad usada por este producto del total en ListaMateriasEditar
@@ -414,13 +419,67 @@ export class OrdenesProduccionComponent implements OnInit {
               'error'
             );
           });
+
+
+        /* El siguiente bloque de codigo debe lograr lo siguiente:
+    
+          -La cantidad total de materias usadas en crear la orden de produccion seran 
+           devueltas al inventario dado que se cancelo la orden
+    
+           Para lograrlo debo primero saber que materias seran las que seran modificadas, 
+           para ello debo obtener los id de las materias que debere modificar.
+    
+           Recorrere todos los productos de mi orden de produccion buscando las materias
+           que se usaron en la elaboracion, dado que las mismas materias pueden ser usadas
+           en distintos productos entonces habra materias iguales con diferentes cantidades,
+           en esos casos sumare las cantidades de las materias cuando se encuentren coincidencias
+    
+    
+        */
+        this.MateriasUsadasDevueltas = []
+
+        /* Para cada producto existente en mi orden de produccion buscare los id de las materias y los almacenare
+        */
+        orden.Producto_Elaborado.forEach((Producto, i) => {
+
+          Producto.Materias_Primas.forEach((materia, j) => {
+            let idMateria = materia.Id_Materia;
+            let nombreMateria = materia.Nombre;
+            let cantidadMateria = Producto.Cantidad_MateriasPrimas[j] * orden.Cantidad_Producto[i];
+
+            let materiaExiste = this.MateriasUsadasDevueltas.find(m => m.id === materia.Id_Materia)
+
+            if (materiaExiste) {
+              materiaExiste.cantidad += cantidadMateria;
+            } else {
+              this.MateriasUsadasDevueltas.push({
+                id: idMateria,
+                nombre: nombreMateria,
+                cantidad: cantidadMateria
+              })
+            }
+          });
+          console.log(this.MateriasUsadasDevueltas)
+        });
+
+        this.MateriasUsadasDevueltas.forEach((materia) => {
+          const materiaDocRef = doc(this.firebase, "MateriasPrimas", materia.id);
+          try {
+            // Actualizar la cantidad en el campo `existencias` en Firestore usando `increment`
+            updateDoc(materiaDocRef, {
+              Existencias: increment(materia.cantidad)
+            });
+            console.log(`Inventario actualizado para ${materia.nombre}: +${materia.cantidad}`);
+          } catch (error) {
+            console.error(`Error al actualizar inventario de ${materia.nombre}:`, error);
+          }
+        });
       }
     });
   }
 
   MostrarDetalles(orden: OrdenesDeProduccion) {
     this.VerDetallesProduccion = orden;
-    console.log(orden);
   }
 
   trackByIndex(index: number, item: any): number {
@@ -429,7 +488,6 @@ export class OrdenesProduccionComponent implements OnInit {
 
   calcularCantidadMateria(producto: Producto, index: number, cantidadProducto: number): number {
     const materiaPrimaRatio = producto.Cantidad_MateriasPrimas[index] || 1;
-    console.log(`Índice ${index} - Cantidad producto: ${cantidadProducto} - Cantidad de materias primas: ${materiaPrimaRatio}`);
     return cantidadProducto * materiaPrimaRatio; // Ahora utiliza la cantidad del índice específico
   }
 

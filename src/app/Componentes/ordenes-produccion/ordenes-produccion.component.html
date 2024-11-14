@@ -46,11 +46,14 @@
             <td>{{ orden.Fecha_Finalizacion }}</td>
             <td>{{ orden.Solicitante }}</td>
             <td>
-              <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                data-bs-target="#staticBackdropEditarProduccion" (click)="EditarOrdenProduccion(orden)">Editar</button>
+              <button *ngIf="orden.Estado === 'Pendiente'" class="btn btn-success btn-sm"
+                (click)="FinalizarProduccion(orden)">
+                Finalizar produccion</button>
+              <span *ngIf="orden.Estado === 'Finalizado'">Orden finalizada: </span>
               <button class="btn btn-info btn-sm" data-bs-target="#staticBackdropDetalles" data-bs-toggle="modal"
                 (click)="MostrarDetalles(orden)">Detalles</button>
-              <button class="btn btn-danger btn-sm" (click)="EliminarOrdenProduccion(orden)">Eliminar</button>
+              <button *ngIf="orden.Estado === 'Pendiente'" class="btn btn-danger btn-sm"
+                (click)="EliminarOrdenProduccion(orden)">Eliminar</button>
             </td>
           </tr>
         </tbody>

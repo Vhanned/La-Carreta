@@ -246,3 +246,9 @@ export interface MateriaPrimaInfo {
   existencias: number; // Se llenará después de la consulta a Firestore
 }
 
+export interface MateriaPrimaUsadaOrden{
+  id: string;
+  nombre: string;
+  cantidad: number;
+}
+
