@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { collection, doc, Firestore, setDoc } from '@angular/fire/firestore';
 import Swal from 'sweetalert2';
 import { AuthService } from 'src/app/Componentes/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-adm-cont',
@@ -13,28 +14,46 @@ export class AdmContComponent implements OnInit {
   nuevoRegistro = {
     Id_Registro: '',
     fecha: '',
-    cuenta: '',
-    monto: '',
-    tipo: '',
-    descripcion: ''
+    pagoProveedoresEfectivo: '',
+    pagoProveedoresCreditoBanco: '',
+    pagoProveedoresBanco: '',
+    cuentasPorPagar: '',
+    gastosGenerales: '',
+    otrosGastos: '',
+    anticipoProveedor: '',
+    pagoProveedoresCreditoEfectivo: ''
   };
 
   adContBD = collection(this.firebase, "AdCont");
 
-  constructor(private firebase: Firestore, private authService: AuthService) { }
+  constructor(private firebase: Firestore, private authService: AuthService, private router: Router) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // Verificar autenticación al iniciar
+    if (!this.authService.isLoggedIn()) {
+      Swal.fire('Acceso Denegado', 'Debe iniciar sesión para acceder a esta página', 'error');
+      this.router.navigate(['/login']);
+    }
+  }
 
   insertarRegistro() {
     // Validar que todos los campos sean obligatorios
-    if (!this.nuevoRegistro.fecha || !this.nuevoRegistro.cuenta || !this.nuevoRegistro.monto || !this.nuevoRegistro.tipo) {
+    if (!this.nuevoRegistro.fecha ||
+        !this.nuevoRegistro.pagoProveedoresEfectivo ||
+        !this.nuevoRegistro.pagoProveedoresCreditoBanco ||
+        !this.nuevoRegistro.pagoProveedoresBanco ||
+        !this.nuevoRegistro.cuentasPorPagar ||
+        !this.nuevoRegistro.gastosGenerales ||
+        !this.nuevoRegistro.otrosGastos ||
+        !this.nuevoRegistro.anticipoProveedor ||
+        !this.nuevoRegistro.pagoProveedoresCreditoEfectivo) {
       Swal.fire('Error', 'Todos los campos son obligatorios', 'error');
       return;
     }
 
     // Generar un ID único para el nuevo registro
     this.nuevoRegistro.Id_Registro = this.GenerateRandomString(20);
-    let nuevoRegistroDoc = doc(this.firebase, "AdCont", this.nuevoRegistro.Id_Registro);
+    const nuevoRegistroDoc = doc(this.firebase, "AdCont", this.nuevoRegistro.Id_Registro);
 
     // Insertar el nuevo registro en Firestore
     setDoc(nuevoRegistroDoc, this.nuevoRegistro)
@@ -49,14 +68,18 @@ export class AdmContComponent implements OnInit {
   }
 
   LimpiarFormulario() {
-    // Restablecer el formulario
+    // Restablecer el formulario a valores vacíos
     this.nuevoRegistro = {
       Id_Registro: '',
       fecha: '',
-      cuenta: '',
-      monto: '',
-      tipo: '',
-      descripcion: ''
+      pagoProveedoresEfectivo: '',
+      pagoProveedoresCreditoBanco: '',
+      pagoProveedoresBanco: '',
+      cuentasPorPagar: '',
+      gastosGenerales: '',
+      otrosGastos: '',
+      anticipoProveedor: '',
+      pagoProveedoresCreditoEfectivo: ''
     };
   }
 
@@ -71,6 +94,6 @@ export class AdmContComponent implements OnInit {
 
   cerrarSesion() {
     this.authService.logout(); // Cerrar sesión
+    this.router.navigate(['/login']);
   }
 }
-
