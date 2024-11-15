@@ -1,137 +1,205 @@
-/* Contenedor que actúa como "body" */
-.container {
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background-color: #874014;
+    min-height: 100vh;
+    background-color: #a66a33;
+    color: #333;
+    margin: 0;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    background-color: #f7f7f7;
     padding: 20px;
-    box-sizing: border-box;
-}
-
-/* Contenedor interno (blanco) */
-.inner-container {
-    background-color: white;
     border-radius: 10px;
-    padding: 40px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 800px; 
-    width: 100%;       
-    height: auto;    
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 30px 0;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
     text-align: center;
-    border: 2px solid #2A3A50; /* Borde gris oscuro */
 }
 
-/* Título */
-.Titulo h1 {
-    font-family: Arial, sans-serif;
-    font-size: 2.5rem;
-    color: #2A3A50;   
-    margin-bottom: 20px;
+.header h2 {
+    font-size: 28px;
+    text-align: center;
+    color: #333;
+    flex: 1;
+    padding-left: 15vh;
 }
 
-/* Subtítulo */
-.subtitulo {
-    font-family: Arial, sans-serif;
-    font-size: 1.5rem;
-    color: #666;
-    margin-bottom: 30px;
+.logout-button {
+    background-color: #ff7a2f;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 15px;
+    cursor: pointer;
+    margin-top: 10px;
 }
 
-/* Estilo general para inputs */
-.input-field {
-    width: 90%;
-    padding: 15px;
-    margin-bottom: 20px;
-    font-size: 1.1rem;
-    border: 2px solid #2A3A50;
-    border-radius: 8px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    transition: all 0.3s ease;
+.content {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
-/* Input de texto más alto para descripciones */
-.input-field.textarea {
-    height: 150px;
-    resize: none;
+.section {
+    background-color: #e7c190;
+    padding: 20px;
+    border-radius: 10px;
+    flex: 1;
+    max-width: 45%;
+    min-width: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-/* Input de fecha */
-.input-field.date {
-    width: 90%;
+.section h3 {
+    font-size: 22px;
+    text-align: center;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.section form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 60%;
+}
+
+.section label {
+    font-size: 14px;
+    text-align: center;
+}
+
+.section input {
     padding: 10px;
-    margin-bottom: 20px;
-    font-size: 1.1rem;
-    border: 2px solid #2A3A50;
     border-radius: 8px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    border: none;
+    background-color: #f5f5f5;
+    text-align: center;
 }
 
-/* Estilo del input al enfocar */
-.input-field:focus {
-    border-color: #FFD369;  /* Amarillo suave cuando se selecciona */
-    box-shadow: 0 0 8px rgba(255, 211, 105, 0.5);
+.capture-section {
+    flex: 2;
 }
 
-/* Contenedor de botones */
-.button-group {
+.automatic-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 200px;
+    max-height: 300px;
+}
+
+.footer {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    align-items: center;
+    margin-top: 5px;
+    flex-wrap: wrap;
+}
+
+.submit-button {
+    background-color: #ff7a2f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 16px;
     margin-top: 20px;
 }
 
-/* Botones */
-.submit-btn, .edit-btn {
-    background-color: #2A3A50;
-    color: white;
-    border: none;
-    padding: 15px 30px;
-    font-size: 1.2rem;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.logo {
+    width: 260px;
+    height: auto;
+    margin-top: 10px;
+    display: flex;
+    justify-self: center;
+    align-self: center;
+    border-radius: 15px;
+    
 }
 
-.submit-btn:hover, .edit-btn:hover {
-    background-color: #FFD369;
-    color: #2A3A50;
+/* Esto es para la responsividad (si no le sabe no le mueva plis) */
+@media (max-width: 1024px) {
+    .header h2 {
+        padding-left: 0;
+    }
 }
 
-/* Estilo para los textos descriptivos */
-.formulario p {
-    font-family: Arial, sans-serif;
-    font-size: 1rem;
-    color: #2A3A50;
-    margin-bottom: 5px;
-    text-align: left;
-    padding-left: 4%;
-}
-
-/* Responsividad */
 @media (max-width: 768px) {
-    .inner-container {
-        padding: 20px;
+    .container {
+        padding: 15px;
     }
 
-    .Titulo h1 {
-        font-size: 2rem;
+    .header h2 {
+        font-size: 24px;
+        text-align: center;
     }
 
-    .subtitulo {
-        font-size: 1.25rem;
+    .content {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .section {
+        max-width: 100%;
     }
 
-    .input-field {
-        width: 95%; 
+    .section h3 {
+        font-size: 20px;
+    }
+    
+    .logout-button, .submit-button {
+        padding: 8px 15px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header h2 {
+        font-size: 20px;
     }
 
-    .submit-btn, .edit-btn {
-        padding: 12px 25px;
-        font-size: 1rem;
+    .section h3 {
+        font-size: 18px;
+    }
+
+    .section input {
+        padding: 8px;
+    }
+
+    .logout-button, .submit-button {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+
+    .logo {
+        width: 100px;
+    }
+
+    .container {
+        padding: 10px;
     }
 }

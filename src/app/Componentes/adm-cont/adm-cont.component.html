@@ -1,31 +1,46 @@
-<div class="container">
-        <div class="inner-container">
-            <div class="Titulo">
-                <h1>Administración Contable</h1>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Captura de Datos<br>Contable Administrativo</h2>
+            <button class="logout-button">Cerrar Sesión</button>
+        </div>
+        <div class="content">
+            <div class="section capture-fields">
+                <h3>Campos de captura</h3>
+                <form>
+                    <label>Fecha de captura</label>
+                    <input type="text">
+                    <label>Pago a Proveedores Efectivo</label>
+                    <input type="text">
+                    <label>Pago a Proveedores Credito Banco</label>
+                    <input type="text">
+                    <label>Pago a Proveedores Banco</label>
+                    <input type="text">
+                    <label>Cuentas por Pagar</label>
+                    <input type="text">
+                    <label>Gastos Generales</label>
+                    <input type="text">
+                    <label>Otros Gastos</label>
+                    <input type="text">
+                </form>
             </div>
-            <div class="subtitulo">
-                Ingrese los datos solicitados a continuación
-            </div>
-            <div class="formulario">
-
-                <p>Fecha del día del reporte</p>
-                <input type="date" class="input-field date" placeholder="Seleccionar fecha">
-
-                <p>Ingrese el dato1</p>
-                <input type="text" class="input-field" placeholder="Dato1">
-
-                <p>Ingrese el dato2</p>
-                <input type="text" class="input-field" placeholder="Dato2">
-
-                <p>Ingrese el dato3</p>
-                <input type="text" class="input-field" placeholder="Dato3">
-
-                <p>Descripción detallada del día</p>
-                <textarea class="input-field textarea" placeholder="Descripción"></textarea>
-            </div>
-            <div class="button-group">
-                <button class="submit-btn">Enviar</button>
-                <button class="edit-btn">Editar</button>
+            <div class="section auto-fields">
+                <h3>Campos automáticos</h3>
+                <form>
+                    <label>Anticipo a Proveedor</label>
+                    <input type="text">
+                    <label>Pago a Proveedores credito efectivo</label>
+                    <input type="text">
+                    
+                    <img src="https://firebasestorage.googleapis.com/v0/b/cheesetrack-dd8bc.appspot.com/o/121543057_1020820045095734_907176375967712815_n.png?alt=media&token=68b41600-b430-4412-9093-4e2568595fcf" alt="Logo La Carreta" class="logo">
+        
+                </form>
             </div>
         </div>
+        <div class="footer">
+            <button class="submit-button">Subir Datos</button>
+        </div>
     </div>
+</body>
+
+<link rel="stylesheet" href="adm-cont.component.css">
