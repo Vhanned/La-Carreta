@@ -47,4 +47,3 @@ export class ReportesProduccionComponent implements OnInit {
       });
     }
   }
-}

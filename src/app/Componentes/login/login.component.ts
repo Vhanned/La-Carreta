@@ -52,6 +52,34 @@ export class LoginComponent {
       return;
     }
 
+    // Verificar si es un usuario de Finanzas
+    if (this.Usuario === "Finanzas" && this.Contrasena === "finanzas") {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Sesión Iniciada",
+        showConfirmButton: false,
+        timer: 800
+      });
+      this.authService.login('Finanzas'); // Establece el rol como 'Finanzas'
+      this.routing.navigate(['finanzas']);
+      return;
+    }
+
+    // Verificar si es un usuario de Ad-Cont
+    if (this.Usuario === "Ad-Cont" && this.Contrasena === "adcont") {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Sesión Iniciada",
+        showConfirmButton: false,
+        timer: 800
+      });
+      this.authService.login('Ad-Cont'); // Establece el rol como 'Ad-Cont'
+      this.routing.navigate(['adcont']);
+      return;
+    }
+
     // Validación de otros usuarios desde la colección en Firestore
     let q = query(this.UsuariosColleccion, where("NombreUsuario", "==", this.Usuario), where("Contrasena", "==", this.Contrasena));
     collectionData(q).pipe(take(1)).subscribe((UsuarioSnap) => {
@@ -64,8 +92,8 @@ export class LoginComponent {
           timer: 800
         });
         // Asignar el rol del usuario desde la base de datos o la lógica de tu aplicación
-        const userRole = UsuarioSnap[0].role || 'Usuario'; // Asegúrate de que el rol esté almacenado en la base de datos
-        this.authService.login(userRole); // Establece el rol desde la base de datos
+        const userRole = UsuarioSnap[0].role || 'Usuario';
+        this.authService.login(userRole);
         this.Credencial.setData(UsuarioSnap[0]);
 
         // Redirigir según el rol
@@ -73,8 +101,12 @@ export class LoginComponent {
           this.routing.navigate(['ventas']);
         } else if (userRole === 'Producción') {
           this.routing.navigate(['ordenes-produccion']);
+        } else if (userRole === 'Finanzas') {
+          this.routing.navigate(['finanzas']);
+        } else if (userRole === 'Ad-Cont') {
+          this.routing.navigate(['adcont']);
         } else {
-          this.routing.navigate(['dashboard']); // Ruta por defecto para otros roles
+          this.routing.navigate(['dashboard']);
         }
         console.log(this.Credencial);
       } else {

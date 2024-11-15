@@ -11,6 +11,7 @@ import { ReportesProduccionComponent } from './reportes-produccion/reportes-prod
 import { VentasComponent } from './Componentes/ventas/ventas.component';
 import { AuthGuard } from './services/au.guard';
 import { RoleGuard } from './services/role.guard';
+import { FinanzasComponent } from './finanzas/finanzas.component';
 
 const routes: Routes = [
 {path:'',component:LoginComponent},
@@ -20,9 +21,10 @@ const routes: Routes = [
 {path: 'ordenes-produccion', component:OrdenesProduccionComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'Producción' }},
 {path: 'inventarios-productos', component:InventariosProductosComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'Producción' }},
 {path: 'c',component:AlmacenComponent},
-{path: 's', component:AdmContComponent},
+{path: 'adcont', component:AdmContComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'Ad-Cont' }},
 {path: 'reportes-produccion', component:ReportesProduccionComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'Producción' }},
 {path: 'ventas', component:VentasComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'Ventas' }},
+{path: 'finanzas', component:FinanzasComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'Finanzas' }},
 { path: '**', redirectTo: 'login' }
 
 ];
