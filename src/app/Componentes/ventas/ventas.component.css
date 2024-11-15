@@ -35,7 +35,7 @@ body {
 
 .title {
     text-align: center;
-    font-weight: bold;
+    font-weight: bold; /* Negrita para "Captura de Datos" y "Ventas" */
     font-size: 1.5em;
     color: #333;
     padding-right: 7vh;
@@ -71,6 +71,7 @@ body {
     color: #333;
     margin-bottom: 20px;
     font-size: 1.2em;
+    font-weight: bold; /* Negrita para "Campos de captura" y "Campos automáticos" */
 }
 
 .form-group {
@@ -81,7 +82,7 @@ body {
 .form-group label {
     display: block;
     margin-bottom: 5px;
-    font-weight: bold;
+    font-weight: normal; /* Etiquetas normales (sin negrita) */
 }
 
 .form-group input {

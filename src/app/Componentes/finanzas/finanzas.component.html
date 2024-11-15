@@ -1,59 +1,56 @@
 <body>
-  <div class="container">
+    <div class="container">
       <div class="header">
-          
-          <img src="https://firebasestorage.googleapis.com/v0/b/cheesetrack-dd8bc.appspot.com/o/121543057_1020820045095734_907176375967712815_n.png?alt=media&token=68b41600-b430-4412-9093-4e2568595fcf" alt="Logo La Carreta" class="logo">
-          
-          <div class="title">
-            <p>Captura de Datos</p>
-            <h1>Finanzas</h1>
-          </div>
-          
-          <button class="button">Cerrar Sesión</button>
-
+        <img src="https://firebasestorage.googleapis.com/v0/b/cheesetrack-dd8bc.appspot.com/o/121543057_1020820045095734_907176375967712815_n.png?alt=media&token=68b41600-b430-4412-9093-4e2568595fcf" alt="Logo La Carreta" class="logo">
+        <div class="title">
+          <p>Captura de Datos</p>
+          <h1>Finanzas</h1>
+        </div>
+        <button class="button" (click)="cerrarSesion()">Cerrar Sesión</button>
       </div>
-
-      
-
+  
       <div class="form-container">
-          <h2>Campos</h2>
+        <h2>Campos</h2>
+        <div class="form-group">
+          <label for="fecha">Fecha de captura</label>
+          <input type="date" id="fecha" [(ngModel)]="nuevoReporte.fecha">
+        </div>
+  
+        <div class="form-group-row">
           <div class="form-group">
-              <label for="fecha">Fecha de captura</label>
-              <input type="text" id="fecha">
+            <label for="mpBanco">M.P Banco</label>
+            <input type="number" id="mpBanco" [(ngModel)]="nuevoReporte.mpBanco">
           </div>
-          <div class="form-group-row">
-              <div class="form-group">
-                  <label for="mpBanco">M.P Banco</label>
-                  <input type="text" id="mpBanco">
-              </div>
-              <div class="form-group">
-                  <label for="mpCajaChica">M.P Caja Chica Efectivo</label>
-                  <input type="text" id="mpCajaChica">
-              </div>
+          <div class="form-group">
+            <label for="mpCajaChica">M.P Caja Chica Efectivo</label>
+            <input type="number" id="mpCajaChica" [(ngModel)]="nuevoReporte.mpCajaChica">
           </div>
-          <div class="form-group-row">
-              <div class="form-group">
-                  <label for="gastosEfectivos">Gastos Efectivos</label>
-                  <input type="text" id="gastosEfectivos">
-              </div>
-              <div class="form-group">
-                  <label for="gastosBanco">Gastos Banco</label>
-                  <input type="text" id="gastosBanco">
-              </div>
+        </div>
+  
+        <div class="form-group-row">
+          <div class="form-group">
+            <label for="gastosEfectivos">Gastos Efectivos</label>
+            <input type="number" id="gastosEfectivos" [(ngModel)]="nuevoReporte.gastosEfectivos">
           </div>
-          <div class="form-group-row">
-              <div class="form-group">
-                  <label for="comprasInversion">Compras Inversión</label>
-                  <input type="text" id="comprasInversion">
-              </div>
-              <div class="form-group">
-                  <label for="gastos">Gastos</label>
-                  <input type="text" id="gastos">
-              </div>
+          <div class="form-group">
+            <label for="gastosBanco">Gastos Banco</label>
+            <input type="number" id="gastosBanco" [(ngModel)]="nuevoReporte.gastosBanco">
           </div>
-          <button class="submit-button">Subir Datos</button>
+        </div>
+  
+        <div class="form-group-row">
+          <div class="form-group">
+            <label for="comprasInversion">Compras Inversión</label>
+            <input type="number" id="comprasInversion" [(ngModel)]="nuevoReporte.comprasInversion">
+          </div>
+          <div class="form-group">
+            <label for="gastos">Gastos</label>
+            <input type="number" id="gastos" [(ngModel)]="nuevoReporte.gastos">
+          </div>
+        </div>
+  
+        <button class="submit-button" (click)="insertarReporte()">Subir Datos</button>
       </div>
-  </div>
-</body>
-
-<link rel="stylesheet" href="finanzas.component.css">
+    </div>
+  </body>
+  

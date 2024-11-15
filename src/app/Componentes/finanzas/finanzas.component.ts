@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { collection, doc, Firestore, setDoc } from '@angular/fire/firestore';
 import Swal from 'sweetalert2';
 import { AuthService } from 'src/app/Componentes/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-finanzas',
@@ -13,28 +14,42 @@ export class FinanzasComponent implements OnInit {
   nuevoReporte = {
     Id_Reporte: '',
     fecha: '',
-    ingreso: '',
-    egreso: '',
-    balance: '',
-    descripcion: ''
+    mpBanco: '',
+    mpCajaChica: '',
+    gastosEfectivos: '',
+    gastosBanco: '',
+    comprasInversion: '',
+    gastos: ''
   };
 
   finanzasBD = collection(this.firebase, "Finanzas");
 
-  constructor(private firebase: Firestore, private authService: AuthService) { }
+  constructor(private firebase: Firestore, private authService: AuthService, private router: Router) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // Verificar autenticación
+    if (!this.authService.isLoggedIn()) {
+      Swal.fire('Acceso Denegado', 'Debe iniciar sesión para acceder a esta página', 'error');
+      this.router.navigate(['/login']);
+    }
+  }
 
   insertarReporte() {
     // Validar que todos los campos sean obligatorios
-    if (!this.nuevoReporte.fecha || !this.nuevoReporte.ingreso || !this.nuevoReporte.egreso || !this.nuevoReporte.balance) {
+    if (!this.nuevoReporte.fecha ||
+        !this.nuevoReporte.mpBanco ||
+        !this.nuevoReporte.mpCajaChica ||
+        !this.nuevoReporte.gastosEfectivos ||
+        !this.nuevoReporte.gastosBanco ||
+        !this.nuevoReporte.comprasInversion ||
+        !this.nuevoReporte.gastos) {
       Swal.fire('Error', 'Todos los campos son obligatorios', 'error');
       return;
     }
 
     // Generar un ID único para el nuevo reporte
     this.nuevoReporte.Id_Reporte = this.GenerateRandomString(20);
-    let nuevoReporteDoc = doc(this.firebase, "Finanzas", this.nuevoReporte.Id_Reporte);
+    const nuevoReporteDoc = doc(this.firebase, "Finanzas", this.nuevoReporte.Id_Reporte);
 
     // Insertar el nuevo reporte en Firestore
     setDoc(nuevoReporteDoc, this.nuevoReporte)
@@ -49,14 +64,16 @@ export class FinanzasComponent implements OnInit {
   }
 
   LimpiarFormulario() {
-    // Restablecer el formulario
+    // Restablecer el formulario a valores vacíos
     this.nuevoReporte = {
       Id_Reporte: '',
       fecha: '',
-      ingreso: '',
-      egreso: '',
-      balance: '',
-      descripcion: ''
+      mpBanco: '',
+      mpCajaChica: '',
+      gastosEfectivos: '',
+      gastosBanco: '',
+      comprasInversion: '',
+      gastos: ''
     };
   }
 
@@ -71,5 +88,6 @@ export class FinanzasComponent implements OnInit {
 
   cerrarSesion() {
     this.authService.logout(); // Cerrar sesión
+    this.router.navigate(['/login']);
   }
 }

@@ -1,8 +1,8 @@
-// ventas.component.ts
 import { Component, OnInit } from '@angular/core';
 import { collection, doc, Firestore, setDoc } from '@angular/fire/firestore';
 import Swal from 'sweetalert2';
 import { AuthService } from 'src/app/Componentes/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ventas',
@@ -14,28 +14,44 @@ export class VentasComponent implements OnInit {
   nuevaVenta = {
     Id_Venta: '',
     fecha: '',
-    dato1: '',
-    dato2: '',
-    dato3: '',
-    dato4:'',
-    descripcion: ''
+    cobranzaEfectivo: '',
+    cobranzaBanco: '',
+    compraProductos: '',
+    inventario: '',
+    ventaContado: '',
+    cuentasCobrar: ''
   };
 
   ventasBD = collection(this.firebase, "Ventas");
 
-  constructor(private firebase: Firestore, private authService: AuthService) { } // Inyecta AuthService
+  constructor(private firebase: Firestore, private authService: AuthService, private router: Router) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // Verificar autenticación
+    if (!this.authService.isLoggedIn()) {
+      Swal.fire('Acceso Denegado', 'Debe iniciar sesión para acceder a esta página', 'error');
+      this.router.navigate(['/login']);
+    }
+  }
 
   insertarVenta() {
-    if (!this.nuevaVenta.fecha || !this.nuevaVenta.dato1 || !this.nuevaVenta.dato2 || !this.nuevaVenta.dato3 || !this.nuevaVenta.dato4) {
+    // Validar que todos los campos sean obligatorios
+    if (!this.nuevaVenta.fecha ||
+        !this.nuevaVenta.cobranzaEfectivo ||
+        !this.nuevaVenta.cobranzaBanco ||
+        !this.nuevaVenta.compraProductos ||
+        !this.nuevaVenta.inventario ||
+        !this.nuevaVenta.ventaContado ||
+        !this.nuevaVenta.cuentasCobrar) {
       Swal.fire('Error', 'Todos los campos son obligatorios', 'error');
       return;
     }
 
+    // Generar un ID único para la nueva venta
     this.nuevaVenta.Id_Venta = this.GenerateRandomString(20);
-    let nuevaVentaDoc = doc(this.firebase, "Ventas", this.nuevaVenta.Id_Venta);
+    const nuevaVentaDoc = doc(this.firebase, "Ventas", this.nuevaVenta.Id_Venta);
 
+    // Insertar la nueva venta en Firestore
     setDoc(nuevaVentaDoc, this.nuevaVenta)
       .then(() => {
         Swal.fire('Éxito', 'Venta agregada correctamente', 'success');
@@ -48,14 +64,16 @@ export class VentasComponent implements OnInit {
   }
 
   LimpiarFormulario() {
+    // Restablecer el formulario a valores vacíos
     this.nuevaVenta = {
       Id_Venta: '',
       fecha: '',
-      dato1: '',
-      dato2: '',
-      dato3: '',
-      dato4:'',
-      descripcion: ''
+      cobranzaEfectivo: '',
+      cobranzaBanco: '',
+      compraProductos: '',
+      inventario: '',
+      ventaContado: '',
+      cuentasCobrar: ''
     };
   }
 
@@ -69,6 +87,7 @@ export class VentasComponent implements OnInit {
   }
 
   cerrarSesion() {
-    this.authService.logout(); // Llama al método de logout para cerrar sesión
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }
