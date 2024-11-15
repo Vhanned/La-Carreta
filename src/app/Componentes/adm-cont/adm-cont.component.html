@@ -2,45 +2,52 @@
     <div class="container">
         <div class="header">
             <h2>Captura de Datos<br>Contable Administrativo</h2>
-            <button class="logout-button">Cerrar Sesión</button>
+            <button class="logout-button" (click)="cerrarSesion()">Cerrar Sesión</button>
         </div>
+
         <div class="content">
             <div class="section capture-fields">
                 <h3>Campos de captura</h3>
                 <form>
                     <label>Fecha de captura</label>
-                    <input type="text">
+                    <input type="date" [(ngModel)]="nuevoRegistro.fecha" name="fecha" required>
+
                     <label>Pago a Proveedores Efectivo</label>
-                    <input type="text">
-                    <label>Pago a Proveedores Credito Banco</label>
-                    <input type="text">
+                    <input type="number" [(ngModel)]="nuevoRegistro.pagoProveedoresEfectivo" name="pagoProveedoresEfectivo" required>
+
+                    <label>Pago a Proveedores Crédito Banco</label>
+                    <input type="number" [(ngModel)]="nuevoRegistro.pagoProveedoresCreditoBanco" name="pagoProveedoresCreditoBanco" required>
+
                     <label>Pago a Proveedores Banco</label>
-                    <input type="text">
+                    <input type="number" [(ngModel)]="nuevoRegistro.pagoProveedoresBanco" name="pagoProveedoresBanco" required>
+
                     <label>Cuentas por Pagar</label>
-                    <input type="text">
+                    <input type="number" [(ngModel)]="nuevoRegistro.cuentasPorPagar" name="cuentasPorPagar" required>
+
                     <label>Gastos Generales</label>
-                    <input type="text">
+                    <input type="number" [(ngModel)]="nuevoRegistro.gastosGenerales" name="gastosGenerales" required>
+
                     <label>Otros Gastos</label>
-                    <input type="text">
+                    <input type="number" [(ngModel)]="nuevoRegistro.otrosGastos" name="otrosGastos" required>
                 </form>
             </div>
+
             <div class="section auto-fields">
                 <h3>Campos automáticos</h3>
                 <form>
                     <label>Anticipo a Proveedor</label>
-                    <input type="text">
-                    <label>Pago a Proveedores credito efectivo</label>
-                    <input type="text">
-                    
+                    <input type="number" [(ngModel)]="nuevoRegistro.anticipoProveedor" name="anticipoProveedor" required>
+
+                    <label>Pago a Proveedores Crédito Efectivo</label>
+                    <input type="number" [(ngModel)]="nuevoRegistro.pagoProveedoresCreditoEfectivo" name="pagoProveedoresCreditoEfectivo" required>
+
                     <img src="https://firebasestorage.googleapis.com/v0/b/cheesetrack-dd8bc.appspot.com/o/121543057_1020820045095734_907176375967712815_n.png?alt=media&token=68b41600-b430-4412-9093-4e2568595fcf" alt="Logo La Carreta" class="logo">
-        
                 </form>
             </div>
         </div>
+
         <div class="footer">
-            <button class="submit-button">Subir Datos</button>
+            <button class="submit-button" (click)="insertarRegistro()">Subir Datos</button>
         </div>
     </div>
 </body>
-
-<link rel="stylesheet" href="adm-cont.component.css">

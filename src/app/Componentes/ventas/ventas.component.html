@@ -1,39 +1,53 @@
-<div class="container">
-    <div class="inner-container">
-      <div class="Titulo">
-        <h1>Ventas</h1>
-        <button class="logout-btn" (click)="cerrarSesion()">Cerrar sesión</button> <!-- Botón para cerrar sesión -->
+<body>
+    <div class="container">
+      <div class="header">
+        <img src="https://firebasestorage.googleapis.com/v0/b/cheesetrack-dd8bc.appspot.com/o/121543057_1020820045095734_907176375967712815_n.png?alt=media&token=68b41600-b430-4412-9093-4e2568595fcf" alt="Logo La Carreta" class="logo">
+        <div class="title">
+          <p>Captura de Datos</p>
+          <h1>Ventas</h1>
+        </div>
+        <button class="button" (click)="cerrarSesion()">Cerrar Sesión</button>
       </div>
-      <div class="subtitulo">
-        Ingrese los datos solicitados a continuación
+  
+      <div class="form-container">
+        <div class="form-section">
+          <h2>Campos de captura</h2>
+          <div class="form-group">
+            <label for="fecha">Fecha de captura</label>
+            <input type="date" id="fecha" [(ngModel)]="nuevaVenta.fecha">
+          </div>
+          <div class="form-group">
+            <label for="cobranzaEfectivo">Cobranza Efectivo</label>
+            <input type="number" id="cobranzaEfectivo" [(ngModel)]="nuevaVenta.cobranzaEfectivo">
+          </div>
+          <div class="form-group">
+            <label for="cobranzaBanco">Cobranza Depósito Banco</label>
+            <input type="number" id="cobranzaBanco" [(ngModel)]="nuevaVenta.cobranzaBanco">
+          </div>
+        </div>
+  
+        <div class="form-section">
+          <h2>Campos automáticos</h2>
+          <div class="form-group">
+            <label for="compraProductos">Compra de Productos</label>
+            <input type="number" id="compraProductos" [(ngModel)]="nuevaVenta.compraProductos">
+          </div>
+          <div class="form-group">
+            <label for="inventario">Inventario P.T</label>
+            <input type="number" id="inventario" [(ngModel)]="nuevaVenta.inventario">
+          </div>
+          <div class="form-group">
+            <label for="ventaContado">Venta de Productos Contado</label>
+            <input type="number" id="ventaContado" [(ngModel)]="nuevaVenta.ventaContado">
+          </div>
+          <div class="form-group">
+            <label for="cuentasCobrar">Cuentas Por Cobrar</label>
+            <input type="number" id="cuentasCobrar" [(ngModel)]="nuevaVenta.cuentasCobrar">
+          </div>
+        </div>
       </div>
-      <div class="formulario">
-        <p>Fecha del día del reporte</p>
-        <input type="date" class="input-field date" [(ngModel)]="nuevaVenta.fecha" placeholder="Seleccionar fecha" />
   
-        <p>Ingrese el dato1</p>
-        <input type="number" min=0 class="input-field" [(ngModel)]="nuevaVenta.dato1" placeholder="Dato1" />
-  
-        <p>Ingrese el dato2</p>
-        <input type="number" min=0 class="input-field" [(ngModel)]="nuevaVenta.dato2" placeholder="Dato2" />
-  
-        <p>Ingrese el dato3</p>
-        <input type="number" min=0 class="input-field" [(ngModel)]="nuevaVenta.dato3" placeholder="Dato3" />
-  
-        <p>Venta de productos</p>
-        <input type="text" class="input-field" [(ngModel)]="nuevaVenta.dato3" placeholder="Escribe aqui" />
-
-        <p>Inventario de productos terminados</p>
-        <input type="text" class="input-field" [(ngModel)]="nuevaVenta.dato4" placeholder="Escribe aqui" />
-  <!--
-        <p>Descripción detallada del día</p>
-        <textarea class="input-field textarea" [(ngModel)]="nuevaVenta.descripcion" placeholder="Descripción"></textarea>
--->
-      </div>
-      <div class="button-group">
-        <button class="submit-btn" (click)="insertarVenta()">Enviar</button>
-        <button class="edit-btn" (click)="LimpiarFormulario()">Limpiar</button>
-      </div>
+      <button class="submit-button" (click)="insertarVenta()">Subir Datos</button>
     </div>
-  </div>
+  </body>
   
