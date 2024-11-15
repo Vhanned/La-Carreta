@@ -33,14 +33,13 @@ export class ReportesProduccionComponent implements OnInit {
     const hoy = Fecha.split('/');
     console.log('Slit',hoy)
     const HoyFormatoDate = `${hoy[2]}-${hoy[0]}-${hoy[1]}`;
-    console.log('Nuevo formato',HoyFormatoDate)
+    console.log('Nuevo formato de hoy',HoyFormatoDate)
     return new Date(HoyFormatoDate).toISOString().split('T')[0];
   }
 
   // Cargar órdenes de producción diarias
   CargarOrdenesDiarias() {
-    console.log(this.FormatearFecha(this.FechaHoy))
-    console.log(this.FechaHoy)
+
     let q = query(this.OrdenesBD, where("Estado", "==", "En produccion"),where("Fecha_Elaboracion","==",this.FormatearFecha(this.FechaHoy)));
     collectionData(q).subscribe((ordenSnap) => {
       this.CostosDiarios = [];
@@ -50,6 +49,8 @@ export class ReportesProduccionComponent implements OnInit {
         this.CostosDiarios.push(ordenDiaria);
       });
     });
+
+    console.log(this.FormatearFecha(this.FechaHoy))
   }
 
   // Calcular el costo total de cada orden
