@@ -1,36 +1,29 @@
 <nav-bar></nav-bar>
 
 <div class="container">
-    <div class="Titulo">
-        <h1>Reportes de producción</h1>
-    </div>
+  <div class="Titulo">
+    <h1>Reportes de producción</h1>
+  </div>
 
-    <div class="subtitulo">
-        <div>
-            <span style="font-size: x-large;">Tabla de costos diarios</span>
-            <table class="table table-striped">
-
-                <thead>
-                    <th>Fecha</th>
-                    <th>Estado</th>
-                    <th>Costo de la orden</th>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let orden of CostosDiarios;let i=index; trackBy: trackByIndex">
-                        <td>{{orden.Fecha_Elaboracion}}</td>
-                        <td>{{orden.Estado}}</td>
-                        <td>{{CalcularCantidadMateria(orden)}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+  <div class="subtitulo">
+    <div>
+      <span style="font-size: x-large;">Tabla de costos diarios</span>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Costo Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let orden of CostosDiarios; let i = index; trackBy: trackByIndex">
+            <td>{{ orden.Fecha_Elaboracion }}</td>
+            <td>{{ orden.Estado }}</td>
+            <td>{{ calcularCostoTotal(orden) | currency }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-
-    <div class="subtitulo">
-        Tabla de costos semanales
-    </div>
-
-    <div class="txtbox">
-        <input type="text">
-    </div>
+  </div>
 </div>

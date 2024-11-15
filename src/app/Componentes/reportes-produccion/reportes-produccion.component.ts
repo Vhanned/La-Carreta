@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CostoOrden, MateriaPrimaUsadaOrden, OrdenesDeProduccion } from 'src/app/clases/clases.component';
+import { CostoOrden, MateriaPrimaUsadaOrden, OrdenesDeProduccion, Producto } from 'src/app/clases/clases.component';
 import { Firestore } from '@angular/fire/firestore';
 import { collection, query, where } from 'firebase/firestore';
 import { collectionData } from 'rxfire/firestore';
@@ -10,71 +10,64 @@ import { collectionData } from 'rxfire/firestore';
   styleUrls: ['./reportes-produccion.component.css']
 })
 export class ReportesProduccionComponent implements OnInit {
-
-  //Lista en la que se guardaran las ordenes del dia
   CostosDiarios: OrdenesDeProduccion[] = [];
-
-  //Ruta de la coleccion ordenes
   OrdenesBD = collection(this.firebase, "OrdenesProduccion")
-
-  //Fecha de hoy para la consulta a firebase
-  FechaHoy = new Date().toISOString().split('T')[0];
-
-  //Costo de las materias usadas en la orden de produccion
-  CostoMateriasOrden: MateriaPrimaUsadaOrden[] = [];
-
-  //Costo total de la orden, mostrado en pantalla
-  CostoOrden: CostoOrden[] = [];
-
+  FechaHoy = new Date().toLocaleDateString();
 
   constructor(private firebase: Firestore) {
+    this.CargarOrdenesDiarias();
   }
-
 
   ngOnInit() {
     history.pushState(null, '', location.href);
     window.onpopstate = () => {
       history.pushState(null, '', location.href);
     };
-    this.CargarOrdenesDiarias();
   }
 
+  // Formatea la fecha para la consulta a Firebase
+  FormatearFecha(FechaHoy: string): string {
+    const hoy = FechaHoy.split('/');
+    const HoyFormatoDate = `${hoy[1]}-${hoy[0]}-${hoy[2]}`;
+    return new Date(HoyFormatoDate).toISOString().split("T")[0];
+  }
 
+  // Cargar órdenes de producción diarias
   CargarOrdenesDiarias() {
-    let q = query(this.OrdenesBD, where("Fecha_Elaboracion", "==", this.FechaHoy), where("Estado", "==", "En produccion"));
+    let q = query(
+      this.OrdenesBD,
+      where("Estado", "==", "En produccion"),
+      where("Fecha_Elaboracion", "==", this.FormatearFecha(this.FechaHoy))
+    );
+
     collectionData(q).subscribe((ordenSnap) => {
-      this.CostosDiarios = [];  // Reiniciar la lista de productos
+      this.CostosDiarios = [];
       ordenSnap.forEach((item) => {
         let ordenDiaria = new OrdenesDeProduccion();
-        console.log('Ordenes cargadas a al lista: ', ordenDiaria)
         ordenDiaria.setData(item);
-        this.CostosDiarios.push(ordenDiaria)
-        console.log('Ordenes mostradas: ', this.CostosDiarios)
+        this.CostosDiarios.push(ordenDiaria);
       });
     });
   }
 
-  PrecioTotalOrden(CostosDiarios: OrdenesDeProduccion) {
-    console.log('Impresion', CostosDiarios)
+  // Calcular el costo total de cada orden
+  calcularCostoTotal(orden: OrdenesDeProduccion): number {
+    let costoTotal = 0;
 
+    orden.Producto_Elaborado.forEach((producto: Producto, index: number) => {
+      const cantidadProducto = orden.Cantidad_Producto[index] || 0;
+
+      producto.Materias_Primas.forEach((materia, materiaIndex) => {
+        const cantidadUsada = producto.Cantidad_MateriasPrimas[materiaIndex] * cantidadProducto;
+        const costoMateria = (materia.Precio_unitario || 0) * cantidadUsada;
+        costoTotal += costoMateria;
+      });
+    });
+
+    return costoTotal;
   }
-
-  
-
-  CalcularCantidadMateria(orden:OrdenesDeProduccion): number[] {
-    let numeroProductos:number[]=[];
-
-    for (let index = 0; index < orden.Cantidad_Producto.length; index++) {
-      numeroProductos.push(orden.Cantidad_Producto[index])
-      
-    }
-    console.log('Producto:',numeroProductos)
-    return numeroProductos
-  }
-
 
   trackByIndex(index: number, item: any): number {
     return index;
   }
-
 }
