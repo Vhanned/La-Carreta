@@ -208,3 +208,7 @@ h3 {
     width: 100%;
   }
 }
+
+.modal-xl{
+  max-width: 1500px;
+}

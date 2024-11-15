@@ -20,7 +20,8 @@ import { InventariosProductosComponent } from './Componentes/inventarios-product
 import { AlmacenComponent } from './Componentes/almacen/almacen.component';
 import { AdmContComponent } from './Componentes/adm-cont/adm-cont.component';
 import { VentasComponent } from './Componentes/ventas/ventas.component';
-import { ReportesProduccionComponent } from './reportes-produccion/reportes-produccion.component';
+import { ReportesProduccionComponent } from './Componentes/reportes-produccion/reportes-produccion.component';
+import { ProductosTerminadosComponent } from './Componentes/productos-terminados/productos-terminados.component';
 import { FinanzasComponent } from './finanzas/finanzas.component';
 
 @NgModule({

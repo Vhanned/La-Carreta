@@ -103,6 +103,7 @@ export class OrdenesDeProduccion {
     this.Id_Orden = data.Id_Orden || '';
     this.Producto_Elaborado = data.Producto_Elaborado || [];
     this.Cantidad_Producto = data.Cantidad_Producto || [];
+    this.Fecha_Creacion = data.Fecha_Creacion || '';
     this.Fecha_Elaboracion = data.Fecha_Elaboracion || ''; // Cambiado a la ortografía correcta
     this.Fecha_Finalizacion = data.Fecha_Finalizacion || '';
     this.Solicitante = data.Solicitante || '';
@@ -171,7 +172,7 @@ export class Venta {
   Id_Venta: string = ''; // ID único de la venta
   Id_Cliente: string = ''; // ID del cliente (en caso de ser necesario)
   Id_Producto: string = ''; // ID del producto vendido
-  Vantidad_Vendida: number | undefined = undefined; // Cantidad vendida del producto
+  Cantidad_Vendida: number | undefined = undefined; // Cantidad vendida del producto
   Precio: number | undefined = undefined; // Precio de la venta
   Satisfaccion_Cliente: number | undefined = undefined; // Nivel de satisfacción del cliente (escala del 1 al 5)
   Comentarios: string = ''; // Comentarios del cliente sobre la venta
@@ -180,7 +181,7 @@ export class Venta {
     this.Id_Venta = data.Id_Venta || '';
     this.Id_Cliente = data.Id_Cliente || '';
     this.Id_Producto = data.Id_Producto || '';
-    this.Vantidad_Vendida = data.Vantidad_Vendida || undefined;
+    this.Cantidad_Vendida = data.Vantidad_Vendida || undefined;
     this.Precio = data.Precio || undefined;
     this.Satisfaccion_Cliente = data.Satisfaccion_Cliente || undefined;
     this.Comentarios = data.Comentarios || '';
@@ -243,5 +244,16 @@ export interface MateriaPrimaInfo {
   unidadmedida: string;
   precio: number; // Se llenará después de la consulta a Firestore
   existencias: number; // Se llenará después de la consulta a Firestore
+}
+
+export interface MateriaPrimaUsadaOrden{
+  id: string;
+  nombre: string;
+  cantidad: number;
+}
+
+export interface CostoOrden{
+  id:string;
+  costo:number;
 }
 

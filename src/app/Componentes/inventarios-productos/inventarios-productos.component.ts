@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { collection, collectionData, doc, Firestore, query, setDoc } from '@angular/fire/firestore';
+import { orderBy } from 'firebase/firestore';
 import { MateriaPrima, Producto } from 'src/app/clases/clases.component';
 import Swal from 'sweetalert2';
 
@@ -32,13 +33,12 @@ export class InventariosProductosComponent {
     this.cargarProductos();
     this.obtenerMateriasPrimas();
 
-    let q = query(this.materiasPrimasBD);
+    let q = query(this.materiasPrimasBD,orderBy('Codigo','asc'));
     collectionData(q).subscribe((materiaPrimaSnap) => {
       this.ModalverMateriasPrimasAgregar = [];
       materiaPrimaSnap.forEach((item) => {
         let materiaPrima = new MateriaPrima();
         materiaPrima.setData(item);
-        console.log(item);
         this.ModalverMateriasPrimasAgregar.push(materiaPrima);
       });
     });
@@ -84,7 +84,6 @@ export class InventariosProductosComponent {
 
       // Asegurar que también agregamos una cantidad predeterminada en Cantidad_MateriasPrimas
     } else {
-      console.log('Esta materia prima ya ha sido agregada.');
       Swal.fire('Error', 'Esta materia prima ya ha sido agregada.', 'error');
     }
   }
@@ -173,9 +172,7 @@ export class InventariosProductosComponent {
   }
 
   verModalDetalles(producto: Producto) {
-    console.log(producto);
     this.verDetalleProducto = producto;
-    console.log(this.verDetalleProducto.Cantidad_MateriasPrimas)
   }
 
   GenerateRandomString(length: number): string {
