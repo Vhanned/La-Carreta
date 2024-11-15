@@ -15,7 +15,7 @@ export class ReportesProduccionComponent implements OnInit {
 
   OrdenesBD = collection(this.firebase, "OrdenesProduccion")
 
-  FechaHoy = new Date().toISOString();
+  FechaHoy = new Date().toLocaleDateString();
 
   constructor(private firebase: Firestore) {
     this.CargarOrdenesDiarias();
@@ -29,16 +29,19 @@ export class ReportesProduccionComponent implements OnInit {
   }
 
   // Formatea la fecha para la consulta a Firebase
-  FormatearFecha(FechaHoy: string): string {
-    const hoy = FechaHoy.split('/');
-    const HoyFormatoDate = `${hoy[1]}-${hoy[0]}-${hoy[2]}`;
-    return new Date(HoyFormatoDate).toISOString().split("T")[0];
+  FormatearFecha(Fecha: string): string {
+    const hoy = Fecha.split('/');
+    console.log('Slit',hoy)
+    const HoyFormatoDate = `${hoy[2]}-${hoy[0]}-${hoy[1]}`;
+    console.log('Nuevo formato',HoyFormatoDate)
+    return new Date(HoyFormatoDate).toISOString().split('T')[0];
   }
 
   // Cargar órdenes de producción diarias
   CargarOrdenesDiarias() {
     console.log(this.FormatearFecha(this.FechaHoy))
-    let q = query(this.OrdenesBD, where("Estado", "==", "En produccion"));
+    console.log(this.FechaHoy)
+    let q = query(this.OrdenesBD, where("Estado", "==", "En produccion"),where("Fecha_Elaboracion","==",this.FormatearFecha(this.FechaHoy)));
     collectionData(q).subscribe((ordenSnap) => {
       this.CostosDiarios = [];
       ordenSnap.forEach((item) => {
