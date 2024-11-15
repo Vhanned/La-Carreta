@@ -5,14 +5,17 @@ import { collection, query, where } from 'firebase/firestore';
 import { collectionData } from 'rxfire/firestore';
 
 @Component({
-  selector: 'app-reportes-produccion',
+  selector: 'reportes-produccion',
   templateUrl: './reportes-produccion.component.html',
   styleUrls: ['./reportes-produccion.component.css']
 })
 export class ReportesProduccionComponent implements OnInit {
+
   CostosDiarios: OrdenesDeProduccion[] = [];
+
   OrdenesBD = collection(this.firebase, "OrdenesProduccion")
-  FechaHoy = new Date().toLocaleDateString();
+
+  FechaHoy = new Date().toISOString();
 
   constructor(private firebase: Firestore) {
     this.CargarOrdenesDiarias();
@@ -34,12 +37,8 @@ export class ReportesProduccionComponent implements OnInit {
 
   // Cargar órdenes de producción diarias
   CargarOrdenesDiarias() {
-    let q = query(
-      this.OrdenesBD,
-      where("Estado", "==", "En produccion"),
-      where("Fecha_Elaboracion", "==", this.FormatearFecha(this.FechaHoy))
-    );
-
+    console.log(this.FormatearFecha(this.FechaHoy))
+    let q = query(this.OrdenesBD, where("Estado", "==", "En produccion"));
     collectionData(q).subscribe((ordenSnap) => {
       this.CostosDiarios = [];
       ordenSnap.forEach((item) => {

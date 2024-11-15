@@ -9,9 +9,9 @@ import { AlmacenComponent } from './Componentes/almacen/almacen.component';
 import { AdmContComponent } from './Componentes/adm-cont/adm-cont.component';
 import { ReportesProduccionComponent } from './Componentes/reportes-produccion/reportes-produccion.component';
 import { VentasComponent } from './Componentes/ventas/ventas.component';
-import { AuthGuard } from './services/au.guard';
-import { RoleGuard } from './services/role.guard';
-import { FinanzasComponent } from './finanzas/finanzas.component';
+import { AuthGuard } from './Componentes/services/au.guard';
+import { RoleGuard } from './Componentes/services/role.guard';
+import { FinanzasComponent } from './Componentes/finanzas/finanzas.component';
 
 const routes: Routes = [
 {path:'',component:LoginComponent},

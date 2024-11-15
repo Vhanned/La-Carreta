@@ -280,21 +280,6 @@ export class OrdenesProduccionComponent implements OnInit {
         }
       }
     }
-<<<<<<< HEAD
-    if(this.ListaMateriasEditar.length > 0){
-      this.ListaMateriasEditar.forEach(x => {
-        let q = query(this.MateriasBD, where("Id_Materia","==",x.id));
-        collectionData(q).subscribe((materiSnap) => {
-          console.log(materiSnap)
-           x.precio = materiSnap[0].Precio_unitario;
-           x.existencias = materiSnap[0].Existencias
-        });
-      })
-    }
-    // Una vez que tienes todas las materias acumuladas, haces la consulta a Firestore:
-    
-=======
->>>>>>> 29f9f0990d8d5579ea71da05a69a617065750783
   }
 
   actualizarPrecioEnOrdenProduccion(idMateria: string, nuevoPrecio: number) {
@@ -541,14 +526,6 @@ export class OrdenesProduccionComponent implements OnInit {
     return result;
   }
 
-<<<<<<< HEAD
-  
-  
-  
-  
-  
-=======
->>>>>>> 29f9f0990d8d5579ea71da05a69a617065750783
 
   resetForm() {
     this.OrdenProduccion = new OrdenesDeProduccion();

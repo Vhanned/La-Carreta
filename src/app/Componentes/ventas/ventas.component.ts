@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { collection, doc, Firestore, setDoc } from '@angular/fire/firestore';
 import Swal from 'sweetalert2';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from 'src/app/Componentes/services/auth.service';
 
 @Component({
   selector: 'app-ventas',

@@ -4,7 +4,7 @@ import { Firestore, collection, collectionData, query, where } from '@angular/fi
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import Swal from 'sweetalert2';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from 'src/app/Componentes/services/auth.service';
 
 @Component({
   selector: 'login',
