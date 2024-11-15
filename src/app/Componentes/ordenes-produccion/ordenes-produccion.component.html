@@ -164,7 +164,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    *ngFor="let ProductoAgregado of ProductosAgregadosOrdenProduccion.Producto_Elaborado; let i=index">
+                    *ngFor="let ProductoAgregado of ProductosAgregadosOrdenProduccion.Producto_Elaborado; let i=index;trackBy: trackByIndex">
                     <td>{{ ProductoAgregado.Nombre }}</td>
                     <td>
                       <input type="number" min="1" max="1200" name="CantidadProducto{{i}}" id="CantidadProductoCrear"
