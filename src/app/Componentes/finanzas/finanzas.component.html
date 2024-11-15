@@ -1,32 +1,59 @@
-<div class="container">
-    <div class="inner-container">
-      <div class="Titulo">
-        <h1>Finanzas</h1>
-        <button class="logout-btn" (click)="cerrarSesion()">Cerrar sesión</button> <!-- Botón para cerrar sesión -->
+<body>
+  <div class="container">
+      <div class="header">
+          
+          <img src="https://firebasestorage.googleapis.com/v0/b/cheesetrack-dd8bc.appspot.com/o/121543057_1020820045095734_907176375967712815_n.png?alt=media&token=68b41600-b430-4412-9093-4e2568595fcf" alt="Logo La Carreta" class="logo">
+          
+          <div class="title">
+            <p>Captura de Datos</p>
+            <h1>Finanzas</h1>
+          </div>
+          
+          <button class="button">Cerrar Sesión</button>
+
       </div>
-      <div class="subtitulo">
-        Ingrese los datos solicitados a continuación
+
+      
+
+      <div class="form-container">
+          <h2>Campos</h2>
+          <div class="form-group">
+              <label for="fecha">Fecha de captura</label>
+              <input type="text" id="fecha">
+          </div>
+          <div class="form-group-row">
+              <div class="form-group">
+                  <label for="mpBanco">M.P Banco</label>
+                  <input type="text" id="mpBanco">
+              </div>
+              <div class="form-group">
+                  <label for="mpCajaChica">M.P Caja Chica Efectivo</label>
+                  <input type="text" id="mpCajaChica">
+              </div>
+          </div>
+          <div class="form-group-row">
+              <div class="form-group">
+                  <label for="gastosEfectivos">Gastos Efectivos</label>
+                  <input type="text" id="gastosEfectivos">
+              </div>
+              <div class="form-group">
+                  <label for="gastosBanco">Gastos Banco</label>
+                  <input type="text" id="gastosBanco">
+              </div>
+          </div>
+          <div class="form-group-row">
+              <div class="form-group">
+                  <label for="comprasInversion">Compras Inversión</label>
+                  <input type="text" id="comprasInversion">
+              </div>
+              <div class="form-group">
+                  <label for="gastos">Gastos</label>
+                  <input type="text" id="gastos">
+              </div>
+          </div>
+          <button class="submit-button">Subir Datos</button>
       </div>
-      <div class="formulario">
-        <p>Fecha del día del reporte</p>
-        <input type="date" class="input-field date" [(ngModel)]="nuevoReporte.fecha" placeholder="Seleccionar fecha" />
-  
-        <p>Ingrese el ingreso total</p>
-        <input type="number" min="0" class="input-field" [(ngModel)]="nuevoReporte.ingreso" placeholder="Ingreso" />
-  
-        <p>Ingrese el egreso total</p>
-        <input type="number" min="0" class="input-field" [(ngModel)]="nuevoReporte.egreso" placeholder="Egreso" />
-  
-        <p>Balance del día</p>
-        <input type="number" class="input-field" [(ngModel)]="nuevoReporte.balance" placeholder="Balance (Ingreso - Egreso)" />
-  
-        <p>Descripción detallada del reporte</p>
-        <textarea class="input-field textarea" [(ngModel)]="nuevoReporte.descripcion" placeholder="Descripción"></textarea>
-      </div>
-      <div class="button-group">
-        <button class="submit-btn" (click)="insertarReporte()">Enviar</button>
-        <button class="edit-btn" (click)="LimpiarFormulario()">Limpiar</button>
-      </div>
-    </div>
   </div>
-  
+</body>
+
+<link rel="stylesheet" href="finanzas.component.css">
