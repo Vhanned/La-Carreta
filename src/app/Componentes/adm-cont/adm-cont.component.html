@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <body>
     <div class="container">
         <div class="header">
@@ -44,3 +45,37 @@
 </body>
 
 <link rel="stylesheet" href="adm-cont.component.css">
+=======
+<div class="container">
+    <div class="inner-container">
+      <div class="Titulo">
+        <h1>Administración Contable</h1>
+        <button class="logout-btn" (click)="cerrarSesion()">Cerrar sesión</button> <!-- Botón para cerrar sesión -->
+      </div>
+      <div class="subtitulo">
+        Ingrese los datos solicitados a continuación
+      </div>
+      <div class="formulario">
+        <p>Fecha del día del reporte</p>
+        <input type="date" class="input-field date" [(ngModel)]="nuevoRegistro.fecha" placeholder="Seleccionar fecha" />
+  
+        <p>Ingrese la cuenta</p>
+        <input type="text" class="input-field" [(ngModel)]="nuevoRegistro.cuenta" placeholder="Cuenta" />
+  
+        <p>Ingrese el monto</p>
+        <input type="number" min="0" class="input-field" [(ngModel)]="nuevoRegistro.monto" placeholder="Monto" />
+  
+        <p>Tipo de movimiento</p>
+        <input type="text" class="input-field" [(ngModel)]="nuevoRegistro.tipo" placeholder="Tipo (Ingreso/Egreso)" />
+  
+        <p>Descripción detallada del movimiento</p>
+        <textarea class="input-field textarea" [(ngModel)]="nuevoRegistro.descripcion" placeholder="Descripción"></textarea>
+      </div>
+      <div class="button-group">
+        <button class="submit-btn" (click)="insertarRegistro()">Enviar</button>
+        <button class="edit-btn" (click)="LimpiarFormulario()">Limpiar</button>
+      </div>
+    </div>
+  </div>
+  
+>>>>>>> 29f9f0990d8d5579ea71da05a69a617065750783

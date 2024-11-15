@@ -40,7 +40,11 @@ h2 {
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #b6b6b6;
+<<<<<<< HEAD
     color: #b9bbbe;
+=======
+    color: white;
+>>>>>>> 29f9f0990d8d5579ea71da05a69a617065750783
     margin-right: 15px;
 }
 

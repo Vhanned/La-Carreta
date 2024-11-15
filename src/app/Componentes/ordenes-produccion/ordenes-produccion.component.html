@@ -7,7 +7,7 @@
 
       <!-- Botón para activar el modal, centrado -->
       <button id="BtnCrearOrden" type="button" class="btn btn-primary mb-4" data-bs-toggle="modal"
-        data-bs-target="#staticBackdropCrear">
+        data-bs-target="#staticBackdropCrear" (click)="LimpiarListaMaterias()" (click)="LimpiarMenuCrear()">
         Crear Orden
       </button>
 
@@ -15,12 +15,16 @@
       <div id="BusquedaProduccion" class="mb-4">
         <h5>Buscar Producción</h5>
         <label for="start" class="form-label">Fecha inicial:</label>
-        <input type="date" id="start" name="trip-start" class="form-control mb-2 d-inline-block" style="width: auto;" [(ngModel)]="fechaInicio">
-        
+        <input type="date" id="start" name="trip-start" class="form-control mb-2 d-inline-block" style="width: auto;"
+          [(ngModel)]="fechaInicio">
+
         <label for="end" class="form-label">Fecha final:</label>
-        <input type="date" id="end" name="trip-end" class="form-control mb-2 d-inline-block" style="width: auto;" [(ngModel)]="fechaFin">
-        
+        <input type="date" id="end" name="trip-end" class="form-control mb-2 d-inline-block" style="width: auto;"
+          [(ngModel)]="fechaFin">
+
         <button class="btn btn-primary ms-2" (click)="BuscarProduccion()">Buscar</button>
+
+        <button class="btn btn-primary ms-2" (click)="ResetOrdenes()">Limpiar Busqueda</button>
       </div>
 
       <!-- Tabla para mostrar las órdenes de producción -->
@@ -32,6 +36,7 @@
             <th>Fecha de Inicio</th>
             <th>Fecha de Finalización</th>
             <th>Responsable</th>
+            <th>Estado de la orden</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -41,11 +46,16 @@
             <td>{{ orden.Fecha_Elaboracion }}</td>
             <td>{{ orden.Fecha_Finalizacion }}</td>
             <td>{{ orden.Solicitante }}</td>
+            <td>{{ orden.Estado }}</td>
             <td>
-              <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                data-bs-target="#staticBackdropEditarProduccion" (click)="EditarOrdenProduccion(orden)" (click)="EditarTablaProduccionEditar(orden)">Editar</button>
-                <button class="btn btn-info btn-sm" data-bs-target="#staticBackdropDetalles" data-bs-toggle="modal" (click)="MostrarDetalles(orden)">Detalles</button>
-              <button class="btn btn-danger btn-sm" (click)="EliminarOrdenProduccion(orden)">Eliminar</button>
+              <button *ngIf="orden.Estado === 'En produccion'" (click)="FinalizarProduccion(orden)" class="btn btn-success btn-sm">Finalizar produccion</button>
+              <button *ngIf="orden.Estado === 'Pendiente'" class="btn btn-success btn-sm"
+                (click)="EnviarProduccion(orden)">
+                Enviar a produccion</button>
+              <button class="btn btn-info btn-sm" data-bs-target="#staticBackdropDetalles" data-bs-toggle="modal"
+                (click)="MostrarDetalles(orden)">Detalles</button>
+              <button *ngIf="orden.Estado === 'Pendiente'" class="btn btn-danger btn-sm"
+                (click)="EliminarOrdenProduccion(orden)">Eliminar</button>
             </td>
           </tr>
         </tbody>
@@ -61,7 +71,8 @@
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">Crear Producción</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetForm()"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="resetForm()"></button>
       </div>
       <div class="modal-body">
         <form>
@@ -69,42 +80,76 @@
             <div class="formulario w-100">
               <div class="mb-3">
                 <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
-                <input type="date" class="form-control" id="fechaInicio" [(ngModel)]="OrdenProduccion.Fecha_Elaboracion" name="fechaInicio" required>
+                <input type="date" class="form-control" id="fechaInicio" [(ngModel)]="OrdenProduccion.Fecha_Elaboracion"
+                  name="fechaInicio" required>
               </div>
               <div class="mb-3">
                 <label for="fechaFin" class="form-label">Fecha de Finalización</label>
-                <input type="date" class="form-control" id="fechaFin" [(ngModel)]="OrdenProduccion.Fecha_Finalizacion" name="fechaFin" required>
+                <input type="date" class="form-control" id="fechaFin" [(ngModel)]="OrdenProduccion.Fecha_Finalizacion"
+                  name="fechaFin" required>
               </div>
               <div class="mb-3">
                 <label for="responsable" class="form-label">Responsable</label>
-                <input type="text" class="form-control" id="responsable" [(ngModel)]="OrdenProduccion.Solicitante" name="responsable" placeholder="Nombre del responsable" required>
+                <input type="text" class="form-control" id="responsable" [(ngModel)]="OrdenProduccion.Solicitante"
+                  name="responsable" placeholder="Nombre del responsable" required>
+              </div>
+              <div>
+                <h3 style="color: black;">Lista de productos disponibles para su fabricación</h3>
+                <table class="inventory-table">
+                  <thead>
+                    <tr>
+                      <th>Codigo</th>
+                      <th>Nombre</th>
+                      <th>Tipo de empaquetado</th>
+                      <th>Tiempo de elaboración (Hrs)</th>
+                      <th>Estado</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let producto of ListaProductos;let i=index">
+                      <td>{{ producto.Codigo }}</td>
+                      <td>{{ producto.Nombre }}</td>
+                      <td>{{ producto.Tipo_Empaquetado }}</td>
+                      <td>{{ producto.Tiempo_Elaboracion }}</td>
+                      <td>{{ producto.Estado }}</td>
+                      <td>
+                        <button id="BotonAgregarProducto" class="btn btn-outline-danger"
+                          (click)="AgregarProductoProduccion(producto)">
+                          Agregar
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
             <div class="tabla ms-s w-100">
-              <h3 style="color: black;">Lista de productos disponibles para su fabricación</h3>
+
+              <h3 style="color: black;">Informacion de las materias usadas para estos productos</h3>
+              <!--Lista de productos disponibles para su fabricacion-->
               <table class="inventory-table">
                 <thead>
                   <tr>
-                    <th>Codigo</th>
                     <th>Nombre</th>
-                    <th>Tipo de empaquetado</th>
-                    <th>Tiempo de elaboración (Hrs)</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
+                    <th>Precio unitario</th>
+                    <th>Unidad de medida</th>
+                    <th>Cantidad a usar</th>
+                    <th>Existencia en inventario</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let producto of ListaProductos">
-                    <td>{{ producto.Codigo }}</td>
-                    <td>{{ producto.Nombre }}</td>
-                    <td>{{ producto.Tipo_Empaquetado }}</td>
-                    <td>{{ producto.Tiempo_Elaboracion }}</td>
-                    <td>{{ producto.Estado }}</td>
+                  <tr *ngFor="let materia of ListaMateriasEditar;let i=index;trackBy: trackByIndex">
+                    <td>{{ materia.nombre }}</td>
                     <td>
-                      <button id="BotonAgregarProducto" class="btn btn-outline-danger" (click)="AgregarProductoProduccion(producto)">
-                        Agregar
-                      </button>
+                      <input type="number" min="0" name="PrecioMateria{{i}}" id="PrecioMateria"
+                        [(ngModel)]="materia.precio"
+                        (ngModelChange)="actualizarPrecioEnOrdenProduccion(materia.id, materia.precio)"
+                        style="max-width: 35%;border: none;background-color: ffffff;">
                     </td>
+                    <td>{{materia.unidadmedida}}</td>
+                    <td>{{materia.cantidadausar }}</td>
+                    <td>{{ materia.existencias }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -113,15 +158,17 @@
                 <thead>
                   <tr>
                     <th>Producto</th>
-                    <th>Tinas a usar (1200lts)</th>
+                    <th>Cantidad a producir (lts)</th>
                     <th>Accion</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let ProductoAgregado of ProductosAgregadosOrdenProduccion.Producto_Elaborado; let i=index">
+                  <tr
+                    *ngFor="let ProductoAgregado of ProductosAgregadosOrdenProduccion.Producto_Elaborado; let i=index">
                     <td>{{ ProductoAgregado.Nombre }}</td>
                     <td>
-                      <input type="number" min="0" name="CantidadProducto" id="CantidadProducto" [(ngModel)]="OrdenProduccion.Cantidad_Producto[i]">
+                      <input type="number" min="1" max="1200" name="CantidadProducto{{i}}" id="CantidadProductoCrear"
+                        [(ngModel)]="OrdenProduccion.Cantidad_Producto[i]" (input)="EditarTablaProduccionEditar()">
                     </td>
                     <td>
                       <button id="BotonEditarMateia" class="btn btn-outline-danger" (click)="EliminarProductoOrden(i)">
@@ -136,7 +183,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarModalCrear" (click)="resetForm()">Cerrar</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarModalCrear"
+          (click)="resetForm()">Cerrar</button>
         <button type="button" class="btn btn-primary" (click)="CrearOrdenProduccion()">
           Crear
         </button>
@@ -152,7 +200,8 @@
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar Producción</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetForm()"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="resetForm()"></button>
       </div>
       <div class="modal-body">
         <form>
@@ -165,46 +214,18 @@
               </div>
               <div class="mb-3">
                 <label for="fechaFin" class="form-label">Fecha de Finalización</label>
-                <input type="date" class="form-control" id="fechaFin" [(ngModel)]="EditarProduccionModal.Fecha_Finalizacion" name="fechaFin" required>
+                <input type="date" class="form-control" id="fechaFin"
+                  [(ngModel)]="EditarProduccionModal.Fecha_Finalizacion" name="fechaFin" required>
               </div>
               <div class="mb-3">
                 <label for="responsable" class="form-label">Responsable</label>
                 <input type="text" class="form-control" id="responsable" [(ngModel)]="EditarProduccionModal.Solicitante"
                   name="responsable" placeholder="Nombre del responsable" disabled required>
               </div>
-              <div>
-                Para la informacion completa de costos revise los detalles
-                <h3 style="color: black;">Informacion de las materias usadas para estos productos</h3>
-              <!--Lista de productos disponibles para su fabricacion-->
-              <table class="inventory-table">
-                <thead>
-                  <tr>
-                    <th>Nombre</th>
-                    <th>Precio</th>
-                    <th>Cantidad a usar</th>
-                    <th>Existencia en inventario</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let materia of ListaMateriasEditar;let i=index">
-                    <td>{{ materia.nombre }}</td>
-                    <td>{{ materia.precio }}</td>
-                    <td>{{materia.cantidadausar }}</td>
-                    <td>{{ materia.existencias }}</td>
-                    <td>
-                      <button id="BotonAgregarProducto" class="btn btn-outline-danger">
-                        Agregar
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              </div>
             </div>
 
             <div class="tabla ms-s w-100">
-              
+
 
               <!--Tabla de productos agregados a la orden de produccion-->
               <h3 style="color: black;">Lista de productos a producir</h3>
@@ -212,18 +233,21 @@
                 <thead>
                   <tr>
                     <th>Producto</th>
-                    <th>Tinas a usar (1200lts)</th>
+                    <th>Lts a producir</th>
                     <th>Accion</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let EditarProductoAgregado of EditarProduccionModal.Producto_Elaborado; let i=index; trackBy: trackByIndex">
+                  <tr
+                    *ngFor="let EditarProductoAgregado of EditarProduccionModal.Producto_Elaborado; let i=index; trackBy: trackByIndex">
                     <td>{{ EditarProductoAgregado.Nombre }}</td>
                     <td>
-                      <input type="number" min="0" name="editarCantidadProducto{{i}}" id="editarCantidadProducto" [(ngModel)]="EditarProduccionModal.Cantidad_Producto[i]">
+                      <input type="number" min="0" name="editarCantidadProducto{{i}}" id="editarCantidadProducto"
+                        [(ngModel)]="EditarProduccionModal.Cantidad_Producto[i]">
                     </td>
                     <td>
-                      <button id="BotonEditarMateia" class="btn btn-outline-danger" (click)="EliminarProductoEditarOrden(i)">
+                      <button id="BotonEditarMateia" class="btn btn-outline-danger"
+                        (click)="EliminarProductoEditarOrden(i)">
                         Eliminar
                       </button>
                     </td>
@@ -235,7 +259,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarModalElementoEditar" (click)="resetForm()">Cerrar</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarModalElementoEditar"
+          (click)="resetForm()">Cerrar</button>
         <button type="button" class="btn btn-primary" (click)="GuardarCambiosProduccion()">
           Guardar cambios
         </button>
@@ -249,44 +274,48 @@
   aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header bg-danger text-white">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">Detalles de costos y cantidades</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div *ngFor="let producto of VerDetallesProduccion.Producto_Elaborado; let i = index; trackBy: trackByIndex">
-          <h3>{{ producto.Nombre }}</h3>
-          <h5 style="text-align: center;">Tinas a usar: {{ VerDetallesProduccion.Cantidad_Producto[i] }}</h5>
+        <div *ngFor="let producto of VerDetallesProduccion.Producto_Elaborado; let i = index; trackBy: trackByIndex"
+          class="mb-4">
+          <h3 class="text-center text-danger">{{ producto.Nombre }}</h3>
+          <h5 class="text-center text-muted">Litros a producir: {{ VerDetallesProduccion.Cantidad_Producto[i] }}</h5>
+
           <!-- Tabla dinámica para mostrar detalles del producto -->
-          <table class="table">
-              <thead>
-                  <tr>
-                      <th>Materia Prima</th>
-                      <th>Cantidad Necesaria</th>
-                      <th>Unidades</th>
-                      <th>Costo</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr *ngFor="let materia of producto.Materias_Primas; let j = index; trackBy: trackByIndex">
-                      <td>{{ materia.Nombre }}</td>
-                      <td>{{ calcularCantidadMateria(producto, j, VerDetallesProduccion.Cantidad_Producto[i]) }}</td>
-                      <td>{{ materia.Unidad_Medida }}</td>
-                      <td>{{ calcularCostoMateria(producto, j, VerDetallesProduccion.Cantidad_Producto[i]) | currency }}</td>
-                  </tr>
-                  <tr>
-                      <td><strong>Total</strong></td>
-                      <td></td>
-                      <td></td>
-                      <td><strong>{{ calcularCostoTotal(producto, VerDetallesProduccion.Cantidad_Producto[i]) | currency }}</strong></td>
-                  </tr>
-              </tbody>
+          <table class="table table-striped table-bordered table-hover">
+            <thead class="table-danger">
+              <tr>
+                <th>Materia Prima</th>
+                <th class="text-center">Cantidad Necesaria</th>
+                <th class="text-center">Unidades</th>
+                <th class="text-end">Costo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let materia of producto.Materias_Primas; let j = index; trackBy: trackByIndex">
+                <td>{{ materia.Nombre }}</td>
+                <td class="text-center">{{ calcularCantidadMateria(producto, j, VerDetallesProduccion.Cantidad_Producto[i]) }}</td>
+                <td class="text-center">{{ materia.Unidad_Medida }}</td>
+                <td class="text-end">{{ calcularCostoMateria(producto, j, VerDetallesProduccion.Cantidad_Producto[i]) |
+                  currency }}</td>
+              </tr>
+              <tr class="table-warning">
+                <td><strong>Total</strong></td>
+                <td></td>
+                <td></td>
+                <td class="text-end"><strong>{{ calcularCostoTotal(producto, VerDetallesProduccion.Cantidad_Producto[i])
+                    | currency }}</strong></td>
+              </tr>
+            </tbody>
           </table>
-      </div>  
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Understood</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Entendido</button>
       </div>
     </div>
   </div>

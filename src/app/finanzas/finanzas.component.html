@@ -1,0 +1,32 @@
+<div class="container">
+    <div class="inner-container">
+      <div class="Titulo">
+        <h1>Finanzas</h1>
+        <button class="logout-btn" (click)="cerrarSesion()">Cerrar sesión</button> <!-- Botón para cerrar sesión -->
+      </div>
+      <div class="subtitulo">
+        Ingrese los datos solicitados a continuación
+      </div>
+      <div class="formulario">
+        <p>Fecha del día del reporte</p>
+        <input type="date" class="input-field date" [(ngModel)]="nuevoReporte.fecha" placeholder="Seleccionar fecha" />
+  
+        <p>Ingrese el ingreso total</p>
+        <input type="number" min="0" class="input-field" [(ngModel)]="nuevoReporte.ingreso" placeholder="Ingreso" />
+  
+        <p>Ingrese el egreso total</p>
+        <input type="number" min="0" class="input-field" [(ngModel)]="nuevoReporte.egreso" placeholder="Egreso" />
+  
+        <p>Balance del día</p>
+        <input type="number" class="input-field" [(ngModel)]="nuevoReporte.balance" placeholder="Balance (Ingreso - Egreso)" />
+  
+        <p>Descripción detallada del reporte</p>
+        <textarea class="input-field textarea" [(ngModel)]="nuevoReporte.descripcion" placeholder="Descripción"></textarea>
+      </div>
+      <div class="button-group">
+        <button class="submit-btn" (click)="insertarReporte()">Enviar</button>
+        <button class="edit-btn" (click)="LimpiarFormulario()">Limpiar</button>
+      </div>
+    </div>
+  </div>
+  

@@ -4,58 +4,58 @@ import Swal from 'sweetalert2';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
-  selector: 'app-adm-cont',
-  templateUrl: './adm-cont.component.html',
-  styleUrls: ['./adm-cont.component.css']
+  selector: 'app-finanzas',
+  templateUrl: './finanzas.component.html',
+  styleUrls: ['./finanzas.component.css']
 })
-export class AdmContComponent implements OnInit {
+export class FinanzasComponent implements OnInit {
 
-  nuevoRegistro = {
-    Id_Registro: '',
+  nuevoReporte = {
+    Id_Reporte: '',
     fecha: '',
-    cuenta: '',
-    monto: '',
-    tipo: '',
+    ingreso: '',
+    egreso: '',
+    balance: '',
     descripcion: ''
   };
 
-  adContBD = collection(this.firebase, "AdCont");
+  finanzasBD = collection(this.firebase, "Finanzas");
 
   constructor(private firebase: Firestore, private authService: AuthService) { }
 
   ngOnInit(): void {}
 
-  insertarRegistro() {
+  insertarReporte() {
     // Validar que todos los campos sean obligatorios
-    if (!this.nuevoRegistro.fecha || !this.nuevoRegistro.cuenta || !this.nuevoRegistro.monto || !this.nuevoRegistro.tipo) {
+    if (!this.nuevoReporte.fecha || !this.nuevoReporte.ingreso || !this.nuevoReporte.egreso || !this.nuevoReporte.balance) {
       Swal.fire('Error', 'Todos los campos son obligatorios', 'error');
       return;
     }
 
-    // Generar un ID único para el nuevo registro
-    this.nuevoRegistro.Id_Registro = this.GenerateRandomString(20);
-    let nuevoRegistroDoc = doc(this.firebase, "AdCont", this.nuevoRegistro.Id_Registro);
+    // Generar un ID único para el nuevo reporte
+    this.nuevoReporte.Id_Reporte = this.GenerateRandomString(20);
+    let nuevoReporteDoc = doc(this.firebase, "Finanzas", this.nuevoReporte.Id_Reporte);
 
-    // Insertar el nuevo registro en Firestore
-    setDoc(nuevoRegistroDoc, this.nuevoRegistro)
+    // Insertar el nuevo reporte en Firestore
+    setDoc(nuevoReporteDoc, this.nuevoReporte)
       .then(() => {
-        Swal.fire('Éxito', 'Registro agregado correctamente', 'success');
+        Swal.fire('Éxito', 'Reporte agregado correctamente', 'success');
         this.LimpiarFormulario();
       })
       .catch((error) => {
-        Swal.fire('Error', 'Ocurrió un error al guardar el registro', 'error');
-        console.error("Error guardando registro: ", error);
+        Swal.fire('Error', 'Ocurrió un error al guardar el reporte', 'error');
+        console.error("Error guardando reporte: ", error);
       });
   }
 
   LimpiarFormulario() {
     // Restablecer el formulario
-    this.nuevoRegistro = {
-      Id_Registro: '',
+    this.nuevoReporte = {
+      Id_Reporte: '',
       fecha: '',
-      cuenta: '',
-      monto: '',
-      tipo: '',
+      ingreso: '',
+      egreso: '',
+      balance: '',
       descripcion: ''
     };
   }
@@ -73,4 +73,3 @@ export class AdmContComponent implements OnInit {
     this.authService.logout(); // Cerrar sesión
   }
 }
-

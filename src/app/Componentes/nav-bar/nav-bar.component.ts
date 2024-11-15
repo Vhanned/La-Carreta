@@ -26,4 +26,20 @@ export class NavBarComponent {
   IrProductos(){
     this.routing.navigate(['inventarios-productos']);
   }
+
+  IrReportes(){
+    this.routing.navigate(['reportes-produccion']);
+  }
+
+  IrSubproductos(){
+    this.routing.navigate(['subproductos']);
+  }
+
+  ngOnInit() {
+    history.pushState(null, '', location.href);
+    window.onpopstate = () => {
+      history.pushState(null, '', location.href);
+    };
+  }
+  
 }

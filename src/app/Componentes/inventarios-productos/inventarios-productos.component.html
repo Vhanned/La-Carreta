@@ -143,7 +143,7 @@
                                     <tr *ngFor="let materiaAgregada of nuevoProducto.Materias_Primas, let i = index">
                                         <td>{{materiaAgregada.Nombre}}</td>
                                         <td>
-                                            <input type="number" min="0" name="CantidadMateria" id="CantidadMateria"
+                                            <input type="number" min="0" name="CantidadMateria{{i}}" id="CantidadMateria"
                                                 [(ngModel)]="nuevoProducto.Cantidad_MateriasPrimas[i]">
                                         </td>
                                         <td>{{materiaAgregada.Unidad_Medida}}</td>
@@ -173,7 +173,7 @@
 <!-- Modal para editar un producto -->
 <div class="modal fade" id="editarModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="agregarModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="agregarModalLabel">Editar producto</h5>
@@ -299,7 +299,7 @@
 
             <div class="modal-footer">
                 <button id="CerrarEditarProducto" type="button" class="btn btn-secondary"
-                    data-bs-dismiss="modal">Cerrar</button>
+                    data-bs-dismiss="modal" (click)="cargarProductos()" (click)="obtenerMateriasPrimas()">Cerrar</button>
                 <button type="button" class="btn btn-primary" (click)="editarDetalles()">Guardar</button>
             </div>
         </div>
