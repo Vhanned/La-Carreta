@@ -145,7 +145,6 @@ export class InventariosComponent {
       materiaPrimaSnap.forEach((item) => {
         let materiaPrima = new MateriaPrima();
         materiaPrima.setData(item);
-        console.log(item);
         this.materias.push(materiaPrima);
       });
       this.filtrarMaterias(); // Aplicar el filtro después de cargar los datos

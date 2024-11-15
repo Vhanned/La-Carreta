@@ -39,7 +39,6 @@ export class InventariosProductosComponent {
       materiaPrimaSnap.forEach((item) => {
         let materiaPrima = new MateriaPrima();
         materiaPrima.setData(item);
-        console.log(item);
         this.ModalverMateriasPrimasAgregar.push(materiaPrima);
       });
     });
@@ -85,7 +84,6 @@ export class InventariosProductosComponent {
 
       // Asegurar que también agregamos una cantidad predeterminada en Cantidad_MateriasPrimas
     } else {
-      console.log('Esta materia prima ya ha sido agregada.');
       Swal.fire('Error', 'Esta materia prima ya ha sido agregada.', 'error');
     }
   }
@@ -174,9 +172,7 @@ export class InventariosProductosComponent {
   }
 
   verModalDetalles(producto: Producto) {
-    console.log(producto);
     this.verDetalleProducto = producto;
-    console.log(this.verDetalleProducto.Cantidad_MateriasPrimas)
   }
 
   GenerateRandomString(length: number): string {

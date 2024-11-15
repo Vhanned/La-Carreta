@@ -218,7 +218,14 @@ export class OrdenesProduccionComponent implements OnInit {
     btnCerrar?.click();
   }
 
-
+  EnviarProduccion(orden: OrdenesDeProduccion) {
+    let ordenDoc = doc(this.firebase, "OrdenesProduccion", orden.Id_Orden);
+    updateDoc(ordenDoc, { Estado: 'En produccion' }).then(() => {
+      Swal.fire('Success', 'Produccion en curso', 'success')
+    }).catch((error) => {
+      Swal.fire('Error', 'Error al actualizar estado', 'error');
+    })
+  }
 
   FinalizarProduccion(orden: OrdenesDeProduccion) {
     let ordenDoc = doc(this.firebase, "OrdenesProduccion", orden.Id_Orden);

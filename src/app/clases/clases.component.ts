@@ -252,3 +252,8 @@ export interface MateriaPrimaUsadaOrden{
   cantidad: number;
 }
 
+export interface CostoOrden{
+  id:string;
+  costo:number;
+}
+
