@@ -517,6 +517,22 @@ export class OrdenesProduccionComponent implements OnInit {
     return producto?.Materias_Primas?.find(m => m?.Nombre === materiaNombre)?.Precio_unitario || 0;
   }
 
+  calcularCostoTotalOrden(orden: OrdenesDeProduccion): number {
+    let costoTotal = 0;
+
+    orden.Producto_Elaborado.forEach((producto: Producto, index: number) => {
+      const cantidadProducto = orden.Cantidad_Producto[index] || 0;
+
+      producto.Materias_Primas.forEach((materia, materiaIndex) => {
+        const cantidadUsada = producto.Cantidad_MateriasPrimas[materiaIndex] * cantidadProducto;
+        const costoMateria = (materia.Precio_unitario || 0) * cantidadUsada;
+        costoTotal += costoMateria;
+      });
+    });
+
+    return costoTotal;
+  }
+
   GenerateRandomString(length: number): string {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';

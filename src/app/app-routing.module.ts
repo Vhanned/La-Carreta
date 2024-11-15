@@ -7,11 +7,11 @@ import { OrdenesProduccionComponent } from './Componentes/ordenes-produccion/ord
 import { InventariosProductosComponent } from './Componentes/inventarios-productos/inventarios-productos.component';
 import { AlmacenComponent } from './Componentes/almacen/almacen.component';
 import { AdmContComponent } from './Componentes/adm-cont/adm-cont.component';
-import { ReportesProduccionComponent } from './Componentes/reportes-produccion/reportes-produccion.component';
 import { VentasComponent } from './Componentes/ventas/ventas.component';
 import { AuthGuard } from './Componentes/services/au.guard';
 import { RoleGuard } from './Componentes/services/role.guard';
 import { FinanzasComponent } from './Componentes/finanzas/finanzas.component';
+import { ProductosTerminadosComponent } from './Componentes/productos-terminados/productos-terminados.component';
 
 const routes: Routes = [
 {path:'',component:LoginComponent},
@@ -21,8 +21,8 @@ const routes: Routes = [
 {path: 'ordenes-produccion', component:OrdenesProduccionComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'Producción' }},
 {path: 'inventarios-productos', component:InventariosProductosComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'Producción' }},
 {path: 'c',component:AlmacenComponent},
+{path: 'productos-terminados',component:ProductosTerminadosComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'Producción' }},
 {path: 'adcont', component:AdmContComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'Ad-Cont' }},
-{path: 'reportes-produccion', component:ReportesProduccionComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'Producción' }},
 {path: 'ventas', component:VentasComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'Ventas' }},
 {path: 'finanzas', component:FinanzasComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'Finanzas' }},
 { path: '**', redirectTo: 'login' }

@@ -35,6 +35,10 @@ export class NavBarComponent {
     this.routing.navigate(['subproductos']);
   }
 
+  IrProductosTerminados(){
+    this.routing.navigate(['productos-terminados'])
+  }
+
   ngOnInit() {
     history.pushState(null, '', location.href);
     window.onpopstate = () => {

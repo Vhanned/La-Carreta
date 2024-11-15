@@ -37,6 +37,7 @@
             <th>Fecha de Finalización</th>
             <th>Responsable</th>
             <th>Estado de la orden</th>
+            <th>Costo de la orden</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -47,6 +48,7 @@
             <td>{{ orden.Fecha_Finalizacion }}</td>
             <td>{{ orden.Solicitante }}</td>
             <td>{{ orden.Estado }}</td>
+            <td>{{ calcularCostoTotalOrden(orden) | currency }}</td>
             <td>
               <button *ngIf="orden.Estado === 'En produccion'" (click)="FinalizarProduccion(orden)" class="btn btn-success btn-sm">Finalizar produccion</button>
               <button *ngIf="orden.Estado === 'Pendiente'" class="btn btn-success btn-sm"

@@ -198,23 +198,13 @@ export class InventarioProductos {
   Id_producto: string = '';
   Nombre_Producto: string = '';
   Cantidad: number | undefined = undefined;
-  Fecha_LoteMasAntiguo: string = '';
-  Fecha_UltimoLote: string = '';
-  Fecha_LoteMasAntiguo_Number: number | undefined = undefined;
-  Fecha_UltimoLote_Number: number | undefined = undefined;
-  Id_RectetaMasAntigua: string = '';
-  Id_RecetaMasReciente: string = '';
+
 
   setData(data: any) {
     this.Id_producto = data.Id_producto || '';
     this.Nombre_Producto = data.Nombre_Producto || '';
     this.Cantidad = data.Cantidad || undefined;
-    this.Fecha_LoteMasAntiguo = data.Fecha_LoteMasAntiguo || '';
-    this.Fecha_UltimoLote = data.Fecha_UltimoLote || '';
-    this.Fecha_LoteMasAntiguo_Number = data.Fecha_LoteMasAntiguo_Number || undefined;
-    this.Fecha_UltimoLote_Number = data.Fecha_UltimoLote_Number || undefined;
-    this.Id_RectetaMasAntigua = data.Id_RectetaMasAntigua || '';
-    this.Id_RecetaMasReciente = data.Id_RecetaMasReciente || '';
+
   }
 
 }
@@ -237,6 +227,7 @@ export class Usuarios {
 
 }
 
+
 export interface MateriaPrimaInfo {
   id: string;
   nombre: string;
@@ -246,14 +237,14 @@ export interface MateriaPrimaInfo {
   existencias: number; // Se llenará después de la consulta a Firestore
 }
 
-export interface MateriaPrimaUsadaOrden{
+export interface MateriaPrimaUsadaOrden {
   id: string;
   nombre: string;
   cantidad: number;
 }
 
-export interface CostoOrden{
-  id:string;
-  costo:number;
+export interface CostoOrden {
+  id: string;
+  costo: number;
 }
 
