@@ -74,7 +74,15 @@ h2 {
 .inventory-table thead {
     background-color: #cf0015;
     color: #ffffff;
+    position: sticky; /* Fijar los encabezados */
 }
+
+.th {
+    position: sticky; /* Fijar los encabezados */
+    top: 0; /* Posición superior en 0 */
+    z-index: 1; /* Asegurar que los encabezados estén por encima del contenido */
+    border-bottom: 2px solid #ddd; /* Agregar un borde inferior para los encabezados */
+  }
 
 .inventory-table th, .inventory-table td {
     padding: 12px;
@@ -239,3 +247,9 @@ h2 {
     flex: 1;
     min-width: 45%;
 }
+
+.table-wrapper {
+    max-height: 600px; /* Altura fija para el área desplazable */
+    overflow-y: auto; /* Habilitar desplazamiento vertical */
+    border: 1px solid #ddd; /* Opcional: agregar un borde para definir la tabla */
+  }

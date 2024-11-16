@@ -197,3 +197,7 @@ th, td {
 #MateriasAgregadas {
     width: 100%; /* Se asegura que ambas tablas tengan el mismo ancho */
 }
+
+.modal-xl {
+    max-width: 1400px;
+}

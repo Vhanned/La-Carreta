@@ -45,7 +45,7 @@
 <!-- Modal para agregar nuevo producto -->
 <div class="modal fade" id="agregarModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="agregarModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="agregarModalLabel">Agregar nuevo
@@ -93,7 +93,35 @@
                         </div>
 
                         <!-- Sección de la tabla (columna derecha) -->
-                        <div class="tabla ms-s w-100">
+                        <div class="tabla ms-s w-100" style="margin-left: 20px;">
+                            <h2 style="color: black;">Lista de materias agregadas</h2>
+                            <h5 style="color: black;text-align: center;">Materiales necesarios para 1200lts de producto</h5>
+                            <table id="MateriasAgregadas" class="table mt-3">
+                                <thead>
+                                    <tr>
+                                        <th>Materia Prima</th>
+                                        <th>Cantidad</th>
+                                        <th>Unidad de medida</th>
+                                        <th>Accion</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let materiaAgregada of nuevoProducto.Materias_Primas, let i = index">
+                                        <td>{{materiaAgregada.Nombre}}</td>
+                                        <td>
+                                            <input type="number" min="0" name="CantidadMateria{{i}}" id="CantidadMateria"
+                                                [(ngModel)]="nuevoProducto.Cantidad_MateriasPrimas[i]">
+                                        </td>
+                                        <td>{{materiaAgregada.Unidad_Medida}}</td>
+                                        <td>
+                                            <button id="BotonEditarMateia" class="btn btn-outline-danger"
+                                                (click)="EliminarMateriaProducto(i)">
+                                                Eliminar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                             <h2 style="color: black;">Lista de materias disponibles</h2>
                             <table class="inventory-table">
                                 <thead>
@@ -123,34 +151,6 @@
                                             <button id="BotonAgregarMateia" class="btn btn-outline-danger"
                                                 (click)="AgregarMateriaProducto(materia)">
                                                 Agregar
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <h2 style="color: black;">Lista de materias agregadas</h2>
-                            <h5 style="color: black;text-align: center;">Materiales necesarios para 1200lts de producto</h5>
-                            <table id="MateriasAgregadas" class="table mt-3">
-                                <thead>
-                                    <tr>
-                                        <th>Materia Prima</th>
-                                        <th>Cantidad</th>
-                                        <th>Unidad de medida</th>
-                                        <th>Accion</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let materiaAgregada of nuevoProducto.Materias_Primas, let i = index">
-                                        <td>{{materiaAgregada.Nombre}}</td>
-                                        <td>
-                                            <input type="number" min="0" name="CantidadMateria{{i}}" id="CantidadMateria"
-                                                [(ngModel)]="nuevoProducto.Cantidad_MateriasPrimas[i]">
-                                        </td>
-                                        <td>{{materiaAgregada.Unidad_Medida}}</td>
-                                        <td>
-                                            <button id="BotonEditarMateia" class="btn btn-outline-danger"
-                                                (click)="EliminarMateriaProducto(i)">
-                                                Eliminar
                                             </button>
                                         </td>
                                     </tr>

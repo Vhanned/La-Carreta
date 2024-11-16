@@ -11,39 +11,41 @@
     </button>
   </div>
 
-  <table class="inventory-table">
-    <thead>
-      <tr>
-        <th>Codigo</th>
-        <th>Nombre</th>
-        <th>Unidad de medida</th>
-        <th>Precio por unidad (MXN)</th>
-        <th>Tipo</th>
-        <th>Marca</th>
-        <th>Existencias</th>
-        <th>Punto de Reorden</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let materia of materiasFiltradas">
-        <td>{{ materia.Codigo }}</td>
-        <td>{{ materia.Nombre }}</td>
-        <td>{{ materia.Unidad_Medida }}</td>
-        <td>{{ materia.Precio_unitario }}</td>
-        <td>{{ materia.Tipo}}</td>
-        <td>{{ materia.Marca }}</td>
-        <td>{{ materia.Existencias }}</td>
-        <td>{{ materia.Punto_Reorden }}</td>
-        <td>
-          <button id="BotonEditarMateia" class="btn btn-outline-danger btn-edit" data-bs-toggle="modal"
-            data-bs-target="#editarModal" (click)="EditarModalMateria(materia)">
-            Editar
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-wrapper">
+    <table class="inventory-table">
+      <thead>
+        <tr>
+          <th>Codigo</th>
+          <th>Nombre</th>
+          <th>Unidad de medida</th>
+          <th>Precio por unidad (MXN)</th>
+          <th>Tipo</th>
+          <th>Marca</th>
+          <th>Existencias</th>
+          <th>Punto de Reorden</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let materia of materiasFiltradas">
+          <td>{{ materia.Codigo }}</td>
+          <td>{{ materia.Nombre }}</td>
+          <td>{{ materia.Unidad_Medida }}</td>
+          <td>{{ materia.Precio_unitario }}</td>
+          <td>{{ materia.Tipo }}</td>
+          <td>{{ materia.Marca }}</td>
+          <td>{{ materia.Existencias }}</td>
+          <td>{{ materia.Punto_Reorden }}</td>
+          <td>
+            <button id="BotonEditarMateia" class="btn btn-outline-danger btn-edit" data-bs-toggle="modal"
+              data-bs-target="#editarModal" (click)="EditarModalMateria(materia)">
+              Editar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>  
 
 <!-- Modal para agregar nueva materia prima -->
 <div class="modal fade" id="agregarModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
