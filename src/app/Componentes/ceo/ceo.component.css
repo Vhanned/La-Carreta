@@ -25,16 +25,16 @@ body {
 
 .header {
     display: flex;
-    justify-content: center; /* Centra verticalmente */
-    align-items: center; /* Centra horizontalmente */
-    gap: 20px; /* Espacio entre el título y el botón */
+    justify-content: center; 
+    align-items: center; 
+    gap: 20px; 
     margin-bottom: 20px;;
 }
 
 .title {
     text-align: center;
     font-weight: bold;
-    font-size: 2.2em; /* Tamaño más grande */
+    font-size: 2.2em; 
     color: #333;
 }
 
