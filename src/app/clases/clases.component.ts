@@ -143,24 +143,6 @@ export class InventarioMateriasPrimas {
 
 }
 
-//Tinas de producción
-export class TinaProduccion {
-
-  constructor() {
-
-  }
-
-  Id_Tina: string = ''; // ID único de la tina
-  Nombre_Tina: string = '';
-  Capacidad: number | undefined = undefined; // Tipo de tina (ejemplo: "tina grande", "tina pequeña")
-
-  setData(data: any) {
-    this.Id_Tina = data.Id_Tina || '';
-    this.Nombre_Tina = data.Nombre_Tina || '';
-    this.Capacidad = data.Capacidad || undefined;
-  }
-
-}
 
 //Ventas
 export class Venta {
@@ -236,6 +218,7 @@ export interface MateriaPrimaInfo {
   precio: number; // Se llenará después de la consulta a Firestore
   existencias: number; // Se llenará después de la consulta a Firestore
 }
+
 
 export interface MateriaPrimaUsadaOrden {
   id: string;

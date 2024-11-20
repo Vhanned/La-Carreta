@@ -29,7 +29,7 @@
 
       <!-- Tabla para mostrar las órdenes de producción -->
       <h3>Lista de Órdenes de Producción</h3>
-      <table class="table table-bordered mt-3">
+      <table class="table table-bordered mt-3" id="TablaPrueba">
         <thead class="table-dark">
           <tr>
             <th>Fecha de Creación</th>
@@ -49,15 +49,26 @@
             <td>{{ orden.Solicitante }}</td>
             <td>{{ orden.Estado }}</td>
             <td>{{ calcularCostoTotalOrden(orden) | currency }}</td>
-            <td>
-              <button *ngIf="orden.Estado === 'En produccion'" (click)="FinalizarProduccion(orden)" class="btn btn-success btn-sm">Finalizar produccion</button>
-              <button *ngIf="orden.Estado === 'Pendiente'" class="btn btn-success btn-sm"
+            <td style="display: grid;grid-template-columns:35% 20% 20% 25%; column-gap:1%;">
+              <div>
+                <button *ngIf="orden.Estado === 'En produccion'" (click)="FinalizarProduccion(orden)" class="btn btn-success btn-sm">Finalizar produccion</button>
+                <button *ngIf="orden.Estado === 'Pendiente'" class="btn btn-success btn-sm"
                 (click)="EnviarProduccion(orden)">
-                Enviar a produccion</button>
-              <button class="btn btn-info btn-sm" data-bs-target="#staticBackdropDetalles" data-bs-toggle="modal"
+                Enviar a produccion</button> 
+              </div>
+              <div>
+                <button class="btn btn-info btn-sm" data-bs-target="#staticBackdropDetalles" data-bs-toggle="modal" id="BotonDetalles"
                 (click)="MostrarDetalles(orden)">Detalles</button>
+              </div>
+              <div>
               <button *ngIf="orden.Estado === 'Pendiente'" class="btn btn-danger btn-sm"
-                (click)="EliminarOrdenProduccion(orden)">Eliminar</button>
+              (click)="EliminarOrdenProduccion(orden)">Eliminar</button>
+              </div>
+              <div>
+                <button class="btn btn-success btn-sm" (click)="exportarTablaExcel(orden)">
+                  Generar excel
+                </button>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -316,7 +327,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="BtnCerrarDetallesModal">Cerrar</button>
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Entendido</button>
       </div>
     </div>

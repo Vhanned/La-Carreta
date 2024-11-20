@@ -137,7 +137,7 @@ h2 {
 /*ancho de los modales */
 #agregarModal .modal-dialog,
 #editarModal .modal-dialog {
-    max-width: 80%; 
+    max-width: 50%; 
     margin: 1.75rem auto; 
 }
 

@@ -3,8 +3,11 @@ import { Firestore, collectionData, collection, addDoc, doc, updateDoc, deleteDo
 import { ReactiveFormsModule } from '@angular/forms';
 import { orderBy, where } from 'firebase/firestore';
 import { find } from 'rxjs/operators';
-import { Producto, OrdenesDeProduccion, MateriaPrimaInfo, MateriaPrimaUsadaOrden } from 'src/app/clases/clases.component';
+import { Producto, OrdenesDeProduccion, MateriaPrimaInfo, MateriaPrimaUsadaOrden, MateriaPrima } from 'src/app/clases/clases.component';
 import Swal from 'sweetalert2'; // Importamos SweetAlert
+import * as XLSX from 'xlsx'; // Importa XLSX
+import { saveAs } from 'file-saver';
+import { Xliff } from '@angular/compiler';
 
 @Component({
   selector: 'ordenes-produccion',
@@ -41,6 +44,9 @@ export class OrdenesProduccionComponent implements OnInit {
   //Cantidad de materias devueltas si la orden se elimina
   MateriasUsadasDevueltas: MateriaPrimaUsadaOrden[] = [];
 
+  //Cantidad de materias eliminadas del inventario una vez la orden es puesta en produccion
+  MateriasDescontadasInventario: MateriaPrimaUsadaOrden[] = [];
+
   // Dirección de la colección en Firestore de la que se consultan los productos
   ProductosBD = collection(this.firebase, "Productos");
 
@@ -50,6 +56,8 @@ export class OrdenesProduccionComponent implements OnInit {
   // Variables para almacenar las fechas de búsqueda
   fechaInicio: string = '';
   fechaFin: string = '';
+
+  fechaPrueba: string = new Date().toLocaleDateString()
 
   constructor(private firebase: Firestore) {
     this.CargarProductos();
@@ -196,18 +204,6 @@ export class OrdenesProduccionComponent implements OnInit {
     setDoc(NuevaOrdenDoc, JSON.parse(JSON.stringify(this.OrdenProduccion)))
       .then(() => {
         Swal.fire('Éxito', 'Orden creada correctamente', 'success');
-
-        this.ListaMateriasEditar.forEach((materia) => {
-          let materiaDoc = doc(this.firebase, "MateriasPrimas", materia.id);
-          const nuevaCantidad = materia.existencias - materia.cantidadausar
-
-          updateDoc(materiaDoc, { Existencias: nuevaCantidad }).then(() => {
-            console.log('Inventario actualizado en: ', materia.nombre)
-          }).catch((error) => {
-            Swal.fire('Error', 'Error al actualizar inventario', 'error');
-            console.error('Error al actualizar inventario', error)
-          })
-        })
       })
       .catch((error) => {
         Swal.fire('Error', 'Ocurrió un error al guardar el producto', 'error');
@@ -222,6 +218,41 @@ export class OrdenesProduccionComponent implements OnInit {
     let ordenDoc = doc(this.firebase, "OrdenesProduccion", orden.Id_Orden);
     updateDoc(ordenDoc, { Estado: 'En produccion' }).then(() => {
       Swal.fire('Success', 'Produccion en curso', 'success')
+
+      this.MateriasDescontadasInventario = [];
+
+      orden.Producto_Elaborado.forEach((producto, i) => {
+
+        producto.Materias_Primas.forEach((materia, j) => {
+          let idMateria = materia.Id_Materia;
+          let nombreMateria = materia.Nombre;
+          let cantidadMateria = producto.Cantidad_MateriasPrimas[j] * orden.Cantidad_Producto[i];
+
+          let materiaExiste = this.MateriasDescontadasInventario.find(m => m.id === materia.Id_Materia);
+
+          if (materiaExiste) {
+            materiaExiste.cantidad += cantidadMateria;
+          } else {
+            this.MateriasDescontadasInventario.push({
+              id: idMateria,
+              nombre: nombreMateria,
+              cantidad: cantidadMateria
+            })
+          }
+        });
+      });
+
+      this.MateriasDescontadasInventario.forEach((materia) => {
+        let materiaDoc = doc(this.firebase, "MateriasPrimas", materia.id);
+
+        updateDoc(materiaDoc, { Existencias: increment(-materia.cantidad) }).then(() => {
+          console.log('Inventario actualizado en: ', materia.nombre)
+        }).catch((error) => {
+          Swal.fire('Error', 'Error al actualizar inventario', 'error');
+          console.error('Error al actualizar inventario', error)
+        })
+      })
+
     }).catch((error) => {
       Swal.fire('Error', 'Error al actualizar estado', 'error');
     })
@@ -236,12 +267,84 @@ export class OrdenesProduccionComponent implements OnInit {
     })
   }
 
+  exportarTablaExcel(orden: OrdenesDeProduccion) {
+    this.VerDetallesProduccion = orden;
+  
+    const hojaDeTrabajo: XLSX.WorkSheet = {};
+    let fila = 2;
+  
+    const anchosColumnas: number[] = [];
+  
+    this.VerDetallesProduccion.Producto_Elaborado.forEach((producto, i) => {
+      const titulo = producto.Nombre;
+      const litros = `Litros a producir: ${this.VerDetallesProduccion.Cantidad_Producto[i]}`;
+  
+      hojaDeTrabajo[`A${fila}`] = { v: titulo, t: 's' };
+      anchosColumnas[0] = Math.max(anchosColumnas[0] || 0, titulo.length);
+      fila++;
+  
+      hojaDeTrabajo[`A${fila}`] = { v: litros, t: 's' };
+      anchosColumnas[0] = Math.max(anchosColumnas[0], litros.length);
+      fila += 2;
+  
+      hojaDeTrabajo[`A${fila}`] = { v: 'Materia prima', t: 's' };
+      hojaDeTrabajo[`B${fila}`] = { v: 'Cantidad usada', t: 's' };
+      hojaDeTrabajo[`C${fila}`] = { v: 'Unidad', t: 's' };
+      hojaDeTrabajo[`D${fila}`] = { v: 'Costo', t: 's' };
+      anchosColumnas[0] = Math.max(anchosColumnas[0], 'Materia prima'.length);
+      anchosColumnas[1] = Math.max(anchosColumnas[1] || 0, 'Cantidad usada'.length);
+      anchosColumnas[2] = Math.max(anchosColumnas[2] || 0, 'Unidad'.length);
+      anchosColumnas[3] = Math.max(anchosColumnas[3] || 0, 'Costo'.length);
+      fila++;
+  
+      producto.Materias_Primas.forEach((materia, j) => {
+        const cantidadNecesaria = this.calcularCantidadMateria(producto, j, this.VerDetallesProduccion.Cantidad_Producto[i]);
+        const costo = this.calcularCostoMateria(producto, j, this.VerDetallesProduccion.Cantidad_Producto[i]);
+  
+        hojaDeTrabajo[`A${fila}`] = { v: materia.Nombre, t: 's' };
+        hojaDeTrabajo[`B${fila}`] = { v: cantidadNecesaria, t: 'n' };
+        hojaDeTrabajo[`C${fila}`] = { v: materia.Unidad_Medida, t: 's' };
+        hojaDeTrabajo[`D${fila}`] = { v: costo, t: 'n', z: '$#,##0.00' };
+        anchosColumnas[0] = Math.max(anchosColumnas[0], materia.Nombre.length);
+        anchosColumnas[1] = Math.max(anchosColumnas[1], cantidadNecesaria.toString().length);
+        anchosColumnas[2] = Math.max(anchosColumnas[2], materia.Unidad_Medida.length);
+        anchosColumnas[3] = Math.max(anchosColumnas[3], costo.toFixed(2).length);
+        fila++;
+      });
+  
+      hojaDeTrabajo[`A${fila}`] = { v: 'Total', t: 's' };
+      hojaDeTrabajo[`D${fila}`] = {
+        f: `SUM(D${fila - producto.Materias_Primas.length}:D${fila - 1})`,
+        t: 'n',
+        z: '$#,##0.00',
+      };
+      anchosColumnas[0] = Math.max(anchosColumnas[0], 'Total'.length);
+      anchosColumnas[3] = Math.max(anchosColumnas[3], 10);
+      fila++;
+  
+      fila++;
+    });
+  
+    hojaDeTrabajo['!ref'] = `A1:D${fila - 1}`;
+
+    hojaDeTrabajo['!cols'] = anchosColumnas.map(width => ({ wch: width + 2 }));
+  
+    const libroDeTrabajo = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(libroDeTrabajo, hojaDeTrabajo, 'Detalles');
+ 
+    const archivoExcel = XLSX.write(libroDeTrabajo, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([archivoExcel], { type: 'application/octet-stream' });
+  
+    const nombreArchivo = `DetallesProduccion_${new Date().toISOString().split('T')[0]}.xlsx`;
+    saveAs(blob, nombreArchivo);
+  
+    this.VerDetallesProduccion = new OrdenesDeProduccion();
+  }
+  
 
   EditarTablaProduccionEditar() {
-    // Paso 1: Reseteamos 'cantidadausar' a cero en lugar de vaciar `ListaMateriasEditar`.
     this.ListaMateriasEditar.forEach((materia) => materia.cantidadausar = 0);
 
-    // Paso 2: Recalculamos la cantidad de materias necesarias.
     for (let i = 0; i < this.ProductosAgregadosOrdenProduccion.Producto_Elaborado.length; i++) {
       let cantidadProducto = this.OrdenProduccion.Cantidad_Producto[i];
 
@@ -250,21 +353,18 @@ export class OrdenesProduccionComponent implements OnInit {
         let cantidadMateria = this.ProductosAgregadosOrdenProduccion.Producto_Elaborado[i].Cantidad_MateriasPrimas[j];
         let cantidadTotalMateria = cantidadMateria * cantidadProducto;
 
-        // Revisa si la materia ya existe en `ListaMateriasEditar`.
         let materiaExistente = this.ListaMateriasEditar.find(m => m.id === materia.Id_Materia);
 
         if (materiaExistente) {
-          // Si ya existe, solo actualizamos 'cantidadausar'.
           materiaExistente.cantidadausar += cantidadTotalMateria;
         } else {
-          // Si no existe, la agregamos a `ListaMateriasEditar`.
           this.ListaMateriasEditar.push({
             id: materia.Id_Materia,
             nombre: materia.Nombre,
             cantidadausar: cantidadTotalMateria,
             unidadmedida: '',
-            precio: 0,         // Temporal, se actualizará con el valor de Firestore
-            existencias: 0     // Temporal, se actualizará con el valor de Firestore
+            precio: 0,     
+            existencias: 0  
           });
 
           // Consultar los datos adicionales de Firestore solo para las nuevas materias.
@@ -427,26 +527,8 @@ export class OrdenesProduccionComponent implements OnInit {
             );
           });
 
-
-        /* El siguiente bloque de codigo debe lograr lo siguiente:
-    
-          -La cantidad total de materias usadas en crear la orden de produccion seran 
-           devueltas al inventario dado que se cancelo la orden
-    
-           Para lograrlo debo primero saber que materias seran las que seran modificadas, 
-           para ello debo obtener los id de las materias que debere modificar.
-    
-           Recorrere todos los productos de mi orden de produccion buscando las materias
-           que se usaron en la elaboracion, dado que las mismas materias pueden ser usadas
-           en distintos productos entonces habra materias iguales con diferentes cantidades,
-           en esos casos sumare las cantidades de las materias cuando se encuentren coincidencias
-    
-    
-        */
         this.MateriasUsadasDevueltas = []
 
-        /* Para cada producto existente en mi orden de produccion buscare los id de las materias y los almacenare
-        */
         orden.Producto_Elaborado.forEach((Producto, i) => {
 
           Producto.Materias_Primas.forEach((materia, j) => {
