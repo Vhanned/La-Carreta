@@ -22,7 +22,7 @@ import { AdmContComponent } from './Componentes/adm-cont/adm-cont.component';
 import { VentasComponent } from './Componentes/ventas/ventas.component';
 import { ProductosTerminadosComponent } from './Componentes/productos-terminados/productos-terminados.component';
 import { FinanzasComponent } from './Componentes/finanzas/finanzas.component';
-import { CEOComponent } from './ceo/ceo.component';
+import { CEOComponent } from './Componentes/ceo/ceo.component';
 
 @NgModule({
   declarations: [

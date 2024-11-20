@@ -23,7 +23,7 @@ export class LoginComponent {
 
   InicioSesion() {
     console.log(this.Usuario);
-
+  
     // Verificar si es un usuario de Ventas
     if (this.Usuario === "Ventas" && this.Contrasena === "ventas") {
       Swal.fire({
@@ -37,7 +37,7 @@ export class LoginComponent {
       this.routing.navigate(['ventas']);
       return;
     }
-
+  
     // Verificar si es un usuario de Producción
     if (this.Usuario === "Produccion" && this.Contrasena === "produccion") {
       Swal.fire({
@@ -51,7 +51,7 @@ export class LoginComponent {
       this.routing.navigate(['ordenes-produccion']);
       return;
     }
-
+  
     // Verificar si es un usuario de Finanzas
     if (this.Usuario === "Finanzas" && this.Contrasena === "finanzas") {
       Swal.fire({
@@ -65,7 +65,7 @@ export class LoginComponent {
       this.routing.navigate(['finanzas']);
       return;
     }
-
+  
     // Verificar si es un usuario de Ad-Cont
     if (this.Usuario === "Ad-Cont" && this.Contrasena === "adcont") {
       Swal.fire({
@@ -79,7 +79,21 @@ export class LoginComponent {
       this.routing.navigate(['adcont']);
       return;
     }
-
+  
+    // Verificar si es un usuario de CEO
+    if (this.Usuario === "CEO" && this.Contrasena === "ceo") {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Sesión Iniciada",
+        showConfirmButton: false,
+        timer: 800
+      });
+      this.authService.login('CEO'); // Establece el rol como 'CEO'
+      this.routing.navigate(['ceo-dashboard']);
+      return;
+    }
+  
     // Validación de otros usuarios desde la colección en Firestore
     let q = query(this.UsuariosColleccion, where("NombreUsuario", "==", this.Usuario), where("Contrasena", "==", this.Contrasena));
     collectionData(q).pipe(take(1)).subscribe((UsuarioSnap) => {
@@ -95,7 +109,7 @@ export class LoginComponent {
         const userRole = UsuarioSnap[0].role || 'Usuario';
         this.authService.login(userRole);
         this.Credencial.setData(UsuarioSnap[0]);
-
+  
         // Redirigir según el rol
         if (userRole === 'Ventas') {
           this.routing.navigate(['ventas']);
@@ -105,6 +119,8 @@ export class LoginComponent {
           this.routing.navigate(['finanzas']);
         } else if (userRole === 'Ad-Cont') {
           this.routing.navigate(['adcont']);
+        } else if (userRole === 'CEO') {
+          this.routing.navigate(['ceo']);
         } else {
           this.routing.navigate(['dashboard']);
         }
@@ -121,4 +137,5 @@ export class LoginComponent {
       }
     });
   }
+  
 }
