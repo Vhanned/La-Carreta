@@ -90,7 +90,7 @@ export class LoginComponent {
         timer: 800
       });
       this.authService.login('CEO'); // Establece el rol como 'CEO'
-      this.routing.navigate(['ceo-dashboard']);
+      this.routing.navigate(['ceo']);
       return;
     }
   
