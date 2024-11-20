@@ -12,6 +12,7 @@ import { AuthGuard } from './Componentes/services/au.guard';
 import { RoleGuard } from './Componentes/services/role.guard';
 import { FinanzasComponent } from './Componentes/finanzas/finanzas.component';
 import { ProductosTerminadosComponent } from './Componentes/productos-terminados/productos-terminados.component';
+import { CEOComponent } from './Componentes/ceo/ceo.component';
 
 const routes: Routes = [
 {path:'',component:LoginComponent},
@@ -25,6 +26,7 @@ const routes: Routes = [
 {path: 'adcont', component:AdmContComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'Ad-Cont' }},
 {path: 'ventas', component:VentasComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'Ventas' }},
 {path: 'finanzas', component:FinanzasComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'Finanzas' }},
+{path: 'ceo', component:CEOComponent},
 { path: '**', redirectTo: 'login' }
 
 ];
