@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Firestore, collectionData, collection, addDoc, doc, updateDoc, deleteDoc, query, setDoc, increment } from '@angular/fire/firestore';
 import { ReactiveFormsModule } from '@angular/forms';
-import { orderBy, where } from 'firebase/firestore';
+import { getDoc, getDocs, orderBy, where } from 'firebase/firestore';
 import { find } from 'rxjs/operators';
-import { Producto, OrdenesDeProduccion, MateriaPrimaInfo, MateriaPrimaUsadaOrden, MateriaPrima } from 'src/app/clases/clases.component';
+import { Producto, OrdenesDeProduccion, MateriaPrimaInfo, MateriaPrimaUsadaOrden, MateriaPrima, InventarioProductos } from 'src/app/clases/clases.component';
 import Swal from 'sweetalert2'; // Importamos SweetAlert
 import * as XLSX from 'xlsx'; // Importa XLSX
 import { saveAs } from 'file-saver';
@@ -50,6 +50,8 @@ export class OrdenesProduccionComponent implements OnInit {
   // Dirección de la colección en Firestore de la que se consultan los productos
   ProductosBD = collection(this.firebase, "Productos");
 
+  ProductosTerminadosDB = collection(this.firebase, "ProductosTerminados")
+
   // Dirección de la colección de las órdenes de producción
   OrdenesBD = collection(this.firebase, 'OrdenesProduccion');
 
@@ -58,6 +60,9 @@ export class OrdenesProduccionComponent implements OnInit {
   fechaFin: string = '';
 
   fechaPrueba: string = new Date().toLocaleDateString()
+
+  ProductoTerminado = new InventarioProductos();
+  ListaProductosTerminados: InventarioProductos[]=[];
 
   constructor(private firebase: Firestore) {
     this.CargarProductos();
@@ -263,30 +268,61 @@ export class OrdenesProduccionComponent implements OnInit {
     updateDoc(ordenDoc, { Estado: 'Finalizada' }).then(() => {
       Swal.fire('Success', 'Orden finalizada', 'success')
     }).catch((error) => {
-      Swal.fire('Error', 'Error al actualizar estado', 'error');
+      Swal.fire('Error', `Error al actualizar estado: ${error}`, 'error');
     })
+
+    
+
+    orden.Producto_Elaborado.forEach( (Producto, i) => {
+
+      this.ProductoTerminado.Id_producto = Producto.Id_Producto;
+      this.ProductoTerminado.Nombre_Producto = Producto.Nombre;
+      this.ProductoTerminado.Codigo = Producto.Codigo;
+      this.ProductoTerminado.Cantidad = orden.Cantidad_Producto[i];
+
+      let cantidad = orden.Cantidad_Producto[i]
+      console.log('cantidad: ',cantidad)
+
+      let finalizadoDoc = doc(this.firebase, "ProductosTerminados", this.ProductoTerminado.Id_producto)
+      let finalizadoRef = doc(this.firebase, "ProductosTerminados", Producto.Id_Producto)
+
+
+      console.log('Log despues del suscribe:',this.ListaProductosTerminados)
+      let productoExiste = this.ListaProductosTerminados.find(m => m.Id_producto === Producto.Id_Producto)
+      console.log('Existe',productoExiste)
+
+      if (productoExiste) {
+        updateDoc(finalizadoRef, {Cantidad: increment(cantidad)});
+      } else {
+        setDoc(finalizadoDoc, JSON.parse(JSON.stringify(this.ProductoTerminado)))
+        console.log(this.ListaProductosTerminados)
+      }
+      
+    });
+
+
   }
 
   exportarTablaExcel(orden: OrdenesDeProduccion) {
     this.VerDetallesProduccion = orden;
-  
+
     const hojaDeTrabajo: XLSX.WorkSheet = {};
     let fila = 2;
-  
+
     const anchosColumnas: number[] = [];
-  
+
     this.VerDetallesProduccion.Producto_Elaborado.forEach((producto, i) => {
       const titulo = producto.Nombre;
       const litros = `Litros a producir: ${this.VerDetallesProduccion.Cantidad_Producto[i]}`;
-  
+
       hojaDeTrabajo[`A${fila}`] = { v: titulo, t: 's' };
       anchosColumnas[0] = Math.max(anchosColumnas[0] || 0, titulo.length);
       fila++;
-  
+
       hojaDeTrabajo[`A${fila}`] = { v: litros, t: 's' };
       anchosColumnas[0] = Math.max(anchosColumnas[0], litros.length);
       fila += 2;
-  
+
       hojaDeTrabajo[`A${fila}`] = { v: 'Materia prima', t: 's' };
       hojaDeTrabajo[`B${fila}`] = { v: 'Cantidad usada', t: 's' };
       hojaDeTrabajo[`C${fila}`] = { v: 'Unidad', t: 's' };
@@ -296,11 +332,11 @@ export class OrdenesProduccionComponent implements OnInit {
       anchosColumnas[2] = Math.max(anchosColumnas[2] || 0, 'Unidad'.length);
       anchosColumnas[3] = Math.max(anchosColumnas[3] || 0, 'Costo'.length);
       fila++;
-  
+
       producto.Materias_Primas.forEach((materia, j) => {
         const cantidadNecesaria = this.calcularCantidadMateria(producto, j, this.VerDetallesProduccion.Cantidad_Producto[i]);
         const costo = this.calcularCostoMateria(producto, j, this.VerDetallesProduccion.Cantidad_Producto[i]);
-  
+
         hojaDeTrabajo[`A${fila}`] = { v: materia.Nombre, t: 's' };
         hojaDeTrabajo[`B${fila}`] = { v: cantidadNecesaria, t: 'n' };
         hojaDeTrabajo[`C${fila}`] = { v: materia.Unidad_Medida, t: 's' };
@@ -311,7 +347,7 @@ export class OrdenesProduccionComponent implements OnInit {
         anchosColumnas[3] = Math.max(anchosColumnas[3], costo.toFixed(2).length);
         fila++;
       });
-  
+
       hojaDeTrabajo[`A${fila}`] = { v: 'Total', t: 's' };
       hojaDeTrabajo[`D${fila}`] = {
         f: `SUM(D${fila - producto.Materias_Primas.length}:D${fila - 1})`,
@@ -321,26 +357,26 @@ export class OrdenesProduccionComponent implements OnInit {
       anchosColumnas[0] = Math.max(anchosColumnas[0], 'Total'.length);
       anchosColumnas[3] = Math.max(anchosColumnas[3], 10);
       fila++;
-  
+
       fila++;
     });
-  
+
     hojaDeTrabajo['!ref'] = `A1:D${fila - 1}`;
 
     hojaDeTrabajo['!cols'] = anchosColumnas.map(width => ({ wch: width + 2 }));
-  
+
     const libroDeTrabajo = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(libroDeTrabajo, hojaDeTrabajo, 'Detalles');
- 
+
     const archivoExcel = XLSX.write(libroDeTrabajo, { bookType: 'xlsx', type: 'array' });
     const blob = new Blob([archivoExcel], { type: 'application/octet-stream' });
-  
+
     const nombreArchivo = `DetallesProduccion_${new Date().toISOString().split('T')[0]}.xlsx`;
     saveAs(blob, nombreArchivo);
-  
+
     this.VerDetallesProduccion = new OrdenesDeProduccion();
   }
-  
+
 
   EditarTablaProduccionEditar() {
     this.ListaMateriasEditar.forEach((materia) => materia.cantidadausar = 0);
@@ -363,11 +399,10 @@ export class OrdenesProduccionComponent implements OnInit {
             nombre: materia.Nombre,
             cantidadausar: cantidadTotalMateria,
             unidadmedida: '',
-            precio: 0,     
-            existencias: 0  
+            precio: 0,
+            existencias: 0
           });
 
-          // Consultar los datos adicionales de Firestore solo para las nuevas materias.
           let q = query(this.MateriasBD, where("Id_Materia", "==", materia.Id_Materia));
           collectionData(q).subscribe((materiSnap) => {
             let item = this.ListaMateriasEditar.find(m => m.id === materia.Id_Materia);
@@ -383,12 +418,10 @@ export class OrdenesProduccionComponent implements OnInit {
   }
 
   actualizarPrecioEnOrdenProduccion(idMateria: string, nuevoPrecio: number) {
-    // Recorre los productos en OrdenProduccion
+
     this.OrdenProduccion.Producto_Elaborado.forEach((producto) => {
-      // Busca la materia prima que coincida por ID
       let materiaPrima = producto.Materias_Primas.find(materia => materia.Id_Materia === idMateria);
       if (materiaPrima) {
-        // Actualiza el precio en OrdenProduccion
         materiaPrima.Precio_unitario = nuevoPrecio;
       }
     });
@@ -422,7 +455,6 @@ export class OrdenesProduccionComponent implements OnInit {
     let ExisteProductoAgregado = this.EditarProduccionModal.Producto_Elaborado.find(m => m.Id_Producto === producto.Id_Producto)
 
     if (!ExisteProductoAgregado) {
-      // Agregar el producto a Producto_Elaborado
       this.EditarProduccionModal.Producto_Elaborado.push(producto);
       this.OrdenProduccion.Producto_Elaborado.push(producto);
     } else {
@@ -436,33 +468,26 @@ export class OrdenesProduccionComponent implements OnInit {
   }
 
   EliminarProductoOrden(index: number) {
-    // Obtener el producto que se va a eliminar
     const productoEliminado = this.ProductosAgregadosOrdenProduccion.Producto_Elaborado[index];
 
-    // Eliminar el producto y la cantidad de las listas correspondientes
     this.ProductosAgregadosOrdenProduccion.Producto_Elaborado.splice(index, 1);
     this.ProductosAgregadosOrdenProduccion.Cantidad_Producto.splice(index, 1);
     this.OrdenProduccion.Cantidad_Producto.splice(index, 1);
     this.OrdenProduccion.Producto_Elaborado.splice(index, 1);
 
-    // Actualizar ListaMateriasEditar restando la cantidad de las materias correspondientes a este producto
     productoEliminado.Materias_Primas.forEach((materia, materiaIndex) => {
       const cantidadMateria = productoEliminado.Cantidad_MateriasPrimas[materiaIndex];
       const cantidadProducto = this.OrdenProduccion.Cantidad_Producto[index];
 
-      // Encontrar la materia correspondiente en ListaMateriasEditar
       const materiaExistente = this.ListaMateriasEditar.find(m => m.id === materia.Id_Materia);
 
       if (materiaExistente) {
-        // Restar la cantidad usada por este producto del total en ListaMateriasEditar
         materiaExistente.cantidadausar -= cantidadMateria * cantidadProducto;
 
-        // Verificar si la cantidad llega a 0 y eliminar la materia si es el caso
         if (materiaExistente.cantidadausar <= 0) {
           this.ListaMateriasEditar = this.ListaMateriasEditar.filter(m => m.id !== materia.Id_Materia);
         }
       }
-      // Reiniciar ListaMateriasEditar si queda vacía
       if (this.ListaMateriasEditar.length === 0) {
         this.ListaMateriasEditar = [];
       }
@@ -554,7 +579,6 @@ export class OrdenesProduccionComponent implements OnInit {
         this.MateriasUsadasDevueltas.forEach((materia) => {
           const materiaDocRef = doc(this.firebase, "MateriasPrimas", materia.id);
           try {
-            // Actualizar la cantidad en el campo `existencias` en Firestore usando `increment`
             updateDoc(materiaDocRef, {
               Existencias: increment(materia.cantidad)
             });
@@ -577,13 +601,13 @@ export class OrdenesProduccionComponent implements OnInit {
 
   calcularCantidadMateria(producto: Producto, index: number, cantidadProducto: number): number {
     const materiaPrimaRatio = producto.Cantidad_MateriasPrimas[index] || 1;
-    return cantidadProducto * materiaPrimaRatio; // Ahora utiliza la cantidad del índice específico
+    return cantidadProducto * materiaPrimaRatio;
   }
 
   calcularCostoMateria(producto: Producto, index: number, cantidadProducto: number): number {
     const cantidadMateria = this.calcularCantidadMateria(producto, index, cantidadProducto);
-    const costoUnitario = producto.Materias_Primas[index].Precio_unitario || 0; // Ajusta según tu estructura
-    return cantidadMateria * costoUnitario; // Utiliza la cantidad de materia calculada
+    const costoUnitario = producto.Materias_Primas[index].Precio_unitario || 0;
+    return cantidadMateria * costoUnitario;
   }
 
   calcularCostoTotal(producto: Producto, cantidadProducto: number): number {

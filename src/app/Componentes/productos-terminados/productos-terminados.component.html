@@ -1,3 +1,33 @@
 <nav-bar></nav-bar>
 
+<div style="margin-top: 2%;" class="container">
+    <h2>Inventario de Productos terminados</h2>
 
+    <div id="ContenedorBusqueda">
+        <button id="BotonAgregar" class="btn btn-warning btn-add" data-bs-toggle="modal" data-bs-target="#agregarModal">
+            Agregar Materia Prima
+        </button>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="inventory-table">
+            <thead>
+                <tr>
+                    <th>Codigo</th>
+                    <th>Nombre</th>
+                    <th>Disponible para venta</th>
+                    <th>Precio de venta</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let Producto of InvetarioTerminados">
+                    <td>{{ Producto.Codigo }}</td>
+                    <td>{{ Producto.Nombre_Producto }}</td>
+                    <td>{{ Producto.Cantidad }}</td>
+                    <td>{{ Producto.Precio }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

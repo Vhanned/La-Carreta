@@ -51,18 +51,19 @@
             <td>{{ calcularCostoTotalOrden(orden) | currency }}</td>
             <td style="display: grid;grid-template-columns:35% 20% 20% 25%; column-gap:1%;">
               <div>
-                <button *ngIf="orden.Estado === 'En produccion'" (click)="FinalizarProduccion(orden)" class="btn btn-success btn-sm">Finalizar produccion</button>
+                <button *ngIf="orden.Estado === 'En produccion'" (click)="FinalizarProduccion(orden)"
+                  class="btn btn-success btn-sm">Finalizar produccion</button>
                 <button *ngIf="orden.Estado === 'Pendiente'" class="btn btn-success btn-sm"
-                (click)="EnviarProduccion(orden)">
-                Enviar a produccion</button> 
+                  (click)="EnviarProduccion(orden)">
+                  Enviar a produccion</button>
               </div>
               <div>
-                <button class="btn btn-info btn-sm" data-bs-target="#staticBackdropDetalles" data-bs-toggle="modal" id="BotonDetalles"
-                (click)="MostrarDetalles(orden)">Detalles</button>
+                <button class="btn btn-info btn-sm" data-bs-target="#staticBackdropDetalles" data-bs-toggle="modal"
+                  id="BotonDetalles" (click)="MostrarDetalles(orden)">Detalles</button>
               </div>
               <div>
-              <button *ngIf="orden.Estado === 'Pendiente'" class="btn btn-danger btn-sm"
-              (click)="EliminarOrdenProduccion(orden)">Eliminar</button>
+                <button *ngIf="orden.Estado === 'Pendiente'" class="btn btn-danger btn-sm"
+                  (click)="EliminarOrdenProduccion(orden)">Eliminar</button>
               </div>
               <div>
                 <button class="btn btn-success btn-sm" (click)="exportarTablaExcel(orden)">
@@ -310,7 +311,8 @@
             <tbody>
               <tr *ngFor="let materia of producto.Materias_Primas; let j = index; trackBy: trackByIndex">
                 <td>{{ materia.Nombre }}</td>
-                <td class="text-center">{{ calcularCantidadMateria(producto, j, VerDetallesProduccion.Cantidad_Producto[i]) }}</td>
+                <td class="text-center">{{ calcularCantidadMateria(producto, j,
+                  VerDetallesProduccion.Cantidad_Producto[i]) }}</td>
                 <td class="text-center">{{ materia.Unidad_Medida }}</td>
                 <td class="text-end">{{ calcularCostoMateria(producto, j, VerDetallesProduccion.Cantidad_Producto[i]) |
                   currency }}</td>
@@ -327,7 +329,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="BtnCerrarDetallesModal">Cerrar</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+          id="BtnCerrarDetallesModal">Cerrar</button>
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Entendido</button>
       </div>
     </div>

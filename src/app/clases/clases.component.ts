@@ -178,15 +178,18 @@ export class InventarioProductos {
   }
 
   Id_producto: string = '';
+  Codigo:string='';
   Nombre_Producto: string = '';
   Cantidad: number | undefined = undefined;
+  Precio: number | undefined = undefined;
 
 
   setData(data: any) {
     this.Id_producto = data.Id_producto || '';
     this.Nombre_Producto = data.Nombre_Producto || '';
     this.Cantidad = data.Cantidad || undefined;
-
+    this.Precio = data.Precio || undefined;
+    this.Codigo = data.Codigo || '';
   }
 
 }
