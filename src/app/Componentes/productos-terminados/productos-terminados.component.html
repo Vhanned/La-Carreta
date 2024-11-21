@@ -16,15 +16,22 @@
                     <th>Codigo</th>
                     <th>Nombre</th>
                     <th>Disponible para venta</th>
-                    <th>Precio de venta</th>
+                    <th>Precio de venta unitario</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let Producto of InvetarioTerminados">
+                <tr *ngFor="let Producto of InvetarioTerminados;let i=index">
                     <td>{{ Producto.Codigo }}</td>
                     <td>{{ Producto.Nombre_Producto }}</td>
                     <td>{{ Producto.Cantidad }}</td>
-                    <td>{{ Producto.Precio }}</td>
+                    <td>
+                        <input id="inputPrecio" min="0" type="number" name="PrecioTerminado{{i}}" id="PrecioTerminado" [(ngModel)]="Producto.Precio">
+                    </td>
+                    <td>
+                        <button class="btn btn-danger btn-sm">Vender</button>
+                        <button class="btn btn-danger btn-sm" (click)="ModificarPrecio(Producto)">Guardar precio</button>
+                    </td>
                 </tr>
             </tbody>
         </table>

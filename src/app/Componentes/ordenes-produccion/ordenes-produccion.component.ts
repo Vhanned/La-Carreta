@@ -67,6 +67,7 @@ export class OrdenesProduccionComponent implements OnInit {
   constructor(private firebase: Firestore) {
     this.CargarProductos();
     this.CargarListaOrdenesProduccion();
+    this.CargarListaProductosTerminados();
   }
 
   ngOnInit() {
@@ -102,6 +103,18 @@ export class OrdenesProduccionComponent implements OnInit {
         orden.setData(item);
         this.ListaOrdenes.push(orden);
         this.ListaOrdenesOriginales.push(orden); // Almacenar en la lista original
+      });
+    });
+  }
+
+  CargarListaProductosTerminados(){
+    let q = query(this.ProductosTerminadosDB);
+    collectionData(q).subscribe((productoSnap) => {
+      this.ListaProductosTerminados = [];
+      productoSnap.forEach((item) => {
+        let producto = new InventarioProductos();
+        producto.setData(item);
+        this.ListaProductosTerminados.push(producto);
       });
     });
   }
@@ -270,8 +283,8 @@ export class OrdenesProduccionComponent implements OnInit {
     }).catch((error) => {
       Swal.fire('Error', `Error al actualizar estado: ${error}`, 'error');
     })
-
     
+    console.log('Lista terminados',this.ListaProductosTerminados)
 
     orden.Producto_Elaborado.forEach( (Producto, i) => {
 
@@ -284,20 +297,15 @@ export class OrdenesProduccionComponent implements OnInit {
       console.log('cantidad: ',cantidad)
 
       let finalizadoDoc = doc(this.firebase, "ProductosTerminados", this.ProductoTerminado.Id_producto)
-      let finalizadoRef = doc(this.firebase, "ProductosTerminados", Producto.Id_Producto)
 
+      let productoExiste = this.ListaProductosTerminados.find(m => m.Id_producto === this.ProductoTerminado.Id_producto)
 
-      console.log('Log despues del suscribe:',this.ListaProductosTerminados)
-      let productoExiste = this.ListaProductosTerminados.find(m => m.Id_producto === Producto.Id_Producto)
-      console.log('Existe',productoExiste)
-
-      if (productoExiste) {
-        updateDoc(finalizadoRef, {Cantidad: increment(cantidad)});
-      } else {
-        setDoc(finalizadoDoc, JSON.parse(JSON.stringify(this.ProductoTerminado)))
-        console.log(this.ListaProductosTerminados)
+      if(productoExiste){
+        updateDoc(doc(this.firebase,"ProductosTerminados",this.ProductoTerminado.Id_producto),{Cantidad:increment(cantidad)})
       }
-      
+      else{
+        setDoc(finalizadoDoc, JSON.parse(JSON.stringify(this.ProductoTerminado)))
+      }
     });
 
 

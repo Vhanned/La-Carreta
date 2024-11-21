@@ -57,3 +57,7 @@ h2 {
     text-transform: uppercase;
     cursor: default;
 }
+
+input{
+    max-width: 60px;
+}
