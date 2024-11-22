@@ -12,9 +12,13 @@ export class ProductosTerminadosComponent implements OnInit {
 
 //Lista de productos terminados
 InvetarioTerminados:InventarioProductos[]=[];
+NuevaVenta = new InventarioProductos();
 
 //Coleccion de productos terminados
 ProductosTerminadosBD = collection(this.firebase,"ProductosTerminados")
+
+CantidadVenta:number=0;
+
 
 
 
@@ -41,4 +45,11 @@ ProductosTerminadosBD = collection(this.firebase,"ProductosTerminados")
     updateDoc(doc(this.firebase,"ProductosTerminados",Producto.Id_producto),{Precio:Producto.Precio})
   }
 
+  RealizarVenta(){
+
+  }
+
+  CargarInfo(Producto:InventarioProductos){
+    this.NuevaVenta = Producto;
+  }
 }

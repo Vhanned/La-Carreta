@@ -3,19 +3,13 @@
 <div style="margin-top: 2%;" class="container">
     <h2>Inventario de Productos terminados</h2>
 
-    <div id="ContenedorBusqueda">
-        <button id="BotonAgregar" class="btn btn-warning btn-add" data-bs-toggle="modal" data-bs-target="#agregarModal">
-            Agregar Materia Prima
-        </button>
-    </div>
-
     <div class="table-wrapper">
         <table class="inventory-table">
             <thead>
                 <tr>
                     <th>Codigo</th>
                     <th>Nombre</th>
-                    <th>Disponible para venta</th>
+                    <th>Cantidad de producto terminado</th>
                     <th>Precio de venta unitario</th>
                     <th>Acciones</th>
                 </tr>
@@ -26,15 +20,59 @@
                     <td>{{ Producto.Nombre_Producto }}</td>
                     <td>{{ Producto.Cantidad }}</td>
                     <td>
-                        <input id="inputPrecio" min="0" type="number" name="PrecioTerminado{{i}}" id="PrecioTerminado" [(ngModel)]="Producto.Precio">
+                        <input id="inputPrecio" min="0" type="number" name="PrecioTerminado{{i}}" id="PrecioTerminado"
+                            [(ngModel)]="Producto.Precio">
                     </td>
                     <td>
-                        <button class="btn btn-danger btn-sm">Vender</button>
-                        <button class="btn btn-danger btn-sm" (click)="ModificarPrecio(Producto)">Guardar precio</button>
+                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#agregarModal"
+                            (click)="CargarInfo(Producto)">Vender</button>
+                        <button class="btn btn-danger btn-sm" (click)="ModificarPrecio(Producto)">Guardar
+                            precio</button>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
 
+</div>
+
+
+<div class="modal fade" id="agregarModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="agregarModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="agregarModalLabel">Agregar Materia Prima</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="Codigo" class="form-label">Codigo</label>
+                        <input type="text" class="form-control" id="Codigo" [(ngModel)]="NuevaVenta.Codigo" name="Codigo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="Nombre" [(ngModel)]="NuevaVenta.Nombre_Producto" name="Nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Precio_unitario" class="form-label">Precio unitario (MXN)</label>
+                        <input type="number" class="form-control" id="Precio_unitario" [(ngModel)]="NuevaVenta.Precio" name="Precio_unitario" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="existencias" class="form-label">Existencias</label>
+                        <input type="number" min="0" class="form-control" id="existencias" [(ngModel)]="NuevaVenta.Cantidad" name="existencias" required disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cantidadventa" class="form-label">Existencias</label>
+                        <input type="number" min="0" class="form-control" id="cantidadventa" [(ngModel)]="CantidadVenta" name="cantidadventa" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="btnCerrarModalElemento" type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cerrar</button>
+                <button type="button" class="btn btn-primary" (click)="RealizarVenta()">Guardar</button>
+            </div>
+        </div>
+    </div>
 </div>

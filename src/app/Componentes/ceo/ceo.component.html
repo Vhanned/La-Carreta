@@ -2,20 +2,20 @@
     <div class="container">
         <div class="header">
             <h1 class="title">Visualización de Datos</h1>
-            <button class="button">Cerrar Sesión</button>
+            <button class="button" (click)="Logout()">Cerrar Sesión</button>
         </div>
 
         <div class="form-container">
             <!-- Contable Administrativo -->
-            <div class="form-section">
+            <div class="form-section" *ngIf="registroSeleccionado">
                 <h2>Contable Administrativo</h2>
                 <div class="form-group">
                     <label for="fecha-contable">Fecha</label>
-                    <input type="date" id="fecha-contable">
+                    <input (ngModelChange)="Log($event)" type="date" id="fecha-contable" [(ngModel)]="FechaSeleccionada">
                 </div>
                 <div class="form-group">
                     <label for="pago-proveedores-efectivo">Pago a Proveedores Efectivo</label>
-                    <input type="text" id="pago-proveedores-efectivo">
+                    <input type="text" id="pago-proveedores-efectivo" [(ngModel)]="registroSeleccionado.pagoProveedoresEfectivo">
                 </div>
                 <div class="form-group">
                     <label for="pago-proveedores-banco">Pago a Proveedores Banco</label>
