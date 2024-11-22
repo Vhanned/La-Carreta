@@ -3,47 +3,48 @@
         <div class="header">
             <h1 class="title">Visualización de Datos</h1>
             <button class="button" (click)="Logout()">Cerrar Sesión</button>
+            <button class="button" (click)="CargarDatos()">Cargar Datos</button>
         </div>
 
         <div class="form-container">
             <!-- Contable Administrativo -->
-            <div class="form-section" *ngIf="registroSeleccionado">
+            <div class="form-section">
                 <h2>Contable Administrativo</h2>
                 <div class="form-group">
                     <label for="fecha-contable">Fecha</label>
-                    <input (ngModelChange)="Log($event)" type="date" id="fecha-contable" [(ngModel)]="FechaSeleccionada">
+                    <input type="date" id="fecha-contable" [(ngModel)]="FechaHoy">
                 </div>
                 <div class="form-group">
                     <label for="pago-proveedores-efectivo">Pago a Proveedores Efectivo</label>
-                    <input type="text" id="pago-proveedores-efectivo" [(ngModel)]="registroSeleccionado.pagoProveedoresEfectivo">
+                    <input type="text" id="pago-proveedores-efectivo" [(ngModel)]="DatosContables.pagoProveedoresEfectivo">
                 </div>
                 <div class="form-group">
                     <label for="pago-proveedores-banco">Pago a Proveedores Banco</label>
-                    <input type="text" id="pago-proveedores-banco">
+                    <input type="text" id="pago-proveedores-banco" [(ngModel)]="DatosContables.pagoProveedoresBanco">
                 </div>
                 <div class="form-group">
                     <label for="gastos-generales">Gastos Generales</label>
-                    <input type="text" id="gastos-generales">
+                    <input type="text" id="gastos-generales" [(ngModel)]="DatosContables.gastosGenerales">
                 </div>
                 <div class="form-group">
                     <label for="pago-proveedores-credito">Pago Proveedores Crédito Banco</label>
-                    <input type="text" id="pago-proveedores-credito">
+                    <input type="text" id="pago-proveedores-credito" [(ngModel)]="DatosContables.pagoProveedoresCreditoBanco">
                 </div>
                 <div class="form-group">
                     <label for="cuentas-pagar">Cuentas por Pagar</label>
-                    <input type="text" id="cuentas-pagar">
+                    <input type="text" id="cuentas-pagar" [(ngModel)]="DatosContables.cuentasPorPagar">
                 </div>
                 <div class="form-group">
                     <label for="otros-gastos">Otros Gastos</label>
-                    <input type="text" id="otros-gastos">
+                    <input type="text" id="otros-gastos" [(ngModel)]="DatosContables.otrosGastos">
                 </div>
                 <div class="form-group">
                     <label for="anticipo-proveedor">Anticipo a Proveedor</label>
-                    <input type="text" id="anticipo-proveedor">
+                    <input type="text" id="anticipo-proveedor" [(ngModel)]="DatosContables.anticipoProveedor">
                 </div>
                 <div class="form-group">
                     <label for="pago-credito-efectivo">Pago a Proveedores Crédito Efectivo</label>
-                    <input type="text" id="pago-credito-efectivo">
+                    <input type="text" id="pago-credito-efectivo" [(ngModel)]="DatosContables.pagoProveedoresCreditoEfectivo">
                 </div>
             </div>
 
@@ -52,31 +53,31 @@
                 <h2>Ventas</h2>
                 <div class="form-group">
                     <label for="fecha-ventas">Fecha</label>
-                    <input type="date" id="fecha-ventas">
+                    <input type="date" id="fecha-ventas" [(ngModel)]="FechaHoy">
                 </div>
                 <div class="form-group">
                     <label for="cobranza-efectivo">Cobranza Efectivo</label>
-                    <input type="text" id="cobranza-efectivo">
+                    <input type="text" id="cobranza-efectivo" [(ngModel)]="DatosVentas.cobranzaEfectivo">
                 </div>
                 <div class="form-group">
                     <label for="cobranza-banco">Cobranza Depósito Banco</label>
-                    <input type="text" id="cobranza-banco">
+                    <input type="text" id="cobranza-banco" [(ngModel)]="DatosVentas.cobranzaBanco">
                 </div>
                 <div class="form-group">
                     <label for="compra-productos">Compra de Productos</label>
-                    <input type="text" id="compra-productos">
+                    <input type="text" id="compra-productos" [(ngModel)]="DatosVentas.compraProductos">
                 </div>
                 <div class="form-group">
                     <label for="inventario-pt">Inventario P.T</label>
-                    <input type="text" id="inventario-pt">
+                    <input type="text" id="inventario-pt" [(ngModel)]="DatosVentas.inventarios">
                 </div>
                 <div class="form-group">
                     <label for="venta-contado">Venta de Productos Contado</label>
-                    <input type="text" id="venta-contado">
+                    <input type="text" id="venta-contado" [(ngModel)]="DatosVentas.ventaContado">
                 </div>
                 <div class="form-group">
                     <label for="cuentas-cobrar">Cuentas por Cobrar</label>
-                    <input type="text" id="cuentas-cobrar">
+                    <input type="text" id="cuentas-cobrar" [(ngModel)]="DatosVentas.cuentasCobrar">
                 </div>
             </div>
 
@@ -85,31 +86,31 @@
                 <h2>Finanzas</h2>
                 <div class="form-group">
                     <label for="fecha-finanzas">Fecha</label>
-                    <input type="date" id="fecha-finanzas">
+                    <input type="date" id="fecha-finanzas" [(ngModel)]="FechaHoy">
                 </div>
                 <div class="form-group">
                     <label for="mp-banco">M.P Banco</label>
-                    <input type="text" id="mp-banco">
+                    <input type="text" id="mp-banco" [(ngModel)]="DatosFinanzas.mpBanco">
                 </div>
                 <div class="form-group">
                     <label for="gastos-efectivo">Gastos Efectivo</label>
-                    <input type="text" id="gastos-efectivo">
+                    <input type="text" id="gastos-efectivo" [(ngModel)]="DatosFinanzas.gastosEfectivos">
                 </div>
                 <div class="form-group">
                     <label for="compras-inversion">Compras Inversión</label>
-                    <input type="text" id="compras-inversion">
+                    <input type="text" id="compras-inversion" [(ngModel)]="DatosFinanzas.comprasInversion">
                 </div>
                 <div class="form-group">
                     <label for="mp-caja-efectivo">M.P Caja Chica Efectivo</label>
-                    <input type="text" id="mp-caja-efectivo">
+                    <input type="text" id="mp-caja-efectivo" [(ngModel)]="DatosFinanzas.mpCajaChica">
                 </div>
                 <div class="form-group">
                     <label for="caja-banco">Gastos Banco</label>
-                    <input type="text" id="gastos-banco">
+                    <input type="text" id="gastos-banco" [(ngModel)]="DatosFinanzas.gastosBanco">
                 </div>
                 <div class="form-group">
                     <label for="caja-banco">Gastos</label>
-                    <input type="text" id="gastos">
+                    <input type="text" id="gastos" [(ngModel)]="DatosFinanzas.gastos">
                 </div>
             </div>   
 
@@ -118,7 +119,7 @@
                 <h2>Producción</h2>
                 <div class="form-group">
                     <label for="fecha-produccion">Fecha</label>
-                    <input type="date" id="fecha-produccion">
+                    <input type="date" id="fecha-produccion" [(ngModel)]="FechaHoy">
                 </div>
                 <div class="form-group">
                     <label for="compra-contado">Compra de Materia Prima a Contado</label>

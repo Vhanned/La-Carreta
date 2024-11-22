@@ -13,7 +13,7 @@ export class VentasComponent implements OnInit {
 
   nuevaVenta = {
     Id_Venta: '',
-    fecha: '',
+    fecha: new Date().toISOString().split('T')[0],
     cobranzaEfectivo: '',
     cobranzaBanco: '',
     compraProductos: '',

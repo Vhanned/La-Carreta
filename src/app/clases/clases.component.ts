@@ -219,15 +219,15 @@ export class AdContable {
   }
 
   Id_Registro: string = '';
-  anticipoProveedor: number | undefined = undefined;
-  cuentasPorPagar: number | undefined = undefined;
+  anticipoProveedor: number | undefined;
+  cuentasPorPagar: number | undefined;
   fecha: string = '';
-  gastosGenerales: number | undefined = undefined;
-  otrosGastos: number | undefined = undefined;
-  pagoProveedoresBanco: number | undefined = undefined;
-  pagoProveedoresCreditoBanco: number | undefined = undefined;
-  pagoProveedoresCreditoEfectivo: number | undefined = undefined;
-  pagoProveedoresEfectivo: number | undefined = undefined;
+  gastosGenerales: number | undefined;
+  otrosGastos: number | undefined;
+  pagoProveedoresBanco: number | undefined;
+  pagoProveedoresCreditoBanco: number | undefined;
+  pagoProveedoresCreditoEfectivo: number | undefined;
+  pagoProveedoresEfectivo: number | undefined;
 
   setData(data: any) {
     this.Id_Registro = data.Id_Registro || '';
@@ -260,7 +260,7 @@ export class Finanzas {
   mpCajaChica: number | undefined = undefined;
 
   setData(data: any) {
-    this.Id_Reporte = data.Id_Reporte;
+    this.Id_Reporte = data.Id_Reporte||'';
     this.comprasInversion = data.comprasInversion;
     this.fecha = data.fecha;
     this.gastos = data.gastos;
@@ -287,14 +287,14 @@ export class Ventas {
   ventaContado: number | undefined = undefined;
 
   setData(data: any) {
-    this.Id_Venta = data.Id_Venta;
-    this.cobranzaBanco = data.cobranzaBanco;
-    this.cobranzaEfectivo = data.cobranzaEfectivo;
-    this.compraProductos = data.compraProductos;
-    this.cuentasCobrar = data.cuentasCobrar;
-    this.fecha = data.fecha;
-    this.inventarios = data.inventarios;
-    this.ventaContado = data.ventaContado;
+    this.Id_Venta = data.Id_Venta || '';
+    this.cobranzaBanco = data.cobranzaBanco || undefined;
+    this.cobranzaEfectivo = data.cobranzaEfectivo || undefined;
+    this.compraProductos = data.compraProductos || undefined;
+    this.cuentasCobrar = data.cuentasCobrar || undefined;
+    this.fecha = data.fecha || '';
+    this.inventarios = data.inventarios || undefined;
+    this.ventaContado = data.ventaContado || undefined;
   }
 }
 
@@ -304,6 +304,23 @@ export class Produccion {
 
   }
 
+  CompraMateriaPrimaContado: number | undefined;
+  CompraMateriaPrimaCredito: number | undefined;
+  InventarioMateriaPrima: number | undefined;
+  MateriaPrimaProductoTerminado: number | undefined;
+  InventarioProductoTerminado: number | undefined;
+  ProductoEnProcesoTerminado: number | undefined;
+  ProductoEnProceso: number | undefined;
+
+  setData(data:any){
+    this.CompraMateriaPrimaContado = data.CompraMateriaPrimaContado || undefined;
+    this.CompraMateriaPrimaCredito = data.CompraMateriaPrimaCredito || undefined;
+    this.InventarioMateriaPrima = data.InventarioMateriaPrima || undefined;
+    this.MateriaPrimaProductoTerminado = data.MateriaPrimaProductoTerminado || undefined;
+    this.InventarioProductoTerminado = data.InventarioProductoTerminado || undefined;
+    this.ProductoEnProcesoTerminado = data.ProductoEnProcesoTerminado || undefined;
+    this.ProductoEnProceso = data.ProductoEnProceso || undefined;
+  }
 
 }
 

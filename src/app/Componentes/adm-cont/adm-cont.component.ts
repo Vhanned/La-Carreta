@@ -13,7 +13,7 @@ export class AdmContComponent implements OnInit {
 
   nuevoRegistro = {
     Id_Registro: '',
-    fecha: '',
+    fecha: new Date().toISOString().split('T')[0],
     pagoProveedoresEfectivo: '',
     pagoProveedoresCreditoBanco: '',
     pagoProveedoresBanco: '',

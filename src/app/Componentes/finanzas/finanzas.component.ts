@@ -13,7 +13,7 @@ export class FinanzasComponent implements OnInit {
 
   nuevoReporte = {
     Id_Reporte: '',
-    fecha: '',
+    fecha: new Date().toISOString().split('T')[0],
     mpBanco: '',
     mpCajaChica: '',
     gastosEfectivos: '',

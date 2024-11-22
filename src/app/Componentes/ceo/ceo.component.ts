@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { collection, collectionData, doc, Firestore, query } from '@angular/fire/firestore';
 import { AuthService } from '../services/auth.service';
-import { AdContable, Finanzas, OrdenesDeProduccion, Ventas } from 'src/app/clases/clases.component';
+import { AdContable, Finanzas, MateriaPrima, OrdenesDeProduccion, Produccion, Ventas } from 'src/app/clases/clases.component';
 import { where } from 'firebase/firestore';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-ceo',
@@ -17,26 +15,32 @@ export class CEOComponent implements OnInit {
   VentasDB = collection(this.firebase, "Ventas")
   FinanzasDB = collection(this.firebase, "Finanzas")
   OrdenesDB = collection(this.firebase, "OrdenesProduccion")
+  MateriasPrimasBD = collection(this.firebase, "MateriasPrimas")
 
-  DatosContables: AdContable[] = [];
-  DatosVentas: Ventas[] = []
-  DatosFinanzas: Finanzas[] = [];
-  DatosOrdenes: OrdenesDeProduccion[] = [];
 
-  registroSeleccionado: AdContable | null = null;
+  DatosContables = new AdContable();
+  DatosVentas = new Ventas();
+  DatosFinanzas = new Finanzas();
+  DatosOrdenes = new OrdenesDeProduccion();
+  DatosProduccion = new Produccion();
 
-  FechaHoy:string = new Date().toISOString().split('T')[0];
-  FechaSeleccionada:string = '';
+  ListaMateriasPrimasBD: MateriaPrima[] = [];
+  CostoTotalMaterias:number|undefined;
+
+  FechaHoy: string = new Date().toISOString().split('T')[0];
 
 
   constructor(private firebase: Firestore, private authService: AuthService) {
-
+    this.CargarDatosContables();
+    this.CargarDatosFinanzas();
+    this.CargarDatosVentas();
+    this.CargarDatosProduccion();
+    this.CalcularCostoInventario();
   }
 
 
 
   ngOnInit(): void {
-    this.CargarDatosContables();
   }
 
   Logout() {
@@ -46,22 +50,64 @@ export class CEOComponent implements OnInit {
   Log(event: string) {
     console.log('Fecha seleccionada:', event);
   }
-  
+
 
   CargarDatosContables() {
-    let q = query(this.AdContableDB,where("fecha","==",this.FechaSeleccionada))
+    let q = query(this.AdContableDB, where("fecha", "==", this.FechaHoy))
     collectionData(q).subscribe((datosContablesSnap) => {
-      console.log(datosContablesSnap)
-    if(datosContablesSnap.length>0){
-      const item = datosContablesSnap[0];
-      let datoContable = new AdContable();
-      datoContable.setData(item);
-      this.registroSeleccionado = datoContable;
-    } else {
-      console.log('Datos inexistentes')
-    }
+      if (datosContablesSnap.length > 0) {
+        const item = datosContablesSnap[0];
+        this.DatosContables.setData(item);
+      }
     })
-    console.log(this.registroSeleccionado)
+  }
+
+  CargarDatosVentas() {
+    let q = query(this.VentasDB, where("fecha", "==", this.FechaHoy))
+    collectionData(q).subscribe((datosVentasSnap) => {
+      if (datosVentasSnap.length > 0) {
+        const item = datosVentasSnap[0];
+        this.DatosVentas.setData(item);
+      }
+    })
+  }
+
+  CargarDatosFinanzas() {
+    let q = query(this.FinanzasDB, where("fecha", "==", this.FechaHoy))
+    collectionData(q).subscribe((datosFinanzasSnap) => {
+      if (datosFinanzasSnap.length > 0) {
+        const item = datosFinanzasSnap[0];
+        this.DatosFinanzas.setData(item);
+      }
+    })
+  }
+
+  CargarDatosProduccion() {
+
+  }
+
+  CalcularCostoInventario() {
+    let q = query(this.MateriasPrimasBD)
+    collectionData(q).subscribe((materiaSnap) => {
+      this.ListaMateriasPrimasBD = [];
+      materiaSnap.forEach((item) => {
+        let materia = new MateriaPrima();
+        materia.setData(item)
+        this.ListaMateriasPrimasBD.push(materia)
+        console.log(this.ListaMateriasPrimasBD)
+      });
+    })
+
+    this.ListaMateriasPrimasBD.forEach((materiaPrima, i) => {
+      
+    });
+  }
+
+  CargarDatos() {
+    this.CargarDatosContables();
+    this.CargarDatosFinanzas();
+    this.CargarDatosVentas();
+    this.CargarDatosProduccion();
   }
 
 }
