@@ -42,7 +42,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="agregarModalLabel">Agregar Materia Prima</h5>
+                <h5 class="modal-title" id="agregarModalLabel">Salida de producto</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -64,14 +64,14 @@
                         <input type="number" min="0" class="form-control" id="existencias" [(ngModel)]="NuevaVenta.Cantidad" name="existencias" required disabled>
                     </div>
                     <div class="mb-3">
-                        <label for="cantidadventa" class="form-label">Existencias</label>
+                        <label for="cantidadventa" class="form-label">Cantidad a vender</label>
                         <input type="number" min="0" class="form-control" id="cantidadventa" [(ngModel)]="CantidadVenta" name="cantidadventa" required>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button id="btnCerrarModalElemento" type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cerrar</button>
-                <button type="button" class="btn btn-primary" (click)="RealizarVenta()">Guardar</button>
+                <button type="button" class="btn btn-primary" (click)="SalidaDeProducto(NuevaVenta)">Guardar</button>
             </div>
         </div>
     </div>

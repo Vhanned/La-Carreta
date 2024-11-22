@@ -25,7 +25,7 @@ h3 {
   h1 {
     font-size: 2rem;
   }
-  
+
   h3 {
     font-size: 1.25rem;
   }
@@ -62,34 +62,46 @@ h3 {
 }
 
 /* Ajuste del ancho completo de las tablas */
-.table, .inventory-table, #MateriasAgregadas {
+.table,
+.inventory-table,
+#MateriasAgregadas {
   width: 100%;
   max-width: none;
   margin-top: 20px;
   border-radius: 8px;
 }
 
-.table th, .table td, .inventory-table th, .inventory-table td {
+.table th,
+.table td,
+.inventory-table th,
+.inventory-table td {
   text-align: center;
   padding: 10px;
   word-wrap: break-word;
 }
 
-.table thead, .inventory-table thead {
+.table thead,
+.inventory-table thead {
   background-color: #007bff;
   color: white;
 }
 
 /* Ajustes para pantallas pequeñas */
 @media (max-width: 768px) {
-  .table, .inventory-table, #MateriasAgregadas {
+
+  .table,
+  .inventory-table,
+  #MateriasAgregadas {
     font-size: 0.9rem;
   }
-  
-  .table th, .table td, .inventory-table th, .inventory-table td {
+
+  .table th,
+  .table td,
+  .inventory-table th,
+  .inventory-table td {
     padding: 5px;
   }
-  
+
   .modal-title {
     font-size: 1.5rem;
   }
@@ -163,7 +175,8 @@ h3 {
   color: #ffffff;
 }
 
-.inventory-table th, .inventory-table td {
+.inventory-table th,
+.inventory-table td {
   padding: 10px;
   border: 1px solid #ddd;
   text-align: center;
@@ -194,7 +207,8 @@ h3 {
   margin-right: 10px;
 }
 
-#FechaInicial, #FechaFinal {
+#FechaInicial,
+#FechaFinal {
   margin-right: 20px;
 }
 
@@ -209,6 +223,6 @@ h3 {
   }
 }
 
-.modal-xl{
+.modal-xl {
   max-width: 1500px;
 }

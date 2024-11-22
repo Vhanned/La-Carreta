@@ -286,7 +286,7 @@ export class Ventas {
   inventarios: number | undefined = undefined;
   ventaContado: number | undefined = undefined;
 
-  setData(data: any) { 
+  setData(data: any) {
     this.Id_Venta = data.Id_Venta;
     this.cobranzaBanco = data.cobranzaBanco;
     this.cobranzaEfectivo = data.cobranzaEfectivo;
@@ -300,10 +300,34 @@ export class Ventas {
 
 export class Produccion {
 
-  constructor(){
+  constructor() {
 
   }
 
+
+}
+
+export class SalidaProducto {
+
+  constructor() {
+
+  }
+
+  Id_RegistroSalida: string = '';
+  ProductoSalida: string = '';
+  Id_ProductoSalida: string = '';
+  Precio: number | undefined;
+  CantidadSalida: number | undefined;
+  FechaSalida: string = '';
+
+  setData(data: any) {
+    this.Id_RegistroSalida = data.Id_RegistroSalida || '';
+    this.ProductoSalida = data.ProductoSalida || '';
+    this.CantidadSalida = data.CantidadSalida || undefined;
+    this.Id_ProductoSalida = data.Id_ProductoSalida || '';
+    this.Precio = data.Precio || undefined;
+    this.FechaSalida = data.FechaSalida || '';
+  }
 
 }
 
