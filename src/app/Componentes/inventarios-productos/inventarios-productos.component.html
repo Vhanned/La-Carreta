@@ -95,7 +95,8 @@
                         <!-- Sección de la tabla (columna derecha) -->
                         <div class="tabla ms-s w-100" style="margin-left: 20px;">
                             <h2 style="color: black;">Lista de materias agregadas</h2>
-                            <h5 style="color: black;text-align: center;">Materiales necesarios para 1200lts de producto</h5>
+                            <h5 style="color: black;text-align: center;">Materiales necesarios para 1200lts de producto
+                            </h5>
                             <table id="MateriasAgregadas" class="table mt-3">
                                 <thead>
                                     <tr>
@@ -109,7 +110,8 @@
                                     <tr *ngFor="let materiaAgregada of nuevoProducto.Materias_Primas, let i = index">
                                         <td>{{materiaAgregada.Nombre}}</td>
                                         <td>
-                                            <input type="number" min="0" name="CantidadMateria{{i}}" id="CantidadMateria"
+                                            <input type="number" min="0" name="CantidadMateria{{i}}"
+                                                id="CantidadMateria"
                                                 [(ngModel)]="nuevoProducto.Cantidad_MateriasPrimas[i]">
                                         </td>
                                         <td>{{materiaAgregada.Unidad_Medida}}</td>
@@ -123,39 +125,43 @@
                                 </tbody>
                             </table>
                             <h2 style="color: black;">Lista de materias disponibles</h2>
-                            <table class="inventory-table">
-                                <thead>
-                                    <tr>
-                                        <th>Codigo</th>
-                                        <th>Nombre</th>
-                                        <th>Unidad de medida</th>
-                                        <th>Precio por unidad (MXN)</th>
-                                        <th>Tipo</th>
-                                        <th>Marca</th>
-                                        <th>Existencias</th>
-                                        <th>Punto de Reorden</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let materia of ModalverMateriasPrimasAgregar">
-                                        <td>{{ materia.Codigo }}</td>
-                                        <td>{{ materia.Nombre }}</td>
-                                        <td>{{ materia.Unidad_Medida }}</td>
-                                        <td>{{ materia.Precio_unitario }}</td>
-                                        <td>{{ materia.Tipo}}</td>
-                                        <td>{{ materia.Marca }}</td>
-                                        <td>{{ materia.Existencias }}</td>
-                                        <td>{{ materia.Punto_Reorden }}</td>
-                                        <td>
-                                            <button id="BotonAgregarMateia" class="btn btn-outline-danger"
-                                                (click)="AgregarMateriaProducto(materia)">
-                                                Agregar
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <h2> <input name="SearchBar" class="search-bar" placeholder="Buscar..." type="text"
+                                    [(ngModel)]="searchText" (ngModelChange)="filtrarMaterias()"> </h2>
+                            <div class="table-wrapper">
+                                <table class="inventory-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Codigo</th>
+                                            <th>Nombre</th>
+                                            <th>Unidad de medida</th>
+                                            <th>Precio por unidad (MXN)</th>
+                                            <th>Tipo</th>
+                                            <th>Marca</th>
+                                            <th>Existencias</th>
+                                            <th>Punto de Reorden</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let materia of materiasFiltradas">
+                                            <td>{{ materia.Codigo }}</td>
+                                            <td>{{ materia.Nombre }}</td>
+                                            <td>{{ materia.Unidad_Medida }}</td>
+                                            <td>{{ materia.Precio_unitario | number:'1.3-3' }}</td>
+                                            <td>{{ materia.Tipo}}</td>
+                                            <td>{{ materia.Marca }}</td>
+                                            <td>{{ materia.Existencias | number:'1.3-3' }}</td>
+                                            <td>{{ materia.Punto_Reorden }}</td>
+                                            <td>
+                                                <button id="BotonAgregarMateia" class="btn btn-outline-danger"
+                                                    (click)="AgregarMateriaProducto(materia)">
+                                                    Agregar
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -225,44 +231,9 @@
 
                         <!-- Sección de la tabla (columna derecha) -->
                         <div class="tabla ms-s w-100">
-                            <h2 style="color: black;">Lista de materias
-                                disponibles</h2>
-                            <table class="inventory-table">
-                                <thead>
-                                    <tr>
-                                        <th>Codigo</th>
-                                        <th>Nombre</th>
-                                        <th>Unidad de medida</th>
-                                        <th>Precio por unidad (MXN)</th>
-                                        <th>Tipo</th>
-                                        <th>Marca</th>
-                                        <th>Existencias</th>
-                                        <th>Punto de Reorden</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let materia of ModalverMateriasPrimasAgregar">
-                                        <td>{{ materia.Codigo }}</td>
-                                        <td>{{ materia.Nombre }}</td>
-                                        <td>{{ materia.Unidad_Medida }}</td>
-                                        <td>{{ materia.Precio_unitario }}</td>
-                                        <td>{{ materia.Tipo}}</td>
-                                        <td>{{ materia.Marca }}</td>
-                                        <td>{{ materia.Existencias }}</td>
-                                        <td>{{ materia.Punto_Reorden }}</td>
-                                        <td>
-                                            <button id="BotonEditarMateria" class="btn btn-outline-danger"
-                                                (click)="AgregarMateriaEditarProducto(materia)">
-                                                Agregar
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <h2 style="color: black;">Lista de materias
-                                agregadas</h2>
-                                <h5 style="color: black;text-align: center;">Materiales necesarios para 1200lts de producto</h5>
+                            <h2 style="color: black;">Lista de materias agregadas</h2>
+                            <h5 style="color: black;text-align: center;">Materiales necesarios para 1lt de producto
+                            </h5>
                             <table id="MateriasAgregadas" class="table mt-3">
                                 <thead>
                                     <tr>
@@ -291,7 +262,42 @@
                                     </tr>
                                 </tbody>
                             </table>
-
+                            <h2 style="color: black;">Lista de materias disponibles</h2>
+                            <h2> <input name="SearchBar" class="search-bar" placeholder="Buscar..." type="text"
+                                [(ngModel)]="searchText" (ngModelChange)="filtrarMaterias()"> </h2>
+                            <div class="table-wrapper">
+                                <table class="inventory-table">
+                                    <thead>
+                                        <th>Codigo</th>
+                                        <th>Nombre</th>
+                                        <th>Unidad de medida</th>
+                                        <th>Precio por unidad (MXN)</th>
+                                        <th>Tipo</th>
+                                        <th>Marca</th>
+                                        <th>Existencias</th>
+                                        <th>Punto de Reorden</th>
+                                        <th>Acciones</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let materia of materiasFiltradas">
+                                            <td>{{ materia.Codigo }}</td>
+                                            <td>{{ materia.Nombre }}</td>
+                                            <td>{{ materia.Unidad_Medida }}</td>
+                                            <td>{{ materia.Precio_unitario | number:'1.3-3' }}</td>
+                                            <td>{{ materia.Tipo}}</td>
+                                            <td>{{ materia.Marca }}</td>
+                                            <td>{{ materia.Existencias | number:'1.3-3' }}</td>
+                                            <td>{{ materia.Punto_Reorden }}</td>
+                                            <td>
+                                                <button id="BotonEditarMateria" class="btn btn-outline-danger"
+                                                    (click)="AgregarMateriaEditarProducto(materia)">
+                                                    Agregar
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -299,7 +305,7 @@
 
             <div class="modal-footer">
                 <button id="CerrarEditarProducto" type="button" class="btn btn-secondary"
-                    data-bs-dismiss="modal" (click)="cargarProductos()" (click)="obtenerMateriasPrimas()">Cerrar</button>
+                    data-bs-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-primary" (click)="editarDetalles()">Guardar</button>
             </div>
         </div>

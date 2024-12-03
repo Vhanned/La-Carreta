@@ -18,12 +18,17 @@ export class InventariosProductosComponent {
   ModalverMateriasPrimasAgregar: MateriaPrima[] = [];
   //variable para ver la informacion del producto seleccionado y editarla de ser necesario
   verDetalleProducto = new Producto();
-  //
+  //Lista de materias disponibles
   listaMateriasPrimas: MateriaPrima[] = [];
+
+  materiasFiltradas: MateriaPrima[] = []; // Lista para almacenar el resultado del filtro
+
   //Materias primas agregadas que se mostraran en en la tabla de agregados del modal
   MateriasPrimasAgregadas: MateriaPrima[] = [];
 
   listaProductos: Producto[] = [];
+
+  searchText:string='';
 
   ProductosBD = collection(this.firebase, "Productos");
   materiasPrimasBD = collection(this.firebase, "MateriasPrimas");
@@ -31,17 +36,7 @@ export class InventariosProductosComponent {
   constructor(private firebase: Firestore) {
     
     this.cargarProductos();
-    this.obtenerMateriasPrimas();
-
-    let q = query(this.materiasPrimasBD,orderBy('Codigo','asc'));
-    collectionData(q).subscribe((materiaPrimaSnap) => {
-      this.ModalverMateriasPrimasAgregar = [];
-      materiaPrimaSnap.forEach((item) => {
-        let materiaPrima = new MateriaPrima();
-        materiaPrima.setData(item);
-        this.ModalverMateriasPrimasAgregar.push(materiaPrima);
-      });
-    });
+    this.CargarMateriasModal();
   }
 
   cargarProductos() {
@@ -63,14 +58,18 @@ export class InventariosProductosComponent {
   }
 
 
-  obtenerMateriasPrimas() {
-    const materiasPrimasBD = collection(this.firebase, "MateriasPrimas");
-    collectionData(materiasPrimasBD, { idField: 'Id_Materia' }).subscribe((data: any) => {
-      this.listaMateriasPrimas = data.map((materia: any) => {
+ 
+
+  CargarMateriasModal(){
+    let q = query(this.materiasPrimasBD,orderBy('Codigo','asc'));
+    collectionData(q).subscribe((materiaPrimaSnap) => {
+      this.ModalverMateriasPrimasAgregar = [];
+      materiaPrimaSnap.forEach((item) => {
         let materiaPrima = new MateriaPrima();
-        materiaPrima.setData(materia);
-        return materiaPrima;
+        materiaPrima.setData(item);
+        this.ModalverMateriasPrimasAgregar.push(materiaPrima);
       });
+      this.filtrarMaterias();
     });
   }
 
@@ -186,6 +185,15 @@ export class InventariosProductosComponent {
 
   trackByIndex(index: number, item: any): number {
     return index;
+  }
+
+  filtrarMaterias() {
+    this.materiasFiltradas = this.ModalverMateriasPrimasAgregar.filter(materia =>
+      materia.Nombre.toLowerCase().includes(this.searchText.toLowerCase()) ||
+      materia.Codigo.toLowerCase().includes(this.searchText.toLowerCase()) ||
+      materia.Marca.toLowerCase().includes(this.searchText.toLowerCase()) ||
+      materia.Tipo.toLowerCase().includes(this.searchText.toLowerCase())
+    );
   }
 
 }

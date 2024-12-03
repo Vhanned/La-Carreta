@@ -1,3 +1,13 @@
+.container {
+    width: 90%;
+    margin: 0 auto;
+    padding-top: 20px;
+    background-color: #edeae6;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 /* Tabla de inventario */
 .inventory-table {
     width: 100%;

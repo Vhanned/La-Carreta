@@ -79,4 +79,10 @@ CantidadVenta:number=0;
     return result;
   }
 
+  validarTecla(event: KeyboardEvent) {
+    if (event.key === '-') {
+      event.preventDefault();
+    }
+  }
+
 }

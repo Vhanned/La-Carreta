@@ -11,7 +11,7 @@ h1 {
   color: #333;
 }
 
-h3 {
+h1 {
   margin-bottom: 10px;
   color: #cf0015;
   font-size: 1.5rem;
@@ -45,13 +45,13 @@ h3 {
 }
 
 /* Búsqueda Producción */
-#BusquedaProduccion h5 {
+#BusquedaProduccion h2 {
   font-size: 1.5rem;
   margin-bottom: 1rem;
 }
 
 @media (max-width: 768px) {
-  #BusquedaProduccion h5 {
+  #BusquedaProduccion h2 {
     font-size: 1.25rem;
   }
 }
@@ -78,6 +78,7 @@ h3 {
   text-align: center;
   padding: 10px;
   word-wrap: break-word;
+  font-size: large;
 }
 
 .table thead,
@@ -158,6 +159,7 @@ h3 {
     width: 100%;
   }
 }
+
 
 /* Tablas de inventario */
 .inventory-table {
