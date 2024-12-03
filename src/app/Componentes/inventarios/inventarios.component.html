@@ -79,7 +79,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="Precio_unitario" class="form-label">Precio unitario (MXN)</label>
-                        <input type="number" class="form-control" id="Precio_unitario" [(ngModel)]="nuevaMateria.Precio_unitario" name="Precio_unitario" required>
+                        <input type="number" class="form-control" id="Precio_unitario" [(ngModel)]="nuevaMateria.Precio_unitario" name="Precio_unitario" (keydown)="validarTecla($event)" required>
                     </div>
                     <div class="mb-3">
                         <label for="Tipo" class="form-label">Tipo</label>
@@ -97,11 +97,11 @@
                     </div>
                     <div class="mb-3">
                         <label for="existencias" class="form-label">Existencias</label>
-                        <input type="number" min="0" class="form-control" id="existencias" [(ngModel)]="nuevaMateria.Existencias" name="existencias" required>
+                        <input type="number" min="0" class="form-control" id="existencias" [(ngModel)]="nuevaMateria.Existencias" name="existencias" (keydown)="validarTecla($event)" required>
                     </div>
                     <div class="mb-3">
                         <label for="punto_reorden" class="form-label">Punto de Reorden</label>
-                        <input type="number" class="form-control" id="punto_reorden" [(ngModel)]="nuevaMateria.Punto_Reorden" name="punto_reorden" required>
+                        <input type="number" class="form-control" id="punto_reorden" [(ngModel)]="nuevaMateria.Punto_Reorden" name="punto_reorden" (keydown)="validarTecla($event)" required>
                     </div>
                 </form>
             </div>
@@ -144,7 +144,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="edit_precio_unitario" class="form-label">Precio unitario (MXN)</label>
-                        <input type="number" class="form-control" id="edit_precio_unitario" [(ngModel)]="materiaAEditar.Precio_unitario" name="edit_precio_unitario" required>
+                        <input type="number" class="form-control" id="edit_precio_unitario" [(ngModel)]="materiaAEditar.Precio_unitario" name="edit_precio_unitario" (keydown)="validarTecla($event)" required>
                     </div>
                     <div class="mb-3">
                         <label for="editTipo" class="form-label">Tipo</label>
@@ -160,11 +160,11 @@
                     </div>
                     <div class="mb-3">
                         <label for="editExistencias" class="form-label">Existencias</label>
-                        <input type="number" class="form-control" id="editExistencias" [(ngModel)]="materiaAEditar.Existencias" name="editExistencias" required>
+                        <input type="number" class="form-control" id="editExistencias" [(ngModel)]="materiaAEditar.Existencias" name="editExistencias" (keydown)="validarTecla($event)" required>
                     </div>
                     <div class="mb-3">
                         <label for="editPuntoReorden" class="form-label">Punto de Reorden</label>
-                        <input type="number" class="form-control" id="editPuntoReorden" [(ngModel)]="materiaAEditar.Punto_Reorden" name="editPuntoReorden" required>
+                        <input type="number" class="form-control" id="editPuntoReorden" [(ngModel)]="materiaAEditar.Punto_Reorden" name="editPuntoReorden" (keydown)="validarTecla($event)" required>
                     </div>
                 </form>
             </div>

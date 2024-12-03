@@ -23,6 +23,7 @@ import { VentasComponent } from './Componentes/ventas/ventas.component';
 import { ProductosTerminadosComponent } from './Componentes/productos-terminados/productos-terminados.component';
 import { FinanzasComponent } from './Componentes/finanzas/finanzas.component';
 import { CEOComponent } from './Componentes/ceo/ceo.component';
+import { RegistrosComponent } from './Componentes/registros/registros.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { CEOComponent } from './Componentes/ceo/ceo.component';
     VentasComponent,
     FinanzasComponent,
     ProductosTerminadosComponent,
-    CEOComponent
+    CEOComponent,
+    RegistrosComponent
   ],
   imports: [
     BrowserModule,

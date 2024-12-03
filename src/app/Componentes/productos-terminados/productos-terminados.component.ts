@@ -45,6 +45,7 @@ CantidadVenta:number=0;
 
   ModificarPrecio(Producto:InventarioProductos){
     updateDoc(doc(this.firebase,"ProductosTerminados",Producto.Id_producto),{Precio:Producto.Precio});
+    
   }
 
   SalidaDeProducto(NuevaVenta:InventarioProductos){

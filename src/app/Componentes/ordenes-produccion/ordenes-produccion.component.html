@@ -44,8 +44,8 @@
         <tbody>
           <tr *ngFor="let orden of ListaOrdenes">
             <td>{{ orden.Fecha_Creacion }}</td>
-            <td>{{ orden.Fecha_Elaboracion }}</td>
-            <td>{{ orden.Fecha_Finalizacion }}</td>
+            <td>{{ formatearFechaTabla(orden.Fecha_Elaboracion) }}</td>
+            <td>{{ formatearFechaTabla(orden.Fecha_Finalizacion)  }}</td>
             <td>{{ orden.Solicitante }}</td>
             <td>{{ orden.Estado }}</td>
             <td>{{ calcularCostoTotalOrden(orden) | currency }}</td>
@@ -66,7 +66,7 @@
                   (click)="EliminarOrdenProduccion(orden)">Eliminar</button>
               </div>
               <div>
-                <button class="btn btn-success btn-sm" (click)="exportarTablaExcel(orden)">
+                <button *ngIf="orden.Estado === 'En produccion' || orden.Estado === 'Finalizada'"  class="btn btn-success btn-sm" (click)="exportarTablaExcel(orden)">
                   Generar excel
                 </button>
               </div>
@@ -159,6 +159,7 @@
                       <input type="number" min="0" name="PrecioMateria{{i}}" id="PrecioMateria"
                         [(ngModel)]="materia.precio"
                         (ngModelChange)="actualizarPrecioEnOrdenProduccion(materia.id, materia.precio)"
+                        (keydown)="validarTecla($event)"
                         style="max-width: 35%;border: none;background-color: ffffff;">
                     </td>
                     <td>{{materia.unidadmedida}}</td>
@@ -182,7 +183,8 @@
                     <td>{{ ProductoAgregado.Nombre }}</td>
                     <td>
                       <input type="number" min="1" max="1200" name="CantidadProducto{{i}}" id="CantidadProductoCrear"
-                        [(ngModel)]="OrdenProduccion.Cantidad_Producto[i]" (input)="EditarTablaProduccionEditar()">
+                        [(ngModel)]="OrdenProduccion.Cantidad_Producto[i]" (input)="EditarTablaProduccionEditar()"
+                        (keydown)="validarTecla($event)">
                     </td>
                     <td>
                       <button id="BotonEditarMateia" class="btn btn-outline-danger" (click)="EliminarProductoOrden(i)">
@@ -257,7 +259,8 @@
                     <td>{{ EditarProductoAgregado.Nombre }}</td>
                     <td>
                       <input type="number" min="0" name="editarCantidadProducto{{i}}" id="editarCantidadProducto"
-                        [(ngModel)]="EditarProduccionModal.Cantidad_Producto[i]">
+                        [(ngModel)]="EditarProduccionModal.Cantidad_Producto[i]"
+                        (keydown)="validarTecla($event)">
                     </td>
                     <td>
                       <button id="BotonEditarMateia" class="btn btn-outline-danger"

@@ -62,7 +62,7 @@ export class OrdenesProduccionComponent implements OnInit {
   fechaPrueba: string = new Date().toLocaleDateString()
 
   ProductoTerminado = new InventarioProductos();
-  ListaProductosTerminados: InventarioProductos[]=[];
+  ListaProductosTerminados: InventarioProductos[] = [];
 
   constructor(private firebase: Firestore) {
     this.CargarProductos();
@@ -107,7 +107,7 @@ export class OrdenesProduccionComponent implements OnInit {
     });
   }
 
-  CargarListaProductosTerminados(){
+  CargarListaProductosTerminados() {
     let q = query(this.ProductosTerminadosDB);
     collectionData(q).subscribe((productoSnap) => {
       this.ListaProductosTerminados = [];
@@ -183,7 +183,9 @@ export class OrdenesProduccionComponent implements OnInit {
     let inventarioSuficiente = true;
 
     // Continúa con la creación de la orden si hay suficiente inventario
+    // Obtener la fecha completa como cadena
     this.OrdenProduccion.Fecha_Creacion = new Date().toLocaleString();
+
 
     if (!this.OrdenProduccion.Fecha_Elaboracion || !this.OrdenProduccion.Fecha_Finalizacion ||
       !this.OrdenProduccion.Solicitante || this.OrdenProduccion.Producto_Elaborado.length === 0 ||
@@ -217,6 +219,23 @@ export class OrdenesProduccionComponent implements OnInit {
     this.OrdenProduccion.Id_Orden = this.GenerateRandomString(20);
     this.OrdenProduccion.Estado = 'Pendiente'
 
+    // Separar la fecha y la hora
+    const [fechaOriginal, horaOriginal] = this.OrdenProduccion.Fecha_Creacion.split(',');
+
+    // Reordenar la fecha al formato dd/mm/yyyy
+    const [mes, dia, anio] = fechaOriginal.split('/'); // Asume formato mm/dd/yyyy por defecto
+    const fechaFormateada = `${dia}/${mes}/${anio}`;
+
+    // Guardar la fecha y la hora por separado (opcional)
+    console.log('Fecha Formateada:', fechaFormateada); // "dd/mm/yyyy"
+    console.log('Hora Original:', horaOriginal?.trim()); // "hh:mm:ss AM/PM"
+
+    // Reunir la fecha y hora en el formato deseado
+    this.OrdenProduccion.Fecha_Creacion = `${fechaFormateada},${horaOriginal?.trim()}`;
+
+    // Mostrar el resultado final
+    console.log('Fecha y hora combinadas:', this.OrdenProduccion.Fecha_Creacion);
+
     let NuevaOrdenDoc = doc(this.firebase, "OrdenesProduccion", this.OrdenProduccion.Id_Orden);
 
     setDoc(NuevaOrdenDoc, JSON.parse(JSON.stringify(this.OrdenProduccion)))
@@ -235,7 +254,7 @@ export class OrdenesProduccionComponent implements OnInit {
   EnviarProduccion(orden: OrdenesDeProduccion) {
     let ordenDoc = doc(this.firebase, "OrdenesProduccion", orden.Id_Orden);
     updateDoc(ordenDoc, { Estado: 'En produccion' }).then(() => {
-      Swal.fire('Success', 'Produccion en curso', 'success')
+      Swal.fire('Accion exitosa', 'Produccion en curso', 'success')
 
       this.MateriasDescontadasInventario = [];
 
@@ -279,14 +298,14 @@ export class OrdenesProduccionComponent implements OnInit {
   FinalizarProduccion(orden: OrdenesDeProduccion) {
     let ordenDoc = doc(this.firebase, "OrdenesProduccion", orden.Id_Orden);
     updateDoc(ordenDoc, { Estado: 'Finalizada' }).then(() => {
-      Swal.fire('Success', 'Orden finalizada', 'success')
+      Swal.fire('Accion exitosa', 'Orden finalizada', 'success')
     }).catch((error) => {
       Swal.fire('Error', `Error al actualizar estado: ${error}`, 'error');
     })
-    
-    console.log('Lista terminados',this.ListaProductosTerminados)
 
-    orden.Producto_Elaborado.forEach( (Producto, i) => {
+    console.log('Lista terminados', this.ListaProductosTerminados)
+
+    orden.Producto_Elaborado.forEach((Producto, i) => {
 
       this.ProductoTerminado.Id_producto = Producto.Id_Producto;
       this.ProductoTerminado.Nombre_Producto = Producto.Nombre;
@@ -294,16 +313,16 @@ export class OrdenesProduccionComponent implements OnInit {
       this.ProductoTerminado.Cantidad = orden.Cantidad_Producto[i];
 
       let cantidad = orden.Cantidad_Producto[i]
-      console.log('cantidad: ',cantidad)
+      console.log('cantidad: ', cantidad)
 
       let finalizadoDoc = doc(this.firebase, "ProductosTerminados", this.ProductoTerminado.Id_producto)
 
       let productoExiste = this.ListaProductosTerminados.find(m => m.Id_producto === this.ProductoTerminado.Id_producto)
 
-      if(productoExiste){
-        updateDoc(doc(this.firebase,"ProductosTerminados",this.ProductoTerminado.Id_producto),{Cantidad:increment(cantidad)})
+      if (productoExiste) {
+        updateDoc(doc(this.firebase, "ProductosTerminados", this.ProductoTerminado.Id_producto), { Cantidad: increment(cantidad) })
       }
-      else{
+      else {
         setDoc(finalizadoDoc, JSON.parse(JSON.stringify(this.ProductoTerminado)))
       }
     });
@@ -379,7 +398,7 @@ export class OrdenesProduccionComponent implements OnInit {
     const archivoExcel = XLSX.write(libroDeTrabajo, { bookType: 'xlsx', type: 'array' });
     const blob = new Blob([archivoExcel], { type: 'application/octet-stream' });
 
-    const nombreArchivo = `DetallesProduccion_${new Date().toISOString().split('T')[0]}.xlsx`;
+    const nombreArchivo = `DetallesProduccion_${orden.Fecha_Creacion.split(',')[0]}.xlsx`;
     saveAs(blob, nombreArchivo);
 
     this.VerDetallesProduccion = new OrdenesDeProduccion();
@@ -672,4 +691,17 @@ export class OrdenesProduccionComponent implements OnInit {
       this.FiltrarOrdenesPorFecha(this.fechaInicio, this.fechaFin);
     }
   }
+
+  validarTecla(event: KeyboardEvent) {
+    if (event.key === '-') {
+      event.preventDefault();
+    }
+  }
+
+  formatearFechaTabla(fecha: string): string {
+    const [anio, mes, dia] = fecha.split('-'); // Divide yyyy-mm-dd
+    return `${dia}/${mes}/${anio}`; // Reordena a dd/mm/yyyy
+  }
+
+
 }

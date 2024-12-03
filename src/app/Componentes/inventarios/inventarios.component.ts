@@ -164,4 +164,11 @@ export class InventariosComponent {
     }
     return result;
   }
+
+  validarTecla(event: KeyboardEvent) {
+    if (event.key === '-') {
+      event.preventDefault();
+    }
+  }
+  
 }
