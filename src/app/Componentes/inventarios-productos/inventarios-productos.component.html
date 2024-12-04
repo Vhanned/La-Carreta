@@ -112,7 +112,7 @@
                                         <td>
                                             <input type="number" min="0" name="CantidadMateria{{i}}"
                                                 id="CantidadMateria"
-                                                [(ngModel)]="nuevoProducto.Cantidad_MateriasPrimas[i]">
+                                                [(ngModel)]="nuevoProducto.Cantidad_MateriasPrimas[i]" (keydown)="validarTecla($event)">
                                         </td>
                                         <td>{{materiaAgregada.Unidad_Medida}}</td>
                                         <td>
@@ -250,7 +250,7 @@
                                         <td>
                                             <input type="number" min="0"
                                                 [(ngModel)]="verDetalleProducto.Cantidad_MateriasPrimas[j]"
-                                                name="cantidadMateria{{j}}">
+                                                name="cantidadMateria{{j}}" (keydown)="validarTecla($event)">
                                         </td>
                                         <td>{{materiaAgregadaEditar.Unidad_Medida}}</td>
                                         <td>

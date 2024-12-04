@@ -196,4 +196,10 @@ export class InventariosProductosComponent {
     );
   }
 
+  validarTecla(event: KeyboardEvent) {
+    if (event.key === '-' || event.key.toLowerCase() === 'e') {
+      event.preventDefault();
+    }
+  }
+
 }

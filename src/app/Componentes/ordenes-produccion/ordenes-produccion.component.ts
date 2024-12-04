@@ -123,43 +123,20 @@ export class OrdenesProduccionComponent implements OnInit {
 
   FiltrarOrdenesPorFecha(fechaInicio: string, fechaFin: string) {
 
-    /* Al traer la fecha del input date esta es obtenida con el formato
-    año 4 digitos / mes 2 digitos / dia 2 digitos  
-          [0]            [1]            [2]
-
-    Al convertir la fecha en objeto Date.toLocaleDateString esta es devuelta con 
-    formato de 
     
-    dia 2 digitos / mes 2 digitos / año 4 digitos
-          [0]             [1]           [2]
-
-    pero por alguna razon el dia es devuelto -1, si en el input tengo
-    7 en mi Date tendre 6 por alguna razon.
-
-    La fecha almacenada del input siempre es separada por "-" y 
-    la fehca almacenada del Date siempre es separada por "/"
-
-
-    El formato me quedaria como (reacomodando los datos del input al formato de Date)
-
-    dia 2 digitos / mes 2 digitoas / año 4 digitos 
-          [1]              [2]            [0]  
-
-    (la manera en la que opera date.tolocaledatestring sigue siendo un misterio
-    incluso para los profesionales)
-     */
 
     const inicio = fechaInicio.split('-');
-    const InicioFormatoDate = `${inicio[1]}-${inicio[2]}-${inicio[0]}`;
+    const InicioFormatoDate = `${inicio[2]}-${inicio[1]}-${inicio[0]}`;
 
     const final = fechaFin.split('-');
-    const FinFormatoDate = `${final[1]}-${final[2]}-${final[0]}`;
+    const FinFormatoDate = `${final[2]}-${final[1]}-${final[0]}`;
 
     const inicioDate = new Date(InicioFormatoDate).toLocaleDateString();
 
     const finalDate = new Date(FinFormatoDate).toLocaleDateString();
 
 
+    
 
     this.ListaOrdenes = this.ListaOrdenesOriginales.filter(orden => {
       if (!orden.Fecha_Creacion) {
@@ -194,6 +171,9 @@ export class OrdenesProduccionComponent implements OnInit {
       return;
     }
 
+    console.log(this.OrdenProduccion.Fecha_Elaboracion);
+    console.log(this.OrdenProduccion.Fecha_Finalizacion);
+
     const fechaCreacion = (this.OrdenProduccion.Fecha_Creacion);
     const fechaFinalizacion = (this.OrdenProduccion.Fecha_Finalizacion);
 
@@ -202,8 +182,6 @@ export class OrdenesProduccionComponent implements OnInit {
       return;
     }
 
-    // Revisa si alguna materia no tiene suficiente inventario
-    console.log(this.ListaMateriasEditar)
     this.ListaMateriasEditar.forEach((materia) => {
       if (materia.cantidadausar > materia.existencias) {
         inventarioSuficiente = false;
@@ -226,15 +204,8 @@ export class OrdenesProduccionComponent implements OnInit {
     const [mes, dia, anio] = fechaOriginal.split('/'); // Asume formato mm/dd/yyyy por defecto
     const fechaFormateada = `${dia}/${mes}/${anio}`;
 
-    // Guardar la fecha y la hora por separado (opcional)
-    console.log('Fecha Formateada:', fechaFormateada); // "dd/mm/yyyy"
-    console.log('Hora Original:', horaOriginal?.trim()); // "hh:mm:ss AM/PM"
-
     // Reunir la fecha y hora en el formato deseado
     this.OrdenProduccion.Fecha_Creacion = `${fechaFormateada},${horaOriginal?.trim()}`;
-
-    // Mostrar el resultado final
-    console.log('Fecha y hora combinadas:', this.OrdenProduccion.Fecha_Creacion);
 
     let NuevaOrdenDoc = doc(this.firebase, "OrdenesProduccion", this.OrdenProduccion.Id_Orden);
 
@@ -693,7 +664,7 @@ export class OrdenesProduccionComponent implements OnInit {
   }
 
   validarTecla(event: KeyboardEvent) {
-    if (event.key === '-') {
+    if (event.key === '-' || event.key.toLowerCase() === 'e') {
       event.preventDefault();
     }
   }

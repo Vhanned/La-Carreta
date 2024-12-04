@@ -31,10 +31,10 @@
           <td>{{ materia.Codigo }}</td>
           <td>{{ materia.Nombre }}</td>
           <td>{{ materia.Unidad_Medida }}</td>
-          <td>{{ materia.Precio_unitario }}</td>
+          <td>{{ materia.Precio_unitario | number:'1.2-2' }}</td>
           <td>{{ materia.Tipo }}</td>
           <td>{{ materia.Marca }}</td>
-          <td>{{ materia.Existencias }}</td>
+          <td>{{ materia.Existencias | number:'1.3-3' }}</td>
           <td>{{ materia.Punto_Reorden }}</td>
           <td>
             <button id="BotonEditarMateia" class="btn btn-outline-danger btn-edit" data-bs-toggle="modal"

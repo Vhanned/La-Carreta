@@ -164,9 +164,8 @@ export class InventariosComponent {
     }
     return result;
   }
-
   validarTecla(event: KeyboardEvent) {
-    if (event.key === '-') {
+    if (event.key === '-' || event.key.toLowerCase() === 'e') {
       event.preventDefault();
     }
   }
