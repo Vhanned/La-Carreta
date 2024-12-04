@@ -135,7 +135,8 @@ export class OrdenesProduccionComponent implements OnInit {
 
     const finalDate = new Date(FinFormatoDate).toLocaleDateString();
 
-
+    console.log(inicioDate)
+    console.log(finalDate)
 
 
     this.ListaOrdenes = this.ListaOrdenesOriginales.filter(orden => {
@@ -171,21 +172,28 @@ export class OrdenesProduccionComponent implements OnInit {
       return;
     }
 
-    console.log(this.OrdenProduccion.Fecha_Finalizacion);
-    console.log(this.OrdenProduccion.Fecha_Creacion);
+    console.log('Finalizacion: ', this.OrdenProduccion.Fecha_Finalizacion);
+    console.log('Creacion: ', this.OrdenProduccion.Fecha_Creacion);
 
     const fechaCreacion = (this.OrdenProduccion.Fecha_Creacion.split(',')[0]);
-    console.log('Split: ',fechaCreacion)
+    console.log('Split: ', fechaCreacion)
+
     const fechaFinalizacion = (this.OrdenProduccion.Fecha_Finalizacion.split('-'));
-    const fechafinalizacionFormateada = `${fechaFinalizacion[2]}/${fechaFinalizacion[1]}/${fechaFinalizacion[0]}`
-    console.log('Final: ',fechaFinalizacion)
-    console.log('Formateada: ',fechafinalizacionFormateada)
+    const fechafinalizacionFormateada = `${fechaFinalizacion[1]}/${fechaFinalizacion[2]}/${fechaFinalizacion[0]}`
 
+    const fechaFinalizacionDate = new Date(fechafinalizacionFormateada).toLocaleDateString();
+    const fechaCreacionDate = new Date(fechaCreacion).toLocaleDateString();
 
+    console.log('Final: ', fechaFinalizacionDate)
+    console.log('Formateada: ', fechaCreacionDate)
+
+    /*
     if (fechaFinalizacionDate <= fechaCreacionDate) {
       Swal.fire('Error', 'La fecha de finalización no puede ser anterior a la fecha de creación', 'error');
       return;
-    }
+    }*/
+
+      
 
     this.ListaMateriasEditar.forEach((materia) => {
       if (materia.cantidadausar > materia.existencias) {
@@ -207,7 +215,7 @@ export class OrdenesProduccionComponent implements OnInit {
 
     // Reordenar la fecha al formato dd/mm/yyyy
     const [mes, dia, anio] = fechaOriginal.split('/'); // Asume formato mm/dd/yyyy por defecto
-    const fechaFormateada = `${dia}/${mes}/${anio}`;
+    const fechaFormateada = `${mes}/${dia}/${anio}`;
 
     // Reunir la fecha y hora en el formato deseado
     this.OrdenProduccion.Fecha_Creacion = `${fechaFormateada},${horaOriginal?.trim()}`;
@@ -554,42 +562,6 @@ export class OrdenesProduccionComponent implements OnInit {
               'error'
             );
           });
-
-        this.MateriasUsadasDevueltas = []
-
-        orden.Producto_Elaborado.forEach((Producto, i) => {
-
-          Producto.Materias_Primas.forEach((materia, j) => {
-            let idMateria = materia.Id_Materia;
-            let nombreMateria = materia.Nombre;
-            let cantidadMateria = Producto.Cantidad_MateriasPrimas[j] * orden.Cantidad_Producto[i];
-
-            let materiaExiste = this.MateriasUsadasDevueltas.find(m => m.id === materia.Id_Materia)
-
-            if (materiaExiste) {
-              materiaExiste.cantidad += cantidadMateria;
-            } else {
-              this.MateriasUsadasDevueltas.push({
-                id: idMateria,
-                nombre: nombreMateria,
-                cantidad: cantidadMateria
-              })
-            }
-          });
-          console.log(this.MateriasUsadasDevueltas)
-        });
-
-        this.MateriasUsadasDevueltas.forEach((materia) => {
-          const materiaDocRef = doc(this.firebase, "MateriasPrimas", materia.id);
-          try {
-            updateDoc(materiaDocRef, {
-              Existencias: increment(materia.cantidad)
-            });
-            console.log(`Inventario actualizado para ${materia.nombre}: +${materia.cantidad}`);
-          } catch (error) {
-            console.error(`Error al actualizar inventario de ${materia.nombre}:`, error);
-          }
-        });
       }
     });
   }
