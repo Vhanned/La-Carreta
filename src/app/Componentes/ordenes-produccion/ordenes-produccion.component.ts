@@ -123,7 +123,7 @@ export class OrdenesProduccionComponent implements OnInit {
 
   FiltrarOrdenesPorFecha(fechaInicio: string, fechaFin: string) {
 
-    
+
 
     const inicio = fechaInicio.split('-');
     const InicioFormatoDate = `${inicio[2]}-${inicio[1]}-${inicio[0]}`;
@@ -136,7 +136,7 @@ export class OrdenesProduccionComponent implements OnInit {
     const finalDate = new Date(FinFormatoDate).toLocaleDateString();
 
 
-    
+
 
     this.ListaOrdenes = this.ListaOrdenesOriginales.filter(orden => {
       if (!orden.Fecha_Creacion) {
@@ -171,13 +171,18 @@ export class OrdenesProduccionComponent implements OnInit {
       return;
     }
 
-    console.log(this.OrdenProduccion.Fecha_Elaboracion);
     console.log(this.OrdenProduccion.Fecha_Finalizacion);
+    console.log(this.OrdenProduccion.Fecha_Creacion);
 
-    const fechaCreacion = (this.OrdenProduccion.Fecha_Creacion);
-    const fechaFinalizacion = (this.OrdenProduccion.Fecha_Finalizacion);
+    const fechaCreacion = (this.OrdenProduccion.Fecha_Creacion.split(',')[0]);
+    console.log('Split: ',fechaCreacion)
+    const fechaFinalizacion = (this.OrdenProduccion.Fecha_Finalizacion.split('-'));
+    const fechafinalizacionFormateada = `${fechaFinalizacion[2]}/${fechaFinalizacion[1]}/${fechaFinalizacion[0]}`
+    console.log('Final: ',fechaFinalizacion)
+    console.log('Formateada: ',fechafinalizacionFormateada)
 
-    if (fechaFinalizacion < fechaCreacion) {
+
+    if (fechaFinalizacionDate <= fechaCreacionDate) {
       Swal.fire('Error', 'La fecha de finalización no puede ser anterior a la fecha de creación', 'error');
       return;
     }
@@ -673,6 +678,7 @@ export class OrdenesProduccionComponent implements OnInit {
     const [anio, mes, dia] = fecha.split('-'); // Divide yyyy-mm-dd
     return `${dia}/${mes}/${anio}`; // Reordena a dd/mm/yyyy
   }
+
 
 
 }
