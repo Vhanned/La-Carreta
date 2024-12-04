@@ -348,6 +348,28 @@ export class SalidaProducto {
 
 }
 
+export class EntradaMateriaPrima {
+  constructor() {
+
+  }
+
+  Id_RegistroEntrada: string = '';
+  MateriaEntrada: string = '';
+  Id_MateriaEntrada: string = '';
+  CostoCompra: number | undefined;
+  CantidadEntrada: number | undefined;
+  FechaEntrada: string = '';
+
+  setData(data: any) {
+    this.Id_RegistroEntrada = data.Id_RegistroEntrada || '';
+    this.MateriaEntrada = data.MateriaEntrada || '';
+    this.CantidadEntrada = data.CantidadEntrada || undefined;
+    this.Id_MateriaEntrada = data.Id_MateriaEntrada || '';
+    this.CostoCompra = data.CostoCompra || undefined;
+    this.FechaEntrada = data.FechaEntrada || '';
+  }
+}
+
 export interface MateriaPrimaInfo {
   id: string;
   nombre: string;

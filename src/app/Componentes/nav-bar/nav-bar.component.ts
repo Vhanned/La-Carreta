@@ -39,6 +39,10 @@ export class NavBarComponent {
     this.routing.navigate(['productos-terminados'])
   }
 
+  IrRegistros(){
+    this.routing.navigate(['registros'])
+  }
+
   ngOnInit() {
     history.pushState(null, '', location.href);
     window.onpopstate = () => {

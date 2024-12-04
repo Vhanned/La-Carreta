@@ -8,6 +8,7 @@ import Swal from 'sweetalert2'; // Importamos SweetAlert
 import * as XLSX from 'xlsx'; // Importa XLSX
 import { saveAs } from 'file-saver';
 import { Xliff } from '@angular/compiler';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'ordenes-produccion',
@@ -172,11 +173,7 @@ export class OrdenesProduccionComponent implements OnInit {
       return;
     }
 
-    console.log('Finalizacion: ', this.OrdenProduccion.Fecha_Finalizacion);
-    console.log('Creacion: ', this.OrdenProduccion.Fecha_Creacion);
-
     const fechaCreacion = (this.OrdenProduccion.Fecha_Creacion.split(',')[0]);
-    console.log('Split: ', fechaCreacion)
 
     const fechaFinalizacion = (this.OrdenProduccion.Fecha_Finalizacion.split('-'));
     const fechafinalizacionFormateada = `${fechaFinalizacion[1]}/${fechaFinalizacion[2]}/${fechaFinalizacion[0]}`

@@ -68,7 +68,7 @@ h2 {
     cursor: default;
 }
 
-input{
-    max-width: 60px;
+.form-control{
+    max-width: 100%;
 }
 

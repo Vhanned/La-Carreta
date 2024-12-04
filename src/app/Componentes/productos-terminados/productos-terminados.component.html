@@ -21,9 +21,9 @@
                     <td>{{ Producto.Cantidad }}</td>
                     <td>
                         <input id="inputPrecio" min="0" type="number" name="PrecioTerminado{{i}}" id="PrecioTerminado"
-                            [(ngModel)]="Producto.Precio">
+                            [(ngModel)]="Producto.Precio" (keydown)="validarTecla($event)">
                     </td>
-                    <td>
+                    <td style="display: grid;grid-template-columns: 30% 50%; column-gap:5%;">
                         <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#agregarModal"
                             (click)="CargarInfo(Producto)">Vender</button>
                         <button class="btn btn-danger btn-sm" (click)="ModificarPrecio(Producto)">Guardar
@@ -71,7 +71,7 @@
             </div>
             <div class="modal-footer">
                 <button id="btnCerrarModalElemento" type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cerrar</button>
-                <button type="button" class="btn btn-primary" (click)="SalidaDeProducto(NuevaVenta)">Guardar</button>
+                <button type="button" class="btn btn-primary" (click)="SalidaDeProducto(NuevaVenta)">Confirmar</button>
             </div>
         </div>
     </div>
