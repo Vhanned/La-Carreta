@@ -13,7 +13,7 @@ export class RegistrosComponent implements OnInit {
   SalidasProductos: any[] = [];
 
   // Referencias a colecciones en Firestore
-  entradasCollection = collection(this.firebase, 'EntradasMateriaPrima');
+  entradasCollection = collection(this.firebase, 'RegistroEntradas');
   salidasCollection = collection(this.firebase, 'SalidaProducto');
 
   constructor(private firebase: Firestore) {}
@@ -25,14 +25,15 @@ export class RegistrosComponent implements OnInit {
 
   // Cargar datos de entradas
   cargarEntradasMateriasPrimas() {
-    const q = query(this.entradasCollection, orderBy('fecha', 'desc'));
+    const q = query(this.entradasCollection, orderBy('FechaEntrada', 'desc'));
     collectionData(q).subscribe((data) => {
       this.EntradasMateriasPrimas = data.map((item) => ({
-        id: item.Id_Entrada || '',
-        fecha: item.Fecha || '',
-        nombreMateria: item.MateriaPrima || '',
-        cantidad: item.Cantidad || 0,
+        id: item.Id_MateriaEntrada || '',
+        fecha: item.FechaEntrada || '',
+        nombreMateria: item.MateriaEntrada || '',
+        cantidad: item.CantidadEntrada || 0,
         unidad: item.Unidad || '',
+        costo: item.CostoCompra,
         proveedor: item.Proveedor || 'N/A'
       }));
     });

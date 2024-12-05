@@ -1,177 +1,215 @@
 <nav-bar></nav-bar>
 
 <div style="margin-top: 2%;" class="container">
-  <h2>Inventario de Materias Primas</h2>
+    <h2>Inventario de Materias Primas</h2>
 
-  <div id="ContenedorBusqueda">
-    <input type="text" class="search-bar" placeholder="Buscar..." [(ngModel)]="searchText"
-      (ngModelChange)="filtrarMaterias()">
-    <button id="BotonAgregar" class="btn btn-warning btn-add" data-bs-toggle="modal" data-bs-target="#agregarModal">
-      Agregar Materia Prima
-    </button>
-  </div>
+    <div id="ContenedorBusqueda">
+        <input type="text" class="search-bar" placeholder="Buscar..." [(ngModel)]="searchText"
+            (ngModelChange)="filtrarMaterias()">
+        <button id="BotonAgregar" class="btn btn-warning btn-add" data-bs-toggle="modal" data-bs-target="#agregarModal">
+            Agregar Materia Prima
+        </button>
+    </div>
 
-  <div class="table-wrapper">
-    <table class="inventory-table">
-      <thead>
-        <tr>
-          <th>Codigo</th>
-          <th>Nombre</th>
-          <th>Unidad de medida</th>
-          <th>Precio por unidad (MXN)</th>
-          <th>Tipo</th>
-          <th>Marca</th>
-          <th>Existencias</th>
-          <th>Punto de Reorden</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let materia of materiasFiltradas">
-          <td>{{ materia.Codigo }}</td>
-          <td>{{ materia.Nombre }}</td>
-          <td>{{ materia.Unidad_Medida }}</td>
-          <td>{{ materia.Precio_unitario | number:'1.2-2' }}</td>
-          <td>{{ materia.Tipo }}</td>
-          <td>{{ materia.Marca }}</td>
-          <td>{{ materia.Existencias | number:'1.3-3' }}</td>
-          <td>{{ materia.Punto_Reorden }}</td>
-          <td>
-            <button id="BotonEditarMateia" class="btn btn-outline-danger btn-edit" data-bs-toggle="modal"
-              data-bs-target="#editarModal" (click)="EditarModalMateria(materia)">
-              Editar
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>  
+    <div class="table-wrapper">
+        <table class="inventory-table">
+            <thead>
+                <tr>
+                    <th>Codigo</th>
+                    <th>Nombre</th>
+                    <th>Unidad de medida</th>
+                    <th>Precio por unidad (MXN)</th>
+                    <th>Tipo</th>
+                    <th>Marca</th>
+                    <th>Existencias</th>
+                    <th>Punto de Reorden</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let materia of materiasFiltradas">
+                    <td>{{ materia.Codigo }}</td>
+                    <td>{{ materia.Nombre }}</td>
+                    <td>{{ materia.Unidad_Medida }}</td>
+                    <td>{{ materia.Precio_unitario | number:'1.2-2' }}</td>
+                    <td>{{ materia.Tipo }}</td>
+                    <td>{{ materia.Marca }}</td>
+                    <td>{{ materia.Existencias | number:'1.3-3' }}</td>
+                    <td>{{ materia.Punto_Reorden }}</td>
+                    <td>
+                        <button id="BotonEditarMateia" class="btn btn-outline-danger btn-edit" data-bs-toggle="modal"
+                            data-bs-target="#editarModal" (click)="EditarModalMateria(materia)">
+                            Editar
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-<!-- Modal para agregar nueva materia prima -->
-<div class="modal fade" id="agregarModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="agregarModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="agregarModalLabel">Agregar Materia Prima</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="Codigo" class="form-label">Codigo</label>
-                        <input type="text" class="form-control" id="Codigo" [(ngModel)]="nuevaMateria.Codigo" name="Codigo" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="Nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="Nombre" [(ngModel)]="nuevaMateria.Nombre" name="Nombre" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="unidad_medida" class="form-label">Unidad de Medida</label>
-                        <select class="form-control" id="unidad_medida" [(ngModel)]="nuevaMateria.Unidad_Medida" name="unidad_medida" required>
-                            <option value="" disabled selected>Seleccione la unidad de medida</option>
-                            <option value="Litros">Litros</option>
-                            <option value="Kilogramos">Kilogramos</option>
-                            <option value="Gramos">Gramos</option>
-                            <option value="Mililitros">Mililitros</option>
-                            <option value="Piezas">Piezas</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="Precio_unitario" class="form-label">Precio unitario (MXN)</label>
-                        <input type="number" class="form-control" id="Precio_unitario" [(ngModel)]="nuevaMateria.Precio_unitario" name="Precio_unitario" (keydown)="validarTecla($event)" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="Tipo" class="form-label">Tipo</label>
-                        <select class="form-control" id="Tipo" [(ngModel)]="nuevaMateria.Tipo" name="Tipo" required>
-                            <option value="" disabled selected>Seleccione un tipo</option>
-                            <option value="Ingrediente">Ingrediente</option>
-                            <option value="Aditivo">Aditivo</option>
-                            <option value="Materia Prima">Materia Prima</option>
-                            <option value="Empaquetado">Empaquetado</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="marca" class="form-label">Marca</label>
-                        <input type="text" class="form-control" id="marca" [(ngModel)]="nuevaMateria.Marca" name="marca" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="existencias" class="form-label">Existencias</label>
-                        <input type="number" min="0" class="form-control" id="existencias" [(ngModel)]="nuevaMateria.Existencias" name="existencias" (keydown)="validarTecla($event)" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="punto_reorden" class="form-label">Punto de Reorden</label>
-                        <input type="number" class="form-control" id="punto_reorden" [(ngModel)]="nuevaMateria.Punto_Reorden" name="punto_reorden" (keydown)="validarTecla($event)" required>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button id="btnCerrarModalElemento" type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="LimpiarFormulario()">Cerrar</button>
-                <button type="button" class="btn btn-primary" (click)="agregarMateria()">Guardar</button>
+    <!-- Modal para agregar nueva materia prima -->
+    <div class="modal fade" id="agregarModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="agregarModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="agregarModalLabel">Agregar Materia Prima</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="Codigo" class="form-label">Código</label>
+                            <input type="text" class="form-control" id="Codigo" [(ngModel)]="nuevaMateria.Codigo"
+                                name="Codigo" (input)="buscarCoincidencias('Codigo', nuevaMateria.Codigo)"
+                                autocomplete="off" />
+                            <ul *ngIf="sugerenciasCodigo.length > 0" class="suggestion-list">
+                                <li *ngFor="let sugerencia of sugerenciasCodigo"
+                                    (click)="seleccionarSugerencia(sugerencia)">
+                                    {{ sugerencia.Codigo }}
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="Nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="Nombre" [(ngModel)]="nuevaMateria.Nombre"
+                                name="Nombre" (input)="buscarCoincidencias('Nombre', nuevaMateria.Nombre)"
+                                autocomplete="off" />
+                            <ul *ngIf="sugerenciasNombre.length > 0" class="suggestion-list">
+                                <li *ngFor="let sugerencia of sugerenciasNombre"
+                                    (click)="seleccionarSugerencia(sugerencia)">
+                                    {{ sugerencia.Nombre }}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="mb-3">
+                            <label for="unidad_medida" class="form-label">Unidad de Medida</label>
+                            <select class="form-control" id="unidad_medida" [(ngModel)]="nuevaMateria.Unidad_Medida"
+                                name="unidad_medida" required>
+                                <option value="" disabled selected>Seleccione la unidad de medida</option>
+                                <option value="Litros">Litros</option>
+                                <option value="Kilogramos">Kilogramos</option>
+                                <option value="Gramos">Gramos</option>
+                                <option value="Mililitros">Mililitros</option>
+                                <option value="Piezas">Piezas</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Precio_unitario" class="form-label">Precio unitario (MXN)</label>
+                            <input type="number" class="form-control" id="Precio_unitario"
+                                [(ngModel)]="nuevaMateria.Precio_unitario" name="Precio_unitario"
+                                (keydown)="validarTecla($event)" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Tipo" class="form-label">Tipo</label>
+                            <select class="form-control" id="Tipo" [(ngModel)]="nuevaMateria.Tipo" name="Tipo" required>
+                                <option value="" disabled selected>Seleccione un tipo</option>
+                                <option value="Ingrediente">Ingrediente</option>
+                                <option value="Aditivo">Aditivo</option>
+                                <option value="Materia Prima">Materia Prima</option>
+                                <option value="Empaquetado">Empaquetado</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="marca" class="form-label">Marca</label>
+                            <input type="text" class="form-control" id="marca" [(ngModel)]="nuevaMateria.Marca"
+                                name="marca" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="existencias" class="form-label">Existencias</label>
+                            <input type="number" min="0" class="form-control" id="existencias"
+                                [(ngModel)]="nuevaMateria.Existencias" name="existencias"
+                                (keydown)="validarTecla($event)" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="punto_reorden" class="form-label">Punto de Reorden</label>
+                            <input type="number" class="form-control" id="punto_reorden"
+                                [(ngModel)]="nuevaMateria.Punto_Reorden" name="punto_reorden"
+                                (keydown)="validarTecla($event)" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnCerrarModalElemento" type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        (click)="LimpiarFormulario()">Cerrar</button>
+                    <button type="button" class="btn btn-primary" (click)="agregarMateria()">Agregar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Modal para editar materia prima -->
-<div class="modal fade" id="editarModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="editarModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editarModalLabel">Editar Materia Prima</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="EditCodigo" class="form-label">Codigo</label>
-                        <input type="text" class="form-control" id="EditCodigo" [(ngModel)]="materiaAEditar.Codigo" name="EditCodigo" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editNombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="editNombre" [(ngModel)]="materiaAEditar.Nombre" name="editNombre" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="edit_unidad_medida" class="form-label">Unidad de Medida</label>
-                        <select class="form-control" id="edit_unidad_medida" [(ngModel)]="materiaAEditar.Unidad_Medida" name="edit_unidad_medida" required>
-                            <option value="Litros">Litros</option>
-                            <option value="Kilogramos">Kilogramos</option>
-                            <option value="Gramos">Gramos</option>
-                            <option value="Mililitros">Mililitros</option>
-                            <option value="Piezas">Piezas</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="edit_precio_unitario" class="form-label">Precio unitario (MXN)</label>
-                        <input type="number" class="form-control" id="edit_precio_unitario" [(ngModel)]="materiaAEditar.Precio_unitario" name="edit_precio_unitario" (keydown)="validarTecla($event)" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editTipo" class="form-label">Tipo</label>
-                        <select class="form-control" id="editTipo" [(ngModel)]="materiaAEditar.Tipo" name="editTipo" required>
-                            <option value="Ingrediente">Ingrediente</option>
-                            <option value="Aditivo">Aditivo</option>
-                            <option value="Materia Prima">Materia Prima</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editMarca" class="form-label">Marca</label>
-                        <input type="text" class="form-control" id="editMarca" [(ngModel)]="materiaAEditar.Marca" name="editMarca" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editExistencias" class="form-label">Existencias</label>
-                        <input type="number" class="form-control" id="editExistencias" [(ngModel)]="materiaAEditar.Existencias" name="editExistencias" (keydown)="validarTecla($event)" disabled required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editPuntoReorden" class="form-label">Punto de Reorden</label>
-                        <input type="number" class="form-control" id="editPuntoReorden" [(ngModel)]="materiaAEditar.Punto_Reorden" name="editPuntoReorden" (keydown)="validarTecla($event)" required>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="CargarMaterias()">Cerrar</button>
-                <button type="button" class="btn btn-primary" (click)="editarMateria()">Guardar cambios</button>
+    <!-- Modal para editar materia prima -->
+    <div class="modal fade" id="editarModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="editarModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editarModalLabel">Editar Materia Prima</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="EditCodigo" class="form-label">Codigo</label>
+                            <input type="text" class="form-control" id="EditCodigo" [(ngModel)]="materiaAEditar.Codigo"
+                                name="EditCodigo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editNombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="editNombre" [(ngModel)]="materiaAEditar.Nombre"
+                                name="editNombre" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_unidad_medida" class="form-label">Unidad de Medida</label>
+                            <select class="form-control" id="edit_unidad_medida"
+                                [(ngModel)]="materiaAEditar.Unidad_Medida" name="edit_unidad_medida" required>
+                                <option value="Litros">Litros</option>
+                                <option value="Kilogramos">Kilogramos</option>
+                                <option value="Gramos">Gramos</option>
+                                <option value="Mililitros">Mililitros</option>
+                                <option value="Piezas">Piezas</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_precio_unitario" class="form-label">Precio unitario (MXN)</label>
+                            <input type="number" class="form-control" id="edit_precio_unitario"
+                                [(ngModel)]="materiaAEditar.Precio_unitario" name="edit_precio_unitario"
+                                (keydown)="validarTecla($event)" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editTipo" class="form-label">Tipo</label>
+                            <select class="form-control" id="editTipo" [(ngModel)]="materiaAEditar.Tipo" name="editTipo"
+                                required>
+                                <option value="Ingrediente">Ingrediente</option>
+                                <option value="Aditivo">Aditivo</option>
+                                <option value="Materia Prima">Materia Prima</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editMarca" class="form-label">Marca</label>
+                            <input type="text" class="form-control" id="editMarca" [(ngModel)]="materiaAEditar.Marca"
+                                name="editMarca" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editExistencias" class="form-label">Existencias</label>
+                            <input type="number" class="form-control" id="editExistencias"
+                                [(ngModel)]="materiaAEditar.Existencias" name="editExistencias"
+                                (keydown)="validarTecla($event)" disabled required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editPuntoReorden" class="form-label">Punto de Reorden</label>
+                            <input type="number" class="form-control" id="editPuntoReorden"
+                                [(ngModel)]="materiaAEditar.Punto_Reorden" name="editPuntoReorden"
+                                (keydown)="validarTecla($event)" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        (click)="CargarMaterias()">Cerrar</button>
+                    <button type="button" class="btn btn-primary" (click)="editarMateria()">Guardar cambios</button>
+                </div>
             </div>
         </div>
     </div>
-</div>

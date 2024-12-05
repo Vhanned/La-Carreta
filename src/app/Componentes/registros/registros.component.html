@@ -14,7 +14,8 @@
               <th>Materia Prima</th>
               <th>Cantidad</th>
               <th>Unidad</th>
-              <th>Proveedor</th>
+              <th>Costo unitario</th>
+              <th>Total</th>
             </tr>
           </thead>
           <tbody>
@@ -23,7 +24,8 @@
               <td>{{ entrada.nombreMateria }}</td>
               <td>{{ entrada.cantidad }}</td>
               <td>{{ entrada.unidad }}</td>
-              <td>{{ entrada.proveedor }}</td>
+              <td>{{ entrada.costo }}</td>
+              <td>{{ entrada.cantidad * entrada.costo | currency }}</td>
             </tr>
           </tbody>
         </table>

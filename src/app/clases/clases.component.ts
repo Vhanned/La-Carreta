@@ -358,6 +358,7 @@ export class EntradaMateriaPrima {
   Id_MateriaEntrada: string = '';
   CostoCompra: number | undefined;
   CantidadEntrada: number | undefined;
+  Unidad: string = '';
   FechaEntrada: string = '';
 
   setData(data: any) {
@@ -366,6 +367,7 @@ export class EntradaMateriaPrima {
     this.CantidadEntrada = data.CantidadEntrada || undefined;
     this.Id_MateriaEntrada = data.Id_MateriaEntrada || '';
     this.CostoCompra = data.CostoCompra || undefined;
+    this.Unidad = data.Unidad || undefined;
     this.FechaEntrada = data.FechaEntrada || '';
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { collection, collectionData, Firestore, query } from '@angular/fire/firestore';
 import { doc, getDoc, increment, setDoc, updateDoc, where } from 'firebase/firestore';
-import { InventarioProductos, SalidaProducto } from 'src/app/clases/clases.component';
+import { InventarioProductos, MateriaPrima, SalidaProducto } from 'src/app/clases/clases.component';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -21,9 +21,6 @@ RegistroSalida = new SalidaProducto();
 ProductosTerminadosBD = collection(this.firebase,"ProductosTerminados")
 
 CantidadVenta:number=0;
-
-
-
 
   constructor(private firebase:Firestore) { 
     this.CargarProductosTerminados();
