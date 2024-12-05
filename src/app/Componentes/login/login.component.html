@@ -1,19 +1,27 @@
 <div class="body">
-    <div class="contenedor-principal">
-
-        <div class="login-box">
+  
+    <div class="container">
+        
+        <div class="form-box">
             <h2>Inicio de sesión</h2>
-
-            <form action="#" method="POST">
-
-                <input type="text" id="username" name="username" required placeholder="Usuario" [(ngModel)]="Usuario">
-
-                <input type="password" name="password" id="password" required placeholder="Contraseña"
-                    [(ngModel)]="Contrasena">
-
-                <button type="submit" (click)="InicioSesion()">Iniciar sesión</button>
-
+            
+            <form id="login" class="input-group">
+                <input type="email" class="input-field" [(ngModel)]="Usuario" placeholder="Usuario" required name="Usuario">
+                <input type="password" class="input-field" [(ngModel)]="Contrasena" placeholder="Contraseña" required name="Contrasena">
+              
+                <button type="submit" class="submit-btn" (click)="InicioSesion()">Iniciar</button>
             </form>
+           
         </div>
+
+        <div class="image-box">
+            <img src="https://firebasestorage.googleapis.com/v0/b/cheesetrack-dd8bc.appspot.com/o/121543057_1020820045095734_907176375967712815_n.png?alt=media&token=68b41600-b430-4412-9093-4e2568595fcf" alt="Logo" class="logo-image">
+        </div>
+
+        <img src="https://cdn-icons-png.flaticon.com/512/5314/5314773.png" alt="Imagen Fija" class="fixed-image">
+
+        <img src="https://cdn-icons-png.flaticon.com/512/5314/5314773.png" alt="Imagen Fija Superior" class="fixed-image-top-left">
+
     </div>
+  
 </div>

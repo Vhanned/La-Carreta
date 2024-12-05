@@ -4,30 +4,36 @@
 
     <div class="header">
         <nav class="nav">
+            <div>
+                <img class="ImagenLogo" src="https://firebasestorage.googleapis.com/v0/b/cheesetrack-dd8bc.appspot.com/o/121543057_1020820045095734_907176375967712815_n.png?alt=media&token=68b41600-b430-4412-9093-4e2568595fcf" alt="Imagen no disponible">
+            </div>
             <ul>
                 <li class="nav-link">
-                    <a href="#">Generar Reportes</a>
+                    <a (click)="IrOrdenesProduccion()">Ordenes de produccion</a>
                 </li>
 
                 <li class="nav-link">
-                    <a href="#">Reportes</a>
-                </li>
-
-                <li class="nav-link" >
                     <a (click)="IrInventario()">Inventario</a>
                 </li>
 
                 <li class="nav-link">
-                    <a href="#">Otra Cosa</a>
+                    <a (click)="IrProductos()">Productos</a>
                 </li>
 
                 <li class="nav-link">
-                    <a href="#">Otra Cosa</a>
+                    <a (click)="IrProductosTerminados()">Productos terminados</a>
+                </li>
+
+                <li class="nav-link">
+                    <a (click)="IrRegistros()"> Registros</a>
                 </li>
 
                 <li class="nav-link">
                     <a (click)="IrLogin()">Cerrar Sesion</a>
                 </li>
+                <div>
+                    
+                </div>
             </ul>
         </nav>
     </div>

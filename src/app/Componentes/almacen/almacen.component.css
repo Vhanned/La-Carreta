@@ -1,0 +1,29 @@
+.Titulo{
+    display: flex;
+    justify-content: center;   /* Centra horizontalmente */
+    align-items: center;       /* Centra verticalmente */
+    text-align: center;        /* Alinea el texto dentro del contenedor */
+    margin-top: 20px;          /* Margen superior */
+    margin-bottom: 20px;       /* Margen inferior */
+    height: 100px;  
+
+}
+
+.subtitulo{
+    display: flex;
+    justify-content: center;   /* Centra horizontalmente */
+    align-items: center;       /* Centra verticalmente */
+    text-align: center;        /* Alinea el texto dentro del contenedor */
+    margin-top: 20px;          /* Margen superior */
+    margin-bottom: 20px;       /* Margen inferior */
+    height: 100px;  
+}
+
+.txtbox{
+    justify-content: center;   /* Centra horizontalmente */
+    align-items: center;       /* Centra verticalmente */
+    text-align: center;        /* Alinea el texto dentro del contenedor */
+    margin-top: 20px;          /* Margen superior */
+    margin-bottom: 20px;       /* Margen inferior */
+    height: 100px;  
+}

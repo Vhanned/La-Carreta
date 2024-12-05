@@ -1,89 +1,140 @@
 * {
     margin: 0;
+    padding: 0;
     box-sizing: border-box;
-    font-family: 'montserrat', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 .body {
-    margin: 0;
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: url(https://images.unsplash.com/photo-1440428099904-c6d459a7e7b5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
-    /*background-image: url(https://images.unsplash.com/photo-1495757450029-09dbedacbc36?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);*/
-    background-size: cover;
+    overflow-x: hidden;
 }
 
-.contenedor-principal {
-    width: 300px;
-    height: 300px;
-    position: relative;
-    z-index: 1;
-    background: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    border: 1px solid black;
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    width: 90%;  
+    max-width: 1200px;
+    height: auto;
+    gap: 0px;
+    flex-wrap: wrap; 
+    z-index: 10; 
 }
 
-.contenedor-principal::before {
-    content: '';
-    position: absolute;
+.image-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    border-radius: 0 15px 15px 0;
+    overflow: hidden;
+    z-index: 10; 
+}
+
+.logo-image {
     width: 100%;
-    height: 100%;
-    border-radius: 10px;
-    backdrop-filter: blur(5px);
-    z-index: -1;
+    object-fit: cover;
 }
 
-.login-box {
-    max-width: 250px;
-    margin: 0 auto;
+.form-box {
+    background-color: #f1f1f3;
+    width: 350px;
+    padding: 60px;
+    border-radius: 15px 0 0 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     text-align: center;
-}
-
-h2 {
-    color: black;
-    margin-top: 30px;
-    margin-bottom: -20px;
-}
-
-form {
     display: flex;
     flex-direction: column;
-    margin-top: 20px;
+    justify-content: center; 
+    align-items: center;
+    z-index: 10; 
 }
 
-input {
-    padding: 10px;
-    margin-top: 25px;
+.form-box h2 {
+    margin-bottom: 20px;
+    font-size: 28px;
+    font-weight: 600;
+    color: #333;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-field {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.submit-btn {
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
     border: none;
-    border-radius: 10px;
-    background: transparent;
-    border: 1px solid black;
-    font-size: 13px;
-}
-
-input::placeholder {
-    color: black;
-}
-
-input:focus {
-    outline: none;
-}
-
-button {
-    background: #fff;
-    color: black;
-    padding: 10px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    margin-top: 15px;
-}
-
-button:hover {
-    background: transparent;
+    padding: 15px;
     color: white;
-    outline: 1px solid black;
+    font-size: 18px;
+    border-radius: 0px; /* Lo quite equisdede */
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+    width: 100%;  
+}
+
+.submit-btn-container {
+    overflow: hidden;
+}
+
+.submit-btn:hover {
+    transform: scale(1.05);
+    background: linear-gradient(to right, #ff4b2b, #ff416c);
+}
+
+
+.fixed-image {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 15vw;  
+    height: auto;
+    z-index: 0; 
+    transform: rotate(25deg);
+}
+
+.fixed-image-top-left {
+    position: fixed;
+    top: 30px;
+    left: 25px;
+    width: 15vw;  
+    height: auto;
+    z-index: 0; 
+    transform: rotate(25deg) rotateY(180deg);
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .image-box {
+        width: 100%;  
+        border-radius: 0; 
+    }
+
+    .form-box {
+        width: 100%;
+        border-radius: 0; 
+        padding: 30px; 
+    }
+
+    .fixed-image, .fixed-image-top-left {
+        width: 20vw; 
+    }
 }

@@ -1,0 +1,60 @@
+<nav-bar></nav-bar>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Registros</h1>
+    
+    <!-- Contenedor para las tablas en columnas -->
+    <div class="row d-flex justify-content-between">
+      <!-- Tabla de Entradas de Materia Prima -->
+      <div class="col-md-6">
+        <h2 class="text-primary text-center">Entradas de Materia Prima</h2>
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Materia Prima</th>
+              <th>Cantidad</th>
+              <th>Unidad</th>
+              <th>Costo unitario</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let entrada of EntradasMateriasPrimas">
+              <td>{{ formatFecha(entrada.fecha) }}</td>
+              <td>{{ entrada.nombreMateria }}</td>
+              <td>{{ entrada.cantidad }}</td>
+              <td>{{ entrada.unidad }}</td>
+              <td>{{ entrada.costo }}</td>
+              <td>{{ entrada.cantidad * entrada.costo | currency }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  
+      <!-- Tabla de Salidas de Producto Terminado -->
+      <div class="col-md-6">
+        <h2 class="text-danger text-center">Salidas de Producto Terminado</h2>
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th>Precio unitario</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let salida of SalidasProductos">
+              <td>{{ formatFecha(salida.fecha) }}</td>
+              <td>{{ salida.nombreProducto }}</td>
+              <td>{{ salida.cantidad }}</td>
+              <td>{{ salida.precio | currency }}</td>
+              <td>{{ salida.cantidad * salida.precio | currency }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
