@@ -79,8 +79,34 @@ h1 {
   padding: 10px;
   word-wrap: break-word;
   font-size: large;
+  vertical-align: middle; /* Centrado vertical */
 }
 
+/* CENTRAR BOTONES */
+.table td:last-child {
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  gap: 5px; 
+  flex-wrap: nowrap; 
+  padding: 10px; 
+  height: 100%; 
+}
+
+/* Asegurar el diseño uniforme de los botones */
+.table td:last-child button {
+  padding: 10px 25px; /* Ajustar tamaño interno del botón */
+  font-size: 1rem; /* Reducir fuente si es necesario */
+  white-space: nowrap; /* Evitar que el texto se rompa */
+}
+
+/* Generalmente para las celdas */
+.table td {
+  vertical-align: middle; /* Centrar verticalmente */
+  text-align: center; /* Centrar horizontalmente */
+}
+
+/* Encabezado de tabla */
 .table thead,
 .inventory-table thead {
   background-color: #007bff;
@@ -89,7 +115,6 @@ h1 {
 
 /* Ajustes para pantallas pequeñas */
 @media (max-width: 768px) {
-
   .table,
   .inventory-table,
   #MateriasAgregadas {
@@ -160,7 +185,6 @@ h1 {
   }
 }
 
-
 /* Tablas de inventario */
 .inventory-table {
   width: 100%;
@@ -188,6 +212,7 @@ h1 {
   background-color: #edeae6;
 }
 
+/* Botón editar en tablas */
 .inventory-table .btn-edit {
   background: linear-gradient(45deg, #cf0015, #c5a173);
   color: #ffffff;

@@ -49,7 +49,7 @@
             <td>{{ orden.Solicitante }}</td>
             <td>{{ orden.Estado }}</td>
             <td>{{ calcularCostoTotalOrden(orden) | currency }}</td>
-            <td style="display: grid;grid-template-columns:35% 20% 20% 25%; column-gap:1%;">
+            <td style="display: flex; justify-content: center; align-items: center; gap: 8px;">
               <div>
                 <button *ngIf="orden.Estado === 'En produccion'" (click)="FinalizarProduccion(orden)"
                   class="btn btn-success btn-sm">Finalizar produccion</button>
