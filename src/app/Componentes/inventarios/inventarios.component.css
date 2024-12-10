@@ -39,8 +39,6 @@ h2 {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    background-color: #b6b6b6;
-    color: white;
     margin-right: 15px;
 }
 
@@ -74,7 +72,6 @@ h2 {
 .inventory-table thead {
     background-color: #cf0015;
     color: #ffffff;
-    position: sticky; /* Fijar los encabezados */
 }
 
 .th {
@@ -137,7 +134,7 @@ h2 {
 /*ancho de los modales */
 #agregarModal .modal-dialog,
 #editarModal .modal-dialog {
-    max-width: 50%; 
+    max-width: 30%; 
     margin: 1.75rem auto; 
 }
 

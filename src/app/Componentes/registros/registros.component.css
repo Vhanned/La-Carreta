@@ -1,5 +1,5 @@
 .container {
-    max-width: 100%;
+    max-width: 30vh;
   }
   
   .row {
@@ -21,7 +21,8 @@
   }
   
   th {
-    background-color: #f4f4f4;
+    background-color: #df192d;
+    color: #ffffff;
   }
   
   td, th {
@@ -33,4 +34,10 @@
       flex-direction: column; /* Cambiar a una tabla sobre la otra en pantallas pequeñas */
     }
   }
+
+  .dateInput{
+    text-align: center;
+    margin-top: 1vh;
+  }
+
   

@@ -91,7 +91,7 @@
       <div class="modal-body">
         <form>
           <div class="d-flex">
-            <div class="formulario w-100">
+            <div class="formulario">
               <div class="mb-3">
                 <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
                 <input type="date" class="form-control" id="fechaInicio" [(ngModel)]="OrdenProduccion.Fecha_Elaboracion"
@@ -138,9 +138,9 @@
                 </table>
               </div>
             </div>
-            <div class="tabla ms-s w-100">
+            <div class="tabla ms-s" style="margin-left:10px;width: 1000px;">
               <h3 style="color: black;">Lista de productos a producir</h3>
-              <table id="MateriasAgregadas" class="table mt-3">
+              <table id="MateriasAgregadas" class="inventory-table table mt-3">
                 <thead>
                   <tr>
                     <th>Producto</th>

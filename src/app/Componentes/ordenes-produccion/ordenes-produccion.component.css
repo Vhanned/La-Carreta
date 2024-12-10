@@ -61,28 +61,61 @@ h1 {
   color: #555;
 }
 
-/* Ajuste del ancho completo de las tablas */
-.table,
-.inventory-table,
-#MateriasAgregadas {
+ /* Estilo para la tabla con la clase inventory-table */
+ .inventory-table {
   width: 100%;
-  max-width: none;
-  margin-top: 20px;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  color: #333;
   border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-.table th,
-.table td,
+.inventory-table thead {
+  background: linear-gradient(to right, #ff416c, #ff4b2b);
+  color: #ffffff;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+/* Hacer que los encabezados sean fijos solo para inventory-table */
+.inventory-table thead th {
+  background-color: #ff416c;
+  color: white;
+}
+
 .inventory-table th,
 .inventory-table td {
+  padding: 12px 15px;
   text-align: center;
-  padding: 10px;
-  word-wrap: break-word;
-  font-size: large;
-  vertical-align: middle; /* Centrado vertical */
+  border-bottom: 1px solid #ddd;
 }
 
-/* CENTRAR BOTONES */
+/* Estilo de las filas */
+.inventory-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.inventory-table tbody tr:hover {
+  background-color: #ffe0e6;
+}
+
+.inventory-table .btn-primary {
+  background: linear-gradient(to right, #ff416c, #ff4b2b);
+  color: white;
+  border: none;
+  padding: 5px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.inventory-table .btn-primary:hover {
+  background: linear-gradient(to right, #ff4b2b, #ff416c);
+}/* CENTRAR BOTONES */
 .table td:last-child {
   display: flex; 
   justify-content: center; 
@@ -96,7 +129,7 @@ h1 {
 /* Asegurar el diseño uniforme de los botones */
 .table td:last-child button {
   padding: 10px 25px; /* Ajustar tamaño interno del botón */
-  font-size: 1rem; /* Reducir fuente si es necesario */
+  font-size: 1.2rem; /* Reducir fuente si es necesario */
   white-space: nowrap; /* Evitar que el texto se rompa */
 }
 
@@ -252,4 +285,8 @@ h1 {
 
 .modal-xl {
   max-width: 1500px;
+}
+
+#TablaPrueba{
+  font-size: large;
 }

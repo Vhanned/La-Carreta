@@ -1,4 +1,4 @@
-.body{
+.body {
     margin: 0;
     display: flex;
     justify-content: center;
@@ -6,7 +6,7 @@
     height: 15vh;
     background-color: #bb405a;
     background: linear-gradient(to right, #ff416c, #ff4b2b);
-    background-blend-mode: soft-light,screen;
+    background-blend-mode: soft-light, screen;
     background-size: cover;
 }
 
@@ -18,17 +18,17 @@
     cursor: pointer;
 }
 
-.nav ul{
+.nav ul {
     display: flex;
     align-items: center;
     list-style: none;
 }
 
-.nav li{
+.nav li {
     position: relative;
 }
 
-.nav a{
+.nav a {
     white-space: nowrap;
     padding: 15px 20px;
     display: flex;
@@ -40,7 +40,7 @@
     transition: color 0.3s ease;
 }
 
-.nav p{
+.nav p {
     white-space: nowrap;
     padding: 15px 20px;
     display: flex;
@@ -52,15 +52,15 @@
     transition: color 0.3s ease;
 }
 
-.nav li:hover a{
+.nav li:hover a {
     color: #fad118;
 }
 
-.nav li:hover p{
+.nav li:hover p {
     color: #fad118;
 }
 
-.nav-link::befeore{
+.nav-link::befeore {
     content: "";
     position: absolute;
     width: 0;
@@ -73,12 +73,12 @@
     transition: all 0.3s ease-in-out 0s;
 }
 
-.nav-link:hover::before{
+.nav-link:hover::before {
     visibility: visible;
     width: 100%;
 }
 
-.ImagenLogo{
+.ImagenLogo {
     margin-top: 1vh;
     max-width: 120px;
     max-height: 120px;

@@ -14,14 +14,12 @@
     <!-- Tabla de productos terminados -->
     <table class="table table-striped">
         <thead>
-            <tr>
-                <th>Codigo</th>
-                <th>Nombre</th>
-                <th>Tipo de empaquetado</th>
-                <th>Tiempo de elaboracion (Hrs)</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
+            <th>Codigo</th>
+            <th>Nombre</th>
+            <th>Tipo de empaquetado</th>
+            <th>Tiempo de elaboracion (Hrs)</th>
+            <th>Estado</th>
+            <th>Acciones</th>
         </thead>
         <tbody>
             <tr *ngFor="let producto of listaProductos">
@@ -45,18 +43,17 @@
 <!-- Modal para agregar nuevo producto -->
 <div class="modal fade" id="agregarModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="agregarModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="agregarModalLabel">Agregar nuevo
-                    producto</h5>
+                <h5 class="modal-title" id="agregarModalLabel">Agregar nuevo producto</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form>
                     <div class="d-flex">
                         <!-- Sección del formulario (columna izquierda) -->
-                        <div class="formulario w-100">
+                        <div style="width: 250px;">
                             <div class="mb-3">
                                 <label for="Codigo" class="form-label">Codigo</label>
                                 <input type="text" class="form-control" id="Codigo" [(ngModel)]="nuevoProducto.Codigo"
@@ -93,9 +90,9 @@
                         </div>
 
                         <!-- Sección de la tabla (columna derecha) -->
-                        <div class="tabla ms-s w-100" style="margin-left: 20px;">
+                        <div class="tabla ms-s" style="margin-left: 50px;width: 1050px;">
                             <h2 style="color: black;">Lista de materias agregadas</h2>
-                            <h5 style="color: black;text-align: center;">Materiales necesarios para 1200lts de producto
+                            <h5 style="color: black;text-align: center;">Materiales necesarios para 1 lt de producto
                             </h5>
                             <table id="MateriasAgregadas" class="table mt-3">
                                 <thead>
@@ -112,7 +109,8 @@
                                         <td>
                                             <input type="number" min="0" name="CantidadMateria{{i}}"
                                                 id="CantidadMateria"
-                                                [(ngModel)]="nuevoProducto.Cantidad_MateriasPrimas[i]" (keydown)="validarTecla($event)">
+                                                [(ngModel)]="nuevoProducto.Cantidad_MateriasPrimas[i]"
+                                                (keydown)="validarTecla($event)">
                                         </td>
                                         <td>{{materiaAgregada.Unidad_Medida}}</td>
                                         <td>
@@ -179,7 +177,7 @@
 <!-- Modal para editar un producto -->
 <div class="modal fade" id="editarModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="agregarModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="agregarModalLabel">Editar producto</h5>
@@ -189,7 +187,7 @@
                 <form>
                     <div class="d-flex">
                         <!-- Sección del formulario (columna izquierda) -->
-                        <div class="formulario w-100">
+                        <div style="width: 250px;">
                             <div class="mb-3">
                                 <label for="editarCodigo" class="form-label">Codigo</label>
                                 <input type="text" class="form-control" id="editarCodigo"
@@ -230,7 +228,7 @@
                         </div>
 
                         <!-- Sección de la tabla (columna derecha) -->
-                        <div class="tabla ms-s w-100">
+                        <div class="tabla ms-s" style="margin-left: 50px; width: 1050;">
                             <h2 style="color: black;">Lista de materias agregadas</h2>
                             <h5 style="color: black;text-align: center;">Materiales necesarios para 1lt de producto
                             </h5>
@@ -264,7 +262,7 @@
                             </table>
                             <h2 style="color: black;">Lista de materias disponibles</h2>
                             <h2> <input name="SearchBar" class="search-bar" placeholder="Buscar..." type="text"
-                                [(ngModel)]="searchText" (ngModelChange)="filtrarMaterias()"> </h2>
+                                    [(ngModel)]="searchText" (ngModelChange)="filtrarMaterias()"> </h2>
                             <div class="table-wrapper">
                                 <table class="inventory-table">
                                     <thead>

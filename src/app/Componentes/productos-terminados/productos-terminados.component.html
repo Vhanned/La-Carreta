@@ -20,7 +20,7 @@
                     <td>{{ Producto.Nombre_Producto }}</td>
                     <td>{{ Producto.Cantidad }}</td>
                     <td>
-                        <input id="inputPrecio" min="0" type="number" name="PrecioTerminado{{i}}" id="PrecioTerminado"
+                        <input min="0" type="number" name="PrecioTerminado{{i}}" id="PrecioTerminado"
                             [(ngModel)]="Producto.Precio" (keydown)="validarTecla($event)">
                     </td>
                     <td style="display: grid;grid-template-columns: 30% 50%; column-gap:5%;">
@@ -49,15 +49,15 @@
                 <form>
                     <div class="mb-3">
                         <label for="Codigo" class="form-label">Codigo</label>
-                        <input type="text" class="form-control" id="Codigo" [(ngModel)]="NuevaVenta.Codigo" name="Codigo" required>
+                        <input type="text" class="form-control" id="Codigo" [(ngModel)]="NuevaVenta.Codigo" name="Codigo" required disabled>
                     </div>
                     <div class="mb-3">
                         <label for="Nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="Nombre" [(ngModel)]="NuevaVenta.Nombre_Producto" name="Nombre" required>
+                        <input type="text" class="form-control" id="Nombre" [(ngModel)]="NuevaVenta.Nombre_Producto" name="Nombre" required disabled>
                     </div>
                     <div class="mb-3">
                         <label for="Precio_unitario" class="form-label">Precio unitario (MXN)</label>
-                        <input type="number" class="form-control" id="Precio_unitario" [(ngModel)]="NuevaVenta.Precio" name="Precio_unitario" (keydown)="validarTecla($event)" required>
+                        <input type="number" class="form-control" id="Precio_unitario" [(ngModel)]="NuevaVenta.Precio" name="Precio_unitario" (keydown)="validarTecla($event)" required disabled>
                     </div>
                     <div class="mb-3">
                         <label for="existencias" class="form-label">Existencias</label>
