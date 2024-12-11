@@ -1,13 +1,13 @@
 <nav-bar></nav-bar>
 
 <div style="margin-top: 2%;" class="container">
-    <h2>Inventario de Productos terminados</h2>
+    <h2>Inventario de productos terminados</h2>
 
     <div class="table-wrapper">
         <table class="inventory-table">
             <thead>
                 <tr>
-                    <th>Codigo</th>
+                    <th>Código</th>
                     <th>Nombre</th>
                     <th>Cantidad de producto terminado</th>
                     <th>Precio de venta unitario</th>
@@ -15,15 +15,15 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let Producto of InvetarioTerminados;let i=index">
+                <tr *ngFor="let Producto of InvetarioTerminados; let i = index">
                     <td>{{ Producto.Codigo }}</td>
                     <td>{{ Producto.Nombre_Producto }}</td>
                     <td>{{ Producto.Cantidad }}</td>
                     <td>
                         <input min="0" type="number" name="PrecioTerminado{{i}}" id="PrecioTerminado"
-                            [(ngModel)]="Producto.Precio" (keydown)="validarTecla($event)">
+                            [(ngModel)]="Producto.Precio" (keydown)="validarTecla($event)" style="border:none;">
                     </td>
-                    <td style="display: grid;grid-template-columns: 30% 50%; column-gap:5%;">
+                    <td style="display: grid; grid-template-columns: 30% 50%; column-gap: 5%;">
                         <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#agregarModal"
                             (click)="CargarInfo(Producto)">Vender</button>
                         <button class="btn btn-danger btn-sm" (click)="ModificarPrecio(Producto)">Guardar
@@ -33,9 +33,7 @@
             </tbody>
         </table>
     </div>
-
 </div>
-
 
 <div class="modal fade" id="agregarModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="agregarModalLabel" aria-hidden="true">
@@ -43,12 +41,12 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="agregarModalLabel">Salida de producto</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body">
                 <form>
                     <div class="mb-3">
-                        <label for="Codigo" class="form-label">Codigo</label>
+                        <label for="Codigo" class="form-label">Código</label>
                         <input type="text" class="form-control" id="Codigo" [(ngModel)]="NuevaVenta.Codigo" name="Codigo" required disabled>
                     </div>
                     <div class="mb-3">
@@ -70,7 +68,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="btnCerrarModalElemento" type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cerrar</button>
+                <button id="btnCerrarModalElemento" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-primary" (click)="SalidaDeProducto(NuevaVenta)">Confirmar</button>
             </div>
         </div>

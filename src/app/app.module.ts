@@ -24,6 +24,7 @@ import { ProductosTerminadosComponent } from './Componentes/productos-terminados
 import { FinanzasComponent } from './Componentes/finanzas/finanzas.component';
 import { CEOComponent } from './Componentes/ceo/ceo.component';
 import { RegistrosComponent } from './Componentes/registros/registros.component';
+import { TruncatePipe } from './Pipe/truncate.pipe';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { RegistrosComponent } from './Componentes/registros/registros.component'
     FinanzasComponent,
     ProductosTerminadosComponent,
     CEOComponent,
-    RegistrosComponent
+    RegistrosComponent,
+    TruncatePipe
   ],
   imports: [
     BrowserModule,

@@ -62,11 +62,11 @@ export class MateriaPrima {
   Codigo: string = '';
   Nombre: string = ''; // Nombre de la materia prima (ej. "Caseína", "Leche Fluida")
   Unidad_Medida: string = ''; // Unidad de medida (litros, kilogramos, etc.)
-  Existencias: number | undefined = undefined; //Registro de cuando se agrega, en dado caso seria en una nueva coleccion
+  Existencias: number | undefined; //Registro de cuando se agrega, en dado caso seria en una nueva coleccion
   Marca: string = '';
   Tipo: string = '';
-  Precio_unitario: number | undefined = undefined;//Costo de la materia prima, sera un valor por defecto el cual podran editar en el reporte del dia en caso de ser necesario
-  Punto_Reorden: number | undefined = undefined; //Cuando el inventario es menor que el punto de reorden, aparece una alerta
+  Precio_unitario: number | undefined;//Costo de la materia prima, sera un valor por defecto el cual podran editar en el reporte del dia en caso de ser necesario
+  Punto_Reorden: number | undefined; //Cuando el inventario es menor que el punto de reorden, aparece una alerta
 
   setData(data: any) {
     this.Id_Materia = data.Id_Materia || '';
@@ -74,9 +74,9 @@ export class MateriaPrima {
     this.Nombre = data.Nombre || '';
     this.Unidad_Medida = data.Unidad_Medida || '';
     this.Marca = data.Marca || '';
-    this.Existencias = data.Existencias || '';
+    this.Existencias = data.Existencias || undefined;
     this.Tipo = data.Tipo || '';
-    this.Precio_unitario = data.Precio_unitario || '';
+    this.Precio_unitario = data.Precio_unitario || undefined;
     this.Punto_Reorden = data.Punto_Reorden || undefined;
   }
 

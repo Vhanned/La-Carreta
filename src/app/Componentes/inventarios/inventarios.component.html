@@ -29,10 +29,10 @@
           <td>{{ materia.Codigo }}</td>
           <td>{{ materia.Nombre }}</td>
           <td>{{ materia.Unidad_Medida }}</td>
-          <td>{{ materia.Precio_unitario | number:'1.2-2' }}</td>
+          <td>{{ materia.Precio_unitario | truncate:2 }}</td>
           <td>{{ materia.Tipo }}</td>
           <td>{{ materia.Marca }}</td>
-          <td>{{ materia.Existencias | number:'1.2-2' }}</td>
+          <td>{{ materia.Existencias | truncate:2 }}</td>
           <td>{{ materia.Punto_Reorden }}</td>
           <td>
             <button id="BotonEditarMateia" class="btn btn-outline-danger btn-edit" data-bs-toggle="modal"
@@ -168,7 +168,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="CargarMaterias()">Cerrar</button>
+                <button id="CerrarModalEditarElemento" type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="CargarMaterias()">Cerrar</button>
                 <button type="button" class="btn btn-primary" (click)="editarMateria()">Guardar cambios</button>
             </div>
         </div>

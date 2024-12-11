@@ -17,13 +17,15 @@
         <div style="margin-top: 1vh;">
           <button class="btn btn-danger w-100" (click)="buscarRegistros()">Buscar</button>
         </div>
-      </div>
-    </div>
-
-    <!-- Botón para generar Excel -->
-    <div *ngIf="fechaInicio && fechaFin">
-      <div class="col-md-12 text-center">
-        <button class="btn btn-success" (click)="generarExcel()">Generar Excel</button>
+        <div style="margin-top: 1vh;">
+          <button class="btn btn-danger w-100" (click)="limpiarBusquedas()">Limpiar busqueda</button>
+        </div>
+        <!-- Botón para generar Excel -->
+        <div *ngIf="fechaInicio && fechaFin && BusquedaPresionado">
+          <div class="col-md-12 text-center" style="margin-top: 1vh;">
+            <button class="btn btn-success" (click)="generarExcel()">Generar Excel</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -39,15 +41,17 @@
             <th>Fecha</th>
             <th>Materia Prima</th>
             <th>Cantidad</th>
+            <th>Unidad</th>
             <th>Costo unitario</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let entrada of registrosEntradas">
-            <td>{{ entrada.FechaEntrada | date: 'dd/MM/yyyy' }}</td>
-            <td>{{ entrada.MateriaEntrada }}</td>
-            <td>{{ entrada.CantidadEntrada }}</td>
-            <td>{{ entrada.CostoCompra | currency }}</td>
+          <tr *ngFor="let entrada of EntradasMateriasPrimas">
+            <td>{{ entrada.fecha | date: 'dd/MM/yyyy' }}</td>
+            <td>{{ entrada.nombreMateria }}</td>
+            <td>{{ entrada.cantidad }}</td>
+            <td>{{entrada.unidad}}</td>
+            <td>{{ entrada.costo | currency }}</td>
           </tr>
         </tbody>
       </table>
@@ -66,11 +70,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let salida of registrosSalidas">
-            <td>{{ salida.FechaSalida | date: 'dd/MM/yyyy' }}</td>
-            <td>{{ salida.ProductoSalida }}</td>
-            <td>{{ salida.CantidadSalida }}</td>
-            <td>{{ salida.Precio | currency }}</td>
+          <tr *ngFor="let salida of SalidasProductos">
+            <td>{{ salida.fecha | date: 'dd/MM/yyyy' }}</td>
+            <td>{{ salida.nombreProducto }}</td>
+            <td>{{ salida.cantidad }}</td>
+            <td>{{ salida.precio | currency }}</td>
           </tr>
         </tbody>
       </table>

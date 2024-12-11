@@ -111,7 +111,7 @@ export class InventariosComponent {
         console.error("Error al actualizar la informacion: ", error);
       });
 
-    let btnCerrarEditar = document.getElementById('btnCerrarEditarElemento');
+    let btnCerrarEditar = document.getElementById('CerrarModalEditarElemento');
     btnCerrarEditar?.click();
   }
 
