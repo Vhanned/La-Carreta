@@ -40,7 +40,7 @@ export class InventariosProductosComponent {
   }
 
   cargarProductos() {
-    let q = query(this.ProductosBD);
+    let q = query(this.ProductosBD,orderBy('Codigo','asc'));
     collectionData(q).subscribe((productoSnap) => {
       this.listaProductos = [];
       productoSnap.forEach((item) => {

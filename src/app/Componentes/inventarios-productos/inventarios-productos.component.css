@@ -201,7 +201,7 @@ td {
 }
 
 .modal-xl {
-    max-width: 1450px;
+    max-width: 1600px;
 }
 
 .search-bar {
@@ -394,4 +394,22 @@ button:hover {
     /* Hace que el color sea un 20% más claro */
     transform: scale(1.05);
     /* Agranda ligeramente el botón */
+}
+
+/* Contenedor de búsqueda y botón de agregar */
+#ContenedorBusqueda {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+/* Barra de búsqueda */
+.search-bar {
+    flex: 1;
+    max-width: 600px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 15px;
 }

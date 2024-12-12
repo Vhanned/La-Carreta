@@ -27,13 +27,18 @@
 }
 
 .th {
-    position: sticky; /* Fijar los encabezados */
-    top: 0; /* Posición superior en 0 */
-    z-index: 1; /* Asegurar que los encabezados estén por encima del contenido */
-    border-bottom: 2px solid #ddd; /* Agregar un borde inferior para los encabezados */
-  }
+    position: sticky;
+    /* Fijar los encabezados */
+    top: 0;
+    /* Posición superior en 0 */
+    z-index: 1;
+    /* Asegurar que los encabezados estén por encima del contenido */
+    border-bottom: 2px solid #ddd;
+    /* Agregar un borde inferior para los encabezados */
+}
 
-.inventory-table th, .inventory-table td {
+.inventory-table th,
+.inventory-table td {
     padding: 12px;
     border: 1px solid #ddd;
     text-align: center;
@@ -56,7 +61,7 @@
 }
 
 .inventory-table .btn-edit:hover {
-    background: linear-gradient(45deg,#ff416c, #ff4b2b);
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
 }
 
 h2 {
@@ -69,26 +74,26 @@ h2 {
     cursor: default;
 }
 
-.form-control{
+.form-control {
     max-width: 100%;
 }
 
-#PrecioTerminado{
-text-align: center;
-width: 25%;
+#PrecioTerminado {
+    text-align: center;
+    width: 25%;
 }
 
 /*ancho de los modales */
 #agregarModal .modal-dialog,
 #editarModal .modal-dialog {
-    max-width: 30%; 
-    margin: 1.75rem auto; 
+    max-width: 30%;
+    margin: 1.75rem auto;
 }
 
 /*contenido del modal */
 #agregarModal .modal-content,
 #editarModal .modal-content {
-    background-color: #edeae6; 
+    background-color: #edeae6;
     border-radius: 10px;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
     color: #333;
@@ -131,7 +136,7 @@ width: 25%;
 
 #agregarModal .btn-secondary,
 #editarModal .btn-secondary {
-    background-color: #6c757d; 
+    background-color: #6c757d;
     color: #ffffff;
 }
 
@@ -166,18 +171,21 @@ width: 25%;
 
 /* Responsividad */
 @media (max-width: 768px) {
+
     #agregarModal .modal-dialog,
     #editarModal .modal-dialog {
         max-width: 95%;
         margin: 1rem auto;
     }
 }
+
 /* Coloca los primeros 4 campos en la izquierda y los otros 4 en la derecha */
 #agregarModal .modal-body .form-group,
 #editarModal .modal-body .form-group {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px; /* espacio entre campos */
+    gap: 20px;
+    /* espacio entre campos */
 }
 
 #agregarModal .modal-body .form-group .col-left,
@@ -194,11 +202,25 @@ width: 25%;
 
 button {
     transition: all 0.3s ease;
-  }
-  
-  button:hover {
+}
+
+button:hover {
     background-color: #ff7070;
     border-color: #ff7070;
     transform: scale(1.05);
-  }
-  
+}
+
+.search-bar {
+    max-width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Contenedor de búsqueda y botón de agregar */
+#ContenedorBusqueda {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+    max-width: 100%;
+}

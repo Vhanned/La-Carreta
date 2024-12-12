@@ -119,7 +119,7 @@ export class RegistrosComponent implements OnInit {
     } else {
       const workbook = XLSX.utils.book_new();
 
-      // Generar hoja de entradas
+      /* // Generar hoja de entradas
       const hojaEntradas = XLSX.utils.json_to_sheet(
         this.EntradasMateriasPrimas.map((entrada) => ({
           Fecha: entrada.fecha,
@@ -129,7 +129,7 @@ export class RegistrosComponent implements OnInit {
           Costo: entrada.costo
         }))
       );
-      XLSX.utils.book_append_sheet(workbook, hojaEntradas, 'Entradas');
+      XLSX.utils.book_append_sheet(workbook, hojaEntradas, 'Entradas');*/
 
       // Generar hoja de salidas
       const hojaSalidas = XLSX.utils.json_to_sheet(
