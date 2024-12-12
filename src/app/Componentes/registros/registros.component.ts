@@ -72,18 +72,27 @@ export class RegistrosComponent implements OnInit {
   }
 
   buscarRegistros() {
+
     if (!this.fechaInicio || !this.fechaFin) {
-      alert('Por favor, selecciona ambas fechas para realizar la búsqueda.');
+      Swal.fire('Error', 'Por favor selecciona ambas fechas para realizar la busqueda', 'error')
       return;
     }
 
-    const inicio = new Date(this.fechaInicio).toISOString();
-    const fin = new Date(this.fechaFin).toISOString();
+    // Asegurar formato de fechas
+    const inicioDate = this.fechaInicio ? this.fechaInicio : '1900-01-01';
+    const finalDate = this.fechaFin ? this.fechaFin : new Date().toISOString().split('T')[0];
+
+    console.log('Rango de búsqueda: ', { inicioDate, finalDate });
 
     // Buscar entradas
-    const qEntradas = query(this.entradasCollection, where('FechaEntrada', '>=', inicio), where('FechaEntrada', '<=', fin), orderBy('FechaEntrada', 'desc'));
+    const qEntradas = query(
+      this.entradasCollection,
+      where('FechaEntrada', '>=', inicioDate),
+      where('FechaEntrada', '<=', finalDate),
+      orderBy('FechaEntrada', 'desc')
+    );
     collectionData(qEntradas).subscribe((data) => {
-      this.EntradasMateriasPrimas = [];
+      console.log('Entradas obtenidas:', data); // Debug
       this.EntradasMateriasPrimas = data.map((item) => ({
         id: item.Id_MateriaEntrada,
         fecha: item.FechaEntrada,
@@ -91,30 +100,36 @@ export class RegistrosComponent implements OnInit {
         cantidad: item.CantidadEntrada,
         unidad: item.Unidad,
         costo: item.CostoCompra,
-        proveedor: item.Proveedor
+        proveedor: item.Proveedor,
       }));
     });
 
     // Buscar salidas
-    const qSalidas = query(this.salidasCollection, where('FechaSalida', '>=', inicio), where('FechaSalida', '<=', fin), orderBy('FechaSalida', 'desc'));
+    const qSalidas = query(
+      this.salidasCollection,
+      where('FechaSalida', '>=', inicioDate),
+      where('FechaSalida', '<=', finalDate),
+      orderBy('FechaSalida', 'desc')
+    );
     collectionData(qSalidas).subscribe((data) => {
-      this.SalidasProductos = [];
+      console.log('Salidas obtenidas:', data); // Debug
       this.SalidasProductos = data.map((item) => ({
         id: item.Id_RegistroSalida,
         fecha: item.FechaSalida,
         nombreProducto: item.ProductoSalida,
         cantidad: item.CantidadSalida,
-        precio: item.Precio
+        precio: item.Precio,
       }));
     });
 
     this.BusquedaPresionado = true;
+
   }
 
   generarExcel() {
     console.log(this.EntradasMateriasPrimas)
     console.log(this.SalidasProductos)
-    if (this.EntradasMateriasPrimas.length<=0 || this.SalidasProductos.length<=0) {
+    if (this.EntradasMateriasPrimas.length <= 0 || this.SalidasProductos.length <= 0) {
       Swal.fire('Error', 'No hay registros para generar un archivo excel', 'error');
     } else {
       const workbook = XLSX.utils.book_new();
