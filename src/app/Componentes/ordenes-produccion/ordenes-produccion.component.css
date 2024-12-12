@@ -13,7 +13,7 @@ h1 {
 
 h1 {
   margin-bottom: 10px;
-  color: #cf0015;
+  color: white;
   font-size: 1.5rem;
   text-align: center;
   font-weight: bold;
@@ -289,4 +289,120 @@ h1 {
 
 #TablaPrueba{
   font-size: large;
+}
+
+/*contenido del modal */
+#staticBackdropCrear .modal-content,
+#editarModal .modal-content {
+    background-color: #edeae6; 
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    color: #333;
+}
+
+/*cabecera del modal */
+#staticBackdropCrear .modal-header,
+#editarModal .modal-header {
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    color: #ffffff;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+/*cuerpo del modal */
+#staticBackdropCrear .modal-body,
+#editarModal .modal-body {
+    background-color: #f7f7f7;
+    padding: 20px;
+}
+
+/*pie del modal */
+#staticBackdropCrear .modal-footer,
+#editarModal .modal-footer {
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+#staticBackdropCrear .btn,
+#editarModal .btn {
+
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+#staticBackdropCrear .btn-secondary,
+#editarModal .btn-secondary {
+    background-color: #6c757d; 
+    color: #ffffff;
+}
+
+#staticBackdropCrear .btn-secondary:hover,
+#editarModal .btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+#staticBackdropCrear .btn-primary,
+#editarModal .btn-primary {
+    background-color: #cf0015;
+    color: #ffffff;
+}
+
+#staticBackdropCrear .btn-primary:hover,
+#editarModal .btn-primary:hover {
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+}
+
+
+#staticBackdropCrear .modal-body input,
+#staticBackdropCrear .modal-body select,
+#editarModal .modal-body input,
+#editarModal .modal-body select {
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 8px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    #staticBackdropCrear .modal-dialog,
+    #editarModal .modal-dialog {
+        max-width: 95%;
+        margin: 1rem auto;
+    }
+}
+/* Coloca los primeros 4 campos en la izquierda y los otros 4 en la derecha */
+#staticBackdropCrear .modal-body .form-group,
+#editarModal .modal-body .form-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* espacio entre campos */
+}
+
+#staticBackdropCrear .modal-body .form-group .col-left,
+#editarModal .modal-body .form-group .col-left {
+    flex: 1;
+    min-width: 45%;
+}
+
+#staticBackdropCrear .modal-body .form-group .col-right,
+#editarModal .modal-body .form-group .col-right {
+    flex: 1;
+    min-width: 45%;
+}
+
+button {
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  filter: brightness(1.3); /* Hace que el color más claro */
+  transform: scale(1.1); /* Agranda ligeramente el botón */
 }

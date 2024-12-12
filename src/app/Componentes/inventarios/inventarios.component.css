@@ -70,18 +70,25 @@ h2 {
 }
 
 .inventory-table thead {
-    background-color: #cf0015;
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
     color: #ffffff;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 
 .th {
-    position: sticky; /* Fijar los encabezados */
-    top: 0; /* Posición superior en 0 */
-    z-index: 1; /* Asegurar que los encabezados estén por encima del contenido */
-    border-bottom: 2px solid #ddd; /* Agregar un borde inferior para los encabezados */
-  }
+    position: sticky;
+    /* Fijar los encabezados */
+    top: 0;
+    /* Posición superior en 0 */
+    z-index: 1;
+    /* Asegurar que los encabezados estén por encima del contenido */
+    border-bottom: 2px solid #ddd;
+    /* Agregar un borde inferior para los encabezados */
+}
 
-.inventory-table th, .inventory-table td {
+.inventory-table th,
+.inventory-table td {
     padding: 12px;
     border: 1px solid #ddd;
     text-align: center;
@@ -104,27 +111,9 @@ h2 {
 }
 
 .inventory-table .btn-edit:hover {
-    background: linear-gradient(45deg,#ff416c, #ff4b2b);
-}
-
-.pagination {
-    text-align: center;
-    margin-top: 10px;
-}
-
-.pagination button {
-    background: linear-gradient(45deg, #ff416c, #ff4b2b);
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    margin: 0 2px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.pagination button:hover {
     background: linear-gradient(45deg, #ff416c, #ff4b2b);
 }
+
 
 .btn-outline-danger {
     background: linear-gradient(to right, #ff416c, #ff4b2b);
@@ -134,14 +123,14 @@ h2 {
 /*ancho de los modales */
 #agregarModal .modal-dialog,
 #editarModal .modal-dialog {
-    max-width: 30%; 
-    margin: 1.75rem auto; 
+    max-width: 30%;
+    margin: 1.75rem auto;
 }
 
 /*contenido del modal */
 #agregarModal .modal-content,
 #editarModal .modal-content {
-    background-color: #edeae6; 
+    background-color: #edeae6;
     border-radius: 10px;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
     color: #333;
@@ -184,7 +173,7 @@ h2 {
 
 #agregarModal .btn-secondary,
 #editarModal .btn-secondary {
-    background-color: #6c757d; 
+    background-color: #6c757d;
     color: #ffffff;
 }
 
@@ -219,18 +208,21 @@ h2 {
 
 /* Responsividad */
 @media (max-width: 768px) {
+
     #agregarModal .modal-dialog,
     #editarModal .modal-dialog {
         max-width: 95%;
         margin: 1rem auto;
     }
 }
+
 /* Coloca los primeros 4 campos en la izquierda y los otros 4 en la derecha */
 #agregarModal .modal-body .form-group,
 #editarModal .modal-body .form-group {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px; /* espacio entre campos */
+    gap: 20px;
+    /* espacio entre campos */
 }
 
 #agregarModal .modal-body .form-group .col-left,
@@ -246,30 +238,22 @@ h2 {
 }
 
 .table-wrapper {
-    max-height: 600px; /* Altura fija para el área desplazable */
-    overflow-y: auto; /* Habilitar desplazamiento vertical */
-    border: 1px solid #ddd; /* Opcional: agregar un borde para definir la tabla */
-  }
-
-  .suggestion-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    background: white;
-    border: 1px solid #ccc;
-    max-height: 150px;
+    max-height: 600px;
+    /* Altura fija para el área desplazable */
     overflow-y: auto;
-    position: absolute;
-    z-index: 1000;
-    width: 100%;
-  }
-  
-  .suggestion-list li {
-    padding: 8px;
-    cursor: pointer;
-  }
-  
-  .suggestion-list li:hover {
-    background-color: #f1f1f1;
-  }
-  
+    /* Habilitar desplazamiento vertical */
+    border: 1px solid #ddd;
+    /* Opcional: agregar un borde para definir la tabla */
+}
+
+button {
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    transition: all 0.3s ease;
+    filter: brightness(1.2);
+    /* Hace que el color sea un 20% más claro */
+    transform: scale(1.05);
+    /* Agranda ligeramente el botón */
+}

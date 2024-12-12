@@ -1,43 +1,62 @@
 .container {
-    max-width: 30vh;
-  }
-  
+  max-width: 30vh;
+}
+
+.row {
+  display: flex;
+  gap: 20px;
+  /* Espacio entre tablas */
+}
+
+.col-md-6 {
+  flex: 1;
+  /* Ambas tablas ocupan el mismo ancho */
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  text-align: center;
+}
+
+th {
+  background: #ff416c;
+  color: #ffffff;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+td,
+th {
+  padding: 10px;
+}
+
+@media (max-width: 768px) {
   .row {
-    display: flex;
-    gap: 20px; /* Espacio entre tablas */
+    flex-direction: column;
+    /* Cambiar a una tabla sobre la otra en pantallas pequeñas */
   }
-  
-  .col-md-6 {
-    flex: 1; /* Ambas tablas ocupan el mismo ancho */
-  }
-  
-  h2 {
-    margin-bottom: 20px;
-  }
-  
-  table {
-    width: 100%;
-    text-align: center;
-  }
-  
-  th {
-    background-color: #df192d;
-    color: #ffffff;
-  }
-  
-  td, th {
-    padding: 10px;
-  }
-  
-  @media (max-width: 768px) {
-    .row {
-      flex-direction: column; /* Cambiar a una tabla sobre la otra en pantallas pequeñas */
-    }
-  }
+}
 
-  .dateInput{
-    text-align: center;
-    margin-top: 1vh;
-  }
+.dateInput {
+  text-align: center;
+  margin-top: 1vh;
+}
 
-  
+.dateInput input:focus {
+  border-color: #ff5c5c;
+  box-shadow: 0 0 5px rgba(255, 92, 92, 0.5);
+}
+
+button {
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  filter: brightness(1.3); /* Hace que el color más claro */
+  transform: scale(1.1); /* Agranda ligeramente el botón */
+}
+

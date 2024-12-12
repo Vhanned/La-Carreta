@@ -21,7 +21,7 @@
                     <td>{{ Producto.Cantidad }}</td>
                     <td>
                         <input min="0" type="number" name="PrecioTerminado{{i}}" id="PrecioTerminado"
-                            [(ngModel)]="Producto.Precio" (keydown)="validarTecla($event)" style="border:none;">
+                            [(ngModel)]="Producto.Precio" (keydown)="validarTecla($event)" style="border:none;border-radius: 5px;">
                     </td>
                     <td style="display: grid; grid-template-columns: 30% 50%; column-gap: 5%;">
                         <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#agregarModal"

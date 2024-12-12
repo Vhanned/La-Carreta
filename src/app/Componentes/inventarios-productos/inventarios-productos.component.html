@@ -46,7 +46,7 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="agregarModalLabel">Agregar nuevo producto</h5>
+                <h5 class="modal-title" id="editarModalLabel">Agregar nuevo producto</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -107,7 +107,7 @@
                                     <tr *ngFor="let materiaAgregada of nuevoProducto.Materias_Primas, let i = index">
                                         <td>{{materiaAgregada.Nombre}}</td>
                                         <td>
-                                            <input type="number" min="0" name="CantidadMateria{{i}}"
+                                            <input style="text-align: center;" type="number" min="0" name="CantidadMateria{{i}}"
                                                 id="CantidadMateria"
                                                 [(ngModel)]="nuevoProducto.Cantidad_MateriasPrimas[i]"
                                                 (keydown)="validarTecla($event)">
@@ -228,7 +228,7 @@
                         </div>
 
                         <!-- Sección de la tabla (columna derecha) -->
-                        <div class="tabla ms-s" style="margin-left: 50px; width: 1050;">
+                        <div class="tabla ms-s" style="margin-left: 50px; width: 1050px;">
                             <h2 style="color: black;">Lista de materias agregadas</h2>
                             <h5 style="color: black;text-align: center;">Materiales necesarios para 1lt de producto
                             </h5>
@@ -246,7 +246,7 @@
                                         *ngFor="let materiaAgregadaEditar of verDetalleProducto.Materias_Primas; let j = index; trackBy: trackByIndex">
                                         <td>{{materiaAgregadaEditar.Nombre}}</td>
                                         <td>
-                                            <input type="number" min="0"
+                                            <input style="text-align: center;" type="number" min="0"
                                                 [(ngModel)]="verDetalleProducto.Cantidad_MateriasPrimas[j]"
                                                 name="cantidadMateria{{j}}" (keydown)="validarTecla($event)">
                                         </td>

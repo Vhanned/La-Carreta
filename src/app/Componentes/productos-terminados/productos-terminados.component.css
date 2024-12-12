@@ -20,9 +20,10 @@
 }
 
 .inventory-table thead {
-    background-color: #cf0015;
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
     color: #ffffff;
-    position: sticky; /* Fijar los encabezados */
+    text-transform: uppercase;
+    font-weight: bold;
 }
 
 .th {
@@ -191,3 +192,13 @@ width: 25%;
     min-width: 45%;
 }
 
+button {
+    transition: all 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #ff7070;
+    border-color: #ff7070;
+    transform: scale(1.05);
+  }
+  

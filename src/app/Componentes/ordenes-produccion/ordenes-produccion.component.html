@@ -185,7 +185,7 @@
                       <input type="number" min="0" name="PrecioMateria{{i}}" id="PrecioMateria"
                         [(ngModel)]="materia.precio"
                         (ngModelChange)="actualizarPrecioEnOrdenProduccion(materia.id, materia.precio)"
-                        (keydown)="validarTecla($event)" style="max-width: 35%;border: none;background-color: ffffff;">
+                        (keydown)="validarTecla($event)" style="max-width: 55%;border: none;background-color: ffffff;text-align: center;">
                     </td>
                     <td>{{materia.unidadmedida}}</td>
                     <td>{{materia.cantidadausar | truncate:2}}</td>
