@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { collection, collectionData, Firestore, query } from '@angular/fire/firestore';
-import { doc, getDoc, increment, setDoc, updateDoc, where } from 'firebase/firestore';
-import { InventarioProductos, MateriaPrima, SalidaProducto } from 'src/app/clases/clases.component';
+import { doc, getDoc, increment, orderBy, setDoc, updateDoc, where } from 'firebase/firestore';
+import { InventarioProductos, MateriaPrima, Producto, SalidaProducto } from 'src/app/clases/clases.component';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -14,6 +14,8 @@ export class ProductosTerminadosComponent implements OnInit {
 //Lista de productos terminados
 InvetarioTerminados:InventarioProductos[]=[];
 
+productosFiltrados:InventarioProductos[]=[];
+
 NuevaVenta = new InventarioProductos();
 RegistroSalida = new SalidaProducto();
 
@@ -21,6 +23,8 @@ RegistroSalida = new SalidaProducto();
 ProductosTerminadosBD = collection(this.firebase,"ProductosTerminados")
 
 CantidadVenta:number=0;
+
+searchText:string='';
 
   constructor(private firebase:Firestore) { 
     this.CargarProductosTerminados();
@@ -30,7 +34,7 @@ CantidadVenta:number=0;
   }
 
   CargarProductosTerminados(){
-    let q = query(this.ProductosTerminadosBD);
+    let q = query(this.ProductosTerminadosBD,orderBy('Codigo','asc'));
     collectionData(q).subscribe((productoSnap) => {
       this.InvetarioTerminados = [];  // Reiniciar la lista de productos
       productoSnap.forEach((item) => {
@@ -38,6 +42,7 @@ CantidadVenta:number=0;
         producto.setData(item);
         this.InvetarioTerminados.push(producto)
       });
+      this.filtrarProductos();
     });
   }
 
@@ -113,6 +118,13 @@ CantidadVenta:number=0;
 
   CargarInfo(Producto:InventarioProductos){
     this.NuevaVenta = Producto;
+  }
+
+  filtrarProductos(){
+    this.productosFiltrados = this.InvetarioTerminados.filter(producto =>
+      producto.Codigo.toLowerCase().includes(this.searchText.toLowerCase()) ||
+      producto.Nombre_Producto.toLowerCase().includes(this.searchText.toLowerCase())
+    )
   }
 
   GenerateRandomString(length: number): string {

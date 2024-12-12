@@ -76,7 +76,7 @@ export class OrdenesProduccionComponent implements OnInit {
   }
 
   CargarProductos() {
-    let q = query(this.ProductosBD);
+    let q = query(this.ProductosBD,orderBy('Codigo','asc'));
     collectionData(q).subscribe((productoSnap) => {
       this.ListaProductos = [];  // Reiniciar la lista de productos
       productoSnap.forEach((item) => {

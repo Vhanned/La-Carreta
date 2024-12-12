@@ -6,8 +6,8 @@
 
     <div id="ContenedorBusqueda">
         <input type="text" class="search-bar" placeholder="Buscar..."
-            [(ngModel)]="searchText"
-            (ngModelChange)="filtrarMaterias()">
+            [(ngModel)]="searchTextProductos"
+            (ngModelChange)="filtrarProductos()">
 
         <!-- Botón de agregar nuevo producto -->
         <button class="btn btn-success" data-bs-toggle="modal"
@@ -27,7 +27,7 @@
             <th>Acciones</th>
         </thead>
         <tbody>
-            <tr *ngFor="let producto of listaProductos">
+            <tr *ngFor="let producto of productosFiltrados">
                 <td>{{ producto.Codigo }}</td>
                 <td>{{ producto.Nombre }}</td>
                 <td>{{ producto.Tipo_Empaquetado }}</td>

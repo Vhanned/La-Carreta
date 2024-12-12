@@ -4,7 +4,9 @@
     <h2>Inventario de productos terminados</h2>
 
     <div id="ContenedorBusqueda">
-        <input type="text" class="search-bar" placeholder="Buscar...">
+        <input type="text" class="search-bar" placeholder="Buscar..." 
+        [(ngModel)]="searchText"
+        (ngModelChange)="filtrarProductos()">
     </div>
 
     <div class="table-wrapper">
@@ -19,25 +21,19 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let Producto of InvetarioTerminados; let i = index">
+                <tr *ngFor="let Producto of productosFiltrados; let i = index">
                     <td>{{ Producto.Codigo }}</td>
                     <td>{{ Producto.Nombre_Producto }}</td>
                     <td>{{ Producto.Cantidad }}</td>
                     <td>
-                        <input min="0" type="number" name="PrecioTerminado{{i}}"
-                            id="PrecioTerminado"
-                            [(ngModel)]="Producto.Precio"
-                            (keydown)="validarTecla($event)"
+                        <input min="0" type="number" name="PrecioTerminado{{i}}" id="PrecioTerminado"
+                            [(ngModel)]="Producto.Precio" (keydown)="validarTecla($event)"
                             style="border:none;border-radius: 5px;">
                     </td>
-                    <td
-                        style="display: grid; grid-template-columns: 30% 50%; column-gap: 5%;">
-                        <button class="btn btn-danger btn-sm"
-                            data-bs-toggle="modal"
-                            data-bs-target="#agregarModal"
+                    <td style="display: grid; grid-template-columns: 30% 50%; column-gap: 5%;">
+                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#agregarModal"
                             (click)="CargarInfo(Producto)">Vender</button>
-                        <button class="btn btn-danger btn-sm"
-                            (click)="ModificarPrecio(Producto)">Guardar
+                        <button class="btn btn-danger btn-sm" (click)="ModificarPrecio(Producto)">Guardar
                             precio</button>
                     </td>
                 </tr>
@@ -46,63 +42,51 @@
     </div>
 </div>
 
-<div class="modal fade" id="agregarModal" data-bs-backdrop="static"
-    data-bs-keyboard="false" tabindex="-1"
+<div class="modal fade" id="agregarModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="agregarModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="agregarModalLabel">Salida de
                     producto</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                    aria-label="Cerrar"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body">
                 <form>
                     <div class="mb-3">
                         <label for="Codigo" class="form-label">Código</label>
-                        <input type="text" class="form-control" id="Codigo"
-                            [(ngModel)]="NuevaVenta.Codigo" name="Codigo"
-                            required disabled>
+                        <input type="text" class="form-control" id="Codigo" [(ngModel)]="NuevaVenta.Codigo"
+                            name="Codigo" required disabled>
                     </div>
                     <div class="mb-3">
                         <label for="Nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="Nombre"
-                            [(ngModel)]="NuevaVenta.Nombre_Producto"
+                        <input type="text" class="form-control" id="Nombre" [(ngModel)]="NuevaVenta.Nombre_Producto"
                             name="Nombre" required disabled>
                     </div>
                     <div class="mb-3">
                         <label for="Precio_unitario" class="form-label">Precio
                             unitario (MXN)</label>
-                        <input type="number" class="form-control"
-                            id="Precio_unitario" [(ngModel)]="NuevaVenta.Precio"
-                            name="Precio_unitario"
-                            (keydown)="validarTecla($event)" required disabled>
+                        <input type="number" class="form-control" id="Precio_unitario" [(ngModel)]="NuevaVenta.Precio"
+                            name="Precio_unitario" (keydown)="validarTecla($event)" required disabled>
                     </div>
                     <div class="mb-3">
-                        <label for="existencias"
-                            class="form-label">Existencias</label>
-                        <input type="number" min="0" class="form-control"
-                            id="existencias" [(ngModel)]="NuevaVenta.Cantidad"
-                            name="existencias" (keydown)="validarTecla($event)"
+                        <label for="existencias" class="form-label">Existencias</label>
+                        <input type="number" min="0" class="form-control" id="existencias"
+                            [(ngModel)]="NuevaVenta.Cantidad" name="existencias" (keydown)="validarTecla($event)"
                             required disabled>
                     </div>
                     <div class="mb-3">
                         <label for="cantidadventa" class="form-label">Cantidad a
                             vender</label>
-                        <input type="number" min="0" class="form-control"
-                            id="cantidadventa" [(ngModel)]="CantidadVenta"
-                            name="cantidadventa"
-                            (keydown)="validarTecla($event)" required>
+                        <input type="number" min="0" class="form-control" id="cantidadventa" [(ngModel)]="CantidadVenta"
+                            name="cantidadventa" (keydown)="validarTecla($event)" required>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="btnCerrarModalElemento" type="button"
-                    class="btn btn-secondary"
+                <button id="btnCerrarModalElemento" type="button" class="btn btn-secondary"
                     data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary"
-                    (click)="SalidaDeProducto(NuevaVenta)">Confirmar</button>
+                <button type="button" class="btn btn-primary" (click)="SalidaDeProducto(NuevaVenta)">Confirmar</button>
             </div>
         </div>
     </div>

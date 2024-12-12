@@ -22,25 +22,27 @@ export class InventariosProductosComponent {
   listaMateriasPrimas: MateriaPrima[] = [];
 
   materiasFiltradas: MateriaPrima[] = []; // Lista para almacenar el resultado del filtro
+  productosFiltrados: Producto[] = [];
 
   //Materias primas agregadas que se mostraran en en la tabla de agregados del modal
   MateriasPrimasAgregadas: MateriaPrima[] = [];
 
   listaProductos: Producto[] = [];
 
-  searchText:string='';
+  searchText: string = '';
+  searchTextProductos: string = '';
 
   ProductosBD = collection(this.firebase, "Productos");
   materiasPrimasBD = collection(this.firebase, "MateriasPrimas");
 
   constructor(private firebase: Firestore) {
-    
+
     this.cargarProductos();
     this.CargarMateriasModal();
   }
 
   cargarProductos() {
-    let q = query(this.ProductosBD,orderBy('Codigo','asc'));
+    let q = query(this.ProductosBD, orderBy('Codigo', 'asc'));
     collectionData(q).subscribe((productoSnap) => {
       this.listaProductos = [];
       productoSnap.forEach((item) => {
@@ -54,14 +56,15 @@ export class InventariosProductosComponent {
 
         this.listaProductos.push(producto);
       });
+      this.filtrarProductos();
     });
   }
 
 
- 
 
-  CargarMateriasModal(){
-    let q = query(this.materiasPrimasBD,orderBy('Codigo','asc'));
+
+  CargarMateriasModal() {
+    let q = query(this.materiasPrimasBD, orderBy('Codigo', 'asc'));
     collectionData(q).subscribe((materiaPrimaSnap) => {
       this.ModalverMateriasPrimasAgregar = [];
       materiaPrimaSnap.forEach((item) => {
@@ -194,6 +197,12 @@ export class InventariosProductosComponent {
       materia.Marca.toLowerCase().includes(this.searchText.toLowerCase()) ||
       materia.Tipo.toLowerCase().includes(this.searchText.toLowerCase())
     );
+  }
+
+  filtrarProductos() {
+    this.productosFiltrados = this.listaProductos.filter(producto =>
+      producto.Nombre.toLowerCase().includes(this.searchTextProductos.toLowerCase()) ||
+      producto.Codigo.toLowerCase().includes(this.searchTextProductos.toLowerCase()))
   }
 
   validarTecla(event: KeyboardEvent) {

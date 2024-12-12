@@ -197,6 +197,7 @@ td {
 /* Ajuste del ancho para la tabla de "Materias Agregadas" */
 #MateriasAgregadas {
     width: 100%;
+    table-layout: fixed;
     /* Se asegura que ambas tablas tengan el mismo ancho */
 }
 
@@ -222,6 +223,7 @@ td {
  /* Estilo para la tabla con la clase inventory-table */
 .inventory-table {
     width: 100%;
+    table-layout: fixed;
     border-collapse: separate;
     border-spacing: 0;
     margin-bottom: 20px;
